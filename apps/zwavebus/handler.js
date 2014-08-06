@@ -15,6 +15,9 @@ var events = require('events');
 //Event emitter
 var eventEmitter = new events.EventEmitter();
 
+//Initialize the node array
+var nodes = [];
+
 /*
  * When the driver is ready.
  * @param homeid: the home id.
