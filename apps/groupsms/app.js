@@ -66,7 +66,7 @@ app.get('/sms', function (req, resp, next) {
 	// The member doesn't exist
 	if (member === null){
 
-		// We check the list 
+		// We check the list in the message
 		var listName = message.toLowerCase().trim();
 		List.findOne({name: listName}, function(error, list) {
 
@@ -81,11 +81,11 @@ app.get('/sms', function (req, resp, next) {
 					response = 'Liste SMS créée : ' + list.name;
 				} else {
 				
-				    // We reject the user that asks an unknow list
+				    // We reject the user that asks an unknown list
 				    response = 'Votre téléphone n\'est inscrit à aucune liste SMS active';
 				};
 
-			// The list exists
+			// The list exists we add the user as a subscriber and ask him a name
 			} else {
 				new Member({list: list._id, phone: phone}).save();
 				response = 'Veuillez préciser votre Nom et Prénom par SMS pour rejoindre la liste SMS: '+ list.name + ' (ex: Gérard Dupont)';
@@ -96,13 +96,16 @@ app.get('/sms', function (req, resp, next) {
 		});
 
  	} else {
-		// We find the list of the member 
+ 		
+		// We find the list of the members 
 		List.findOne({_id : member.list}, function(error, list){
 
 			// Strange, the list is missing
 			if (list === null){
 				throw "Missing list";
 			} else {
+				
+				// The user send his name
 				if (member.status === 0){
 					member.name = message;
 					member.status = 1;
@@ -123,13 +126,13 @@ app.get('/sms', function (req, resp, next) {
 
 				} else {
 
-                                	// We send the message to all the subscribers to the list
+                    // We send the message to all the subscribers to the list
 					Member.find({list: list._id}, function(error, members){
 
 						var count = 0;
 						members.forEach(function(dest){
 							if (phone !== dest.phone){
-						     		sms.send(dest.phone,member.name+': '+message);
+						     	sms.send(dest.phone,member.name+': '+message);
 								count++;
 							}
 						});
@@ -174,7 +177,7 @@ app.get('/messages', function (req, resp, next) {
 });
 
 
-console.info("Starting DomoGeek SMSList v%s",config.version);
+console.info("Starting DomoGeek GroupSMS v%s",config.version);
 
 app.listen(9090); //to port on which the express server listen
 
