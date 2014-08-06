@@ -25,9 +25,6 @@ var zwave = new openZwave(config.device, {
     suppressrefresh: config.suppressrefresh
 });
 
-// Initialize the node array
-var nodes = [];
-
 // The driver is ready
 zwave.on('driver ready', handler.onDriverReady);
 
