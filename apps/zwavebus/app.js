@@ -58,6 +58,7 @@ console.info("Starting DomoGeek Z-WaveBus v%s",config.version);
 // Loading event listener
 var events = require('./events/index');
 
+// Zwave connect
 zwave.connect();
 
 // Cleaning resources on SIGINT
