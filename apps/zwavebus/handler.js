@@ -69,6 +69,7 @@ exports.onValueAdded = function (nodeid, comclass, value) {
 exports.onValueChanged = function (nodeid, comclass, value) {
 	
 	// Broadcast the event with the comclass
+	console.log("broadcasting event : " + comclass.toString());
 	eventEmitter.emit(comclass.toString(),nodeid,value);
 	
     if (nodes[nodeid]['ready']) {
