@@ -29,31 +29,31 @@ var zwave = new openZwave(config.device, {
 var nodes = [];
 
 // The driver is ready
-zwave.on('driver ready', handler.onDriverReady(homeid));
+zwave.on('driver ready', handler.onDriverReady);
 
 // The driver is failed
-zwave.on('driver failed', handler.onDriverFailed());
+zwave.on('driver failed', handler.onDriverFailed);
 
 // A node has been added to the network
-zwave.on('node added', handler.onNodeAdded(nodeid));
+zwave.on('node added', handler.onNodeAdded);
 
 // A value has been added
-zwave.on('value added', handler.onValueAdded(nodeid, comclass, value));
+zwave.on('value added', handler.onValueAdded);
 
 // A value has been changed
-zwave.on('value changed', handler.onValueChanged(nodeid, comclass, value));
+zwave.on('value changed', handler.onValueChanged);
 
 // A value has been removed
-zwave.on('value removed', handler.onValueRemoved(nodeid, comclass, index));
+zwave.on('value removed', handler.onValueRemoved);
 
 // A node is ready
-zwave.on('node ready', handler.onNodeReady(nodeid, nodeinfo));
+zwave.on('node ready', handler.onNodeReady);
 
 // A notification has been received
-zwave.on('notification', handler.onNotification(nodeid, notif));
+zwave.on('notification', handler.onNotification);
 
 // The scan is complete
-zwave.on('scan complete', handler.onScanComplete());
+zwave.on('scan complete', handler.onScanComplete);
 
 
 // Starting 
