@@ -15,7 +15,6 @@ var openZwave = require('openzwave');
 // Local require
 var config = require('./config');
 var handler = require('./handler');
-var events = require('./events/index');
 
 // Initialize the Zwave connector
 var zwave = new openZwave(config.device, {
@@ -55,6 +54,10 @@ zwave.on('scan complete', handler.onScanComplete);
 
 // Starting 
 console.info("Starting DomoGeek Z-WaveBus v%s",config.version);
+
+// Loading event listener
+var events = require('./events/index');
+
 zwave.connect();
 
 // Cleaning resources on SIGINT
