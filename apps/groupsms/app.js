@@ -91,7 +91,7 @@ app.get('/sms', function (req, resp, next) {
 				response = 'Veuillez préciser votre Nom et Prénom par SMS pour rejoindre la liste SMS: '+ list.name + ' (ex: Gérard Dupont)';
 			};
 
-			sms.send(phone,response);
+			sms.send(config.smsgateway, phone,response);
 
 		});
 
@@ -111,7 +111,7 @@ app.get('/sms', function (req, resp, next) {
 					member.status = 1;
 					member.save();
 					response = 'Bienvenue '+member.name+', votre inscription est effective à la liste SMS: ' + list.name;
-					sms.send(phone,response);
+					sms.send(config.smsgateway, phone,response);
  
 				// If the user want to be unsubscribed
 				} else if  (message.toLowerCase().trim() === list.name){
@@ -121,7 +121,7 @@ app.get('/sms', function (req, resp, next) {
 						} else {
 							response = 'Demande de désinscription en erreur à la liste : ' + list.name;
 						};
-						sms.send(phone,response);
+						sms.send(config.smsgateway, phone,response);
 					});
 
 				} else {
@@ -132,13 +132,13 @@ app.get('/sms', function (req, resp, next) {
 						var count = 0;
 						members.forEach(function(dest){
 							if (phone !== dest.phone){
-						     	sms.send(dest.phone,member.name+': '+message);
+						     	sms.send(config.smsgateway, dest.phone,member.name+': '+message);
 								count++;
 							}
 						});
 
 						response = 'Message correctement envoyé aux '+count+' personne(s) abonnée(s) à liste SMS : '+list.name;
-						sms.send(phone,response);
+						sms.send(config.smsgateway, phone,response);
 					});	
 				};
 			};
