@@ -9,11 +9,8 @@
  * @author: ltoinel@free.fr
  */
 
-// Global require
-var events = require('events');
-
-//Event emitter
-var eventEmitter = new events.EventEmitter();
+// Local require
+var event = require( './event' );
 
 //Initialize the node array
 var nodes = [];
@@ -70,7 +67,7 @@ exports.onValueChanged = function (nodeid, comclass, value) {
 	
 	// Broadcast the event with the comclass
 	console.log("broadcasting event : " + comclass.toString());
-	eventEmitter.emit(comclass.toString(),value);
+	event.emit(comclass.toString(),nodeid, value);
 	
     if (nodes[nodeid]['ready']) {
         console.log('node%d: changed: %d:%s:%s->%s', nodeid, comclass,
