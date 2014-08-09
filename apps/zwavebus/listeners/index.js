@@ -9,6 +9,8 @@
  * @author: ltoinel@free.fr
  */
 
+// Loading all the available listeners in the current directory
+
 require('fs').readdirSync(__dirname + '/').forEach(function(file) {
   if (file.match(/.+\.js/g) !== null && file !== 'index.js') {
     var name = file.replace('.js', '');

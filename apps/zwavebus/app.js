@@ -11,10 +11,23 @@
 
 // Global require
 var openZwave = require('openzwave');
+var mongoose = require('mongoose');
 
 // Local require
 var config = require('./config');
 var handler = require('./handler');
+
+//Initialize the MongoDB connection
+mongoose.connect(config.database);
+
+// Drop the database
+if (config.debug){
+	mongoose.connection.on('open', function(){
+		mongoose.connection.db.dropDatabase(function (err) {
+  			console.log('Database dropped');
+		});
+	});
+};
 
 // Initialize the Zwave connector
 var zwave = new openZwave(config.device, {
@@ -50,7 +63,6 @@ zwave.on('notification', handler.onNotification);
 
 // The scan is complete
 zwave.on('scan complete', handler.onScanComplete);
-
 
 // Starting 
 console.info("Starting DomoGeek Z-WaveBus v%s",config.version);

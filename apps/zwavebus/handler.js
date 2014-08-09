@@ -10,7 +10,10 @@
  */
 
 // Local require
-var event = require( './event' );
+var bus = require( './bus' );
+
+//Model
+var Event = require('./models/event');
 
 //Initialize the node array
 var nodes = [];
@@ -65,8 +68,15 @@ exports.onValueAdded = function (nodeid, comclass, value) {
  */
 exports.onValueChanged = function (nodeid, comclass, value) {
 	
+	// Saving the event
+	new Event({ nodeid: nodeid,
+	    comclass: comclass,
+	    type: value['type'],
+	    label: value['label'],
+	    value: value['value']}).save();
+	
 	// Broadcast the event with the comclass
-	event.emit(comclass ,nodeid, value);
+	bus.emit(comclass ,nodeid, value);
 	
     if (nodes[nodeid]['ready']) {
         console.log('node%d: changed: %d:%s:%s->%s', nodeid, comclass,

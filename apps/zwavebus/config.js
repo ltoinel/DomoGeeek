@@ -11,9 +11,10 @@
 
 var config = {}
 
-// Zwaven
+// Zwavebus
 config.version = '0.1';
-config.debug = false;
+config.database = 'mongodb://localhost/zwavebus';
+config.debug = true;
 config.saveconfig = true;
 config.logging =  false; 
 config.consoleoutput = true;

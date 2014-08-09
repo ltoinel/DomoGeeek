@@ -13,6 +13,7 @@ var config = {}
 
 // Group SMS
 config.version = '0.1';
+config.database = 'mongodb://localhost/smscenter';
 config.debug = false;
 config.phone = '+33646340951';
 config.name = 'Ludovic Toinel';

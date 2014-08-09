@@ -1,5 +1,5 @@
 // Global require
-var event = require( '../event' );
+var bus = require( '../bus' );
 
 var COMMAND_CLASS_SENSOR_BINARY = "48";
 
@@ -7,9 +7,8 @@ var COMMAND_CLASS_SENSOR_BINARY = "48";
  * We listen for a COMMAND_CLASS_SENSOR_BINARY event.
  * This event is sent on my Aenon Lab Multisensor when a presence is detected.
  */
-event.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
+bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
 
-	console.log("Value: %j", value);
 	if(value['label'] == "Sensor"){
 		
 		// Somebody has been detected

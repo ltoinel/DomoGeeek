@@ -26,7 +26,7 @@ var Message = require('./models/message.js');
 var app = express();
 
 // Initialize the MongoDB connection
-mongoose.connect('mongodb://localhost/smscenter');
+mongoose.connect(config.database);
 
 // Drop the database
 if (config.debug){

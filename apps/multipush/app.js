@@ -16,6 +16,7 @@ var express = require('express');
 var config = require('./config');
 var sms = require('../../lib/sms');
 var mail = require('../../lib/mail');
+var karotz = require('../../lib/karotz');
 
 // Init the Express App
 var app = express();
@@ -28,17 +29,43 @@ app.get('/multipush',  function (req, resp, next) {
     var subject = req.query['subject'];
     var message = req.query['message'];
     
-    // We send a mail
-    if (config.mail.enabled){
-    	sms.send(config, phone, message);
+    // By default we send a message to all the canal
+    if (req.query['canal'] === undefined){
+    	var canal = ['sms','mail','karotz'];
+    } else {
+    	var canal = req.query['canal'].split(',');
     }
     
-    // We send an sms
-    if (config.sms.enabled){
-    	mail.send(config.mail, config.mail.from, config.mail.to, "" , subject, message);
-    }
+    // Send multipush
+    multipush(subject, message, canal);
+    
+    resp.status(201).send();
 });
 
+
+/**
+ * Send notification using different bearers.
+ * 
+ * @param subject The subject of the notification.
+ * @param message The content of the message.
+ */
+function multipush(subject,message, canal){
+	
+    // We send an SMS
+    if (config.sms.enabled && (canal.indexOf("sms") != -1)){
+    	sms.send(config.sms, config.sms.phone, message);
+    }
+    
+    // We send an Email
+    if (config.mail.enabled && (canal.indexOf("mail") != -1)){
+    	mail.send(config.mail, config.mail.from, config.mail.to, "" , subject, message);
+    }
+    
+    // We make the karotz talking
+    if (config.karotz.enabled && (canal.indexOf("karotz") != -1)){
+    	karotz.talk(config.karotz, message);
+    }
+}
 
 console.info("Starting DomoGeek MultiPush v%s",config.version);
 
