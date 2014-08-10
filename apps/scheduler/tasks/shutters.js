@@ -16,21 +16,26 @@ var CronJob = require('cron').CronJob;
 var config = require('../config');
 
 // Local config
-config.close = {};
-config.close.hour = '00 30 21 * * *';
-config.close.url =  'http://192.168.1.4/down';
-config.open = {};
-config.open.hour = '00 00 9 * * *';
-config.open.url = 'http://192.168.1.4/up';
+config.shutters = {};
+
+// Close
+config.shutters.close = {};
+config.shutters.close.hour = '00 30 21 * * *';
+config.shutters.close.url =  'http://192.168.1.4/down';
+
+// Open
+config.shutters.open = {};
+config.shutters.open.hour = '00 00 9 * * *';
+config.shutters.open.url = 'http://192.168.1.4/up';
 
 /**
  * Open the shutters
  */ 
-var job = new CronJob(config.open.hour, function(){
+var job = new CronJob(config.shutters.open.hour, function(){
 
 	if (config.enabled){
 		console.log("Opening the shutters");
-		request.get(config.open.url);
+		request.get(config.shutters.open.url);
 	};
 	
   }, function () {
@@ -47,11 +52,11 @@ var job = new CronJob(config.open.hour, function(){
 /**
  * Close the shutters
  */
-var job = new CronJob(config.close.hour, function(){
+var job = new CronJob(config.shutters.close.hour, function(){
 	
 	if (config.enabled){
 		console.log("Closing the shutters");
-		request.get(config.close.url);
+		request.get(config.shutters.close.url);
 	};
 	
   }, function () {
