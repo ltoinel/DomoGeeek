@@ -1,7 +1,7 @@
 // Global require
 var bus = require( '../bus' );
 
-var COMMAND_CLASS_SENSOR_BINARY = "48";
+var COMMAND_CLASS_SENSOR_BINARY = 48;
 
 /**
  * We listen for a COMMAND_CLASS_SENSOR_BINARY event.
@@ -13,11 +13,11 @@ bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
 		
 		// Somebody has been detected
 		if (value['value'] == true){
-			console.log("Somebody");
 			
 		// Nobody's here since few minutes
 		} else {
-			console.log("Nobody");
+			
+			
 		}
 	}
 });

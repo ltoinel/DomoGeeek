@@ -13,8 +13,11 @@ var config = {}
 
 // Group SMS
 config.version = '0.1';
-config.database = 'mongodb://localhost/smscenter';
+config.database = 'mongodb://localhost/groupsms';
 config.debug = false;
+config.port = 9090;
+
+// Admin
 config.phone = '+33646340951';
 config.name = 'Ludovic Toinel';
 

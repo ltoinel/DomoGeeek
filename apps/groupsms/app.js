@@ -179,5 +179,6 @@ app.get('/messages', function (req, resp, next) {
 
 console.info("Starting DomoGeek GroupSMS v%s",config.version);
 
-app.listen(9090); //to port on which the express server listen
+// Starting the rest server
+app.listen(config.port);
 

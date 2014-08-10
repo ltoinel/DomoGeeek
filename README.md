@@ -2,7 +2,7 @@ DomoGeeek
 =========
 
 Domotic apps experiments based on Z-wave / Raspberry / NodeJS / MongoDB.
-These apps are totaly experimental for the moment.
+These apps are totally experimental for the moment.
 
 ## GroupSMS
 Group SMS app that allows persons to subscribe to group SMS. 
@@ -16,6 +16,8 @@ You can quickly develop your own listeners that responds to events.
 ## Multipush
 Multipush is a service that can broadcast a message on multiple canal (sms, mail, karotz ...).
 
+## Scheduler
+Scheduler provide a tasks mechanism to schedule event like opening or closing the shutters automaticaly.
 
 ----
 ### Directory description

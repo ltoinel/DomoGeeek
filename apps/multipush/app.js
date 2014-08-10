@@ -69,4 +69,5 @@ function multipush(subject,message, canal){
 
 console.info("Starting DomoGeek MultiPush v%s",config.version);
 
-app.listen(9091); //to port on which the express server listen
+// Starting the REST server
+app.listen(config.port); 
