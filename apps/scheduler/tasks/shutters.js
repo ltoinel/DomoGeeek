@@ -20,11 +20,16 @@ var config = require('../config');
  */ 
 var job = new CronJob('00 00 9 * * *', function(){
 
-	console.log("Opening the shutters");
-	request.get('http://192.168.1.4/up')
+	if (config.enabled){
+		console.log("Opening the shutters");
+		request.get('http://192.168.1.4/up');
+	};
 	
   }, function () {
-    Console.log('Shutter are open');
+	  
+		if (config.enabled){
+			console.log('Shutters are open');
+		};
   },
   false,
   config.timezone 
@@ -35,12 +40,16 @@ var job = new CronJob('00 00 9 * * *', function(){
  * Close the shutters
  */
 var job = new CronJob('00 30 21 * * *', function(){
-
-	console.log("Closing the shutters");
-	request.get('http://192.168.1.4/down')
+	
+	if (config.enabled){
+		console.log("Closing the shutters");
+		request.get('http://192.168.1.4/down');
+	};
 	
   }, function () {
-    Console.log('Shutter are closed');
+		if (config.enabled){
+			console.log('Shutters are closed');
+		};
   },
   false,
   config.timezone 

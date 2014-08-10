@@ -18,12 +18,35 @@ var config = require('./config');
 //Init the Express App
 var app = express();
 
+
+/**
+ * HTTP GET /multipush
+ */
+app.put('/scheduler/:status',  function (req, resp, next) {
+	
+	if (req.params.status === "on"){
+		console.log("Scheduler is enabled");
+		config.enabled = true;
+	} else if (req.params.status === "off"){
+		console.log("Scheduler is disabled");
+		config.enabled = false;
+	} else {
+		resp.status(400).send();
+	}
+	
+	resp.status(204).send();
+});
+
+
 /**
  * HTTP GET /multipush
  */
 app.get('/scheduler',  function (req, resp, next) {
-	resp.status(200).send();
+	
+	resp.send(200, {enabled: config.enabled});
+	
 });
+
 
 // Starting 
 console.info("Starting DomoGeek Scheduler v%s",config.version);
