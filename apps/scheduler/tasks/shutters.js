@@ -11,18 +11,26 @@
 
 var request = require('request');
 var CronJob = require('cron').CronJob;
-
+	
 //Local require
 var config = require('../config');
+
+// Local config
+config.close = {};
+config.close.hour = '00 30 21 * * *';
+config.close.url =  'http://192.168.1.4/down';
+config.open = {};
+config.open.hour = '00 00 9 * * *';
+config.open.url = 'http://192.168.1.4/up';
 
 /**
  * Open the shutters
  */ 
-var job = new CronJob('00 00 9 * * *', function(){
+var job = new CronJob(config.open.hour, function(){
 
 	if (config.enabled){
 		console.log("Opening the shutters");
-		request.get('http://192.168.1.4/up');
+		request.get(config.open.url);
 	};
 	
   }, function () {
@@ -39,11 +47,11 @@ var job = new CronJob('00 00 9 * * *', function(){
 /**
  * Close the shutters
  */
-var job = new CronJob('00 30 21 * * *', function(){
+var job = new CronJob(config.close.hour, function(){
 	
 	if (config.enabled){
 		console.log("Closing the shutters");
-		request.get('http://192.168.1.4/down');
+		request.get(config.close.url);
 	};
 	
   }, function () {
