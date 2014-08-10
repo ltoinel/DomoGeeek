@@ -32,4 +32,4 @@ console.info("Starting DomoGeek Scheduler v%s",config.version);
 var tasks = require('./tasks/index');
 
 // Starting the REST server
-app.listen(9092); 
+app.listen(config.port); 

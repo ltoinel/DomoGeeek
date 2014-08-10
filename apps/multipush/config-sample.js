@@ -41,5 +41,11 @@ config.karotz.apikey = "xxx";
 config.karotz.secret = "xxx";
 config.karotz.language = "FR";
 
+//OpenKarotz Alert
+config.openkarotz = {};
+config.openkarotz.enabled = true;
+config.openkarotz.ip = "192.168.1.12"
+config.openkarotz.voice = "alice";
+
 module.exports = config;
 

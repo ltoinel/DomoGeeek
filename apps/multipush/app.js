@@ -14,9 +14,26 @@ var express = require('express');
 
 //Local require
 var config = require('./config');
-var sms = require('../../lib/sms');
-var mail = require('../../lib/mail');
-var karotz = require('../../lib/karotz');
+
+// Loading SMS connector
+if (config.sms.enabled){
+	var sms = require('../../lib/sms');
+}
+
+// Loading Mail connector
+if (config.mail.enabled){
+	var mail = require('../../lib/mail');
+}
+
+// Loading Karotz connector
+if (config.karotz.enabled){
+	var karotz = require('../../lib/karotz');
+}
+
+// Loading OpenKarotz connector
+if (config.openkarotz.enabled){
+	var openkarotz = require('../../lib/openkarotz');
+}
 
 // Init the Express App
 var app = express();
@@ -61,9 +78,14 @@ function multipush(subject,message, canal){
     	mail.send(config.mail, config.mail.from, config.mail.to, "" , subject, message);
     }
     
-    // We make the karotz talking
+    // We make the Karotz talking
     if (config.karotz.enabled && (canal.indexOf("karotz") != -1)){
     	karotz.talk(config.karotz, message);
+    }
+    
+    // We make the Openkarotz talking
+    if (config.openkarotz.enabled && (canal.indexOf("openkarotz") != -1)){
+    	openkarotz.talk(config.openkarotz, message);
     }
 }
 

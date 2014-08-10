@@ -10,14 +10,16 @@ When a message is send to this list, the message is send also to all the subscri
 Useful to connect all your neighbours throw an SMS Mailing list.
 
 ## ZwaveBus
-Z-wave bus message based on NodeJS. This app propose a dynamic loading of event listener. 
-You can quickly develop your own listeners that responds to events.
+Z-Wave bus message based on NodeJS. This app proposes a dynamic loading of events listeners. 
+You can quickly develop your own listeners that respond automatically to Z-Wave events.
+All changed value events are stored into mongoDB.
 
 ## Multipush
-Multipush is a service that can broadcast a message on multiple canal (sms, mail, karotz ...).
+Multipush is a service that can broadcast a message on multiple canal (sms, mail, karotz, openkarotz ...).
 
 ## Scheduler
-Scheduler provide a tasks mechanism to schedule event like opening or closing the shutters automaticaly.
+Scheduler provide a tasks mechanism to schedule tasks like opening or closing the shutters automatically.
+This app is based on the cron module from NodeJS.
 
 ----
 ### Directory description
