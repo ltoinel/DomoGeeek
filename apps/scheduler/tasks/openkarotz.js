@@ -26,7 +26,7 @@ config.openkarotz.sleep = '00 00 23 * * *';
  */ 
 var job = new CronJob(config.openkarotz.wakeup, function(){
 	
-	karotz.sleep(config.openkarotz);
+	karotz.wakeup(config.openkarotz);
 	
   }, function () {
 	  console.log('Karotz is waking up');
@@ -41,7 +41,7 @@ var job = new CronJob(config.openkarotz.wakeup, function(){
  */ 
 var job = new CronJob(config.openkarotz.sleep, function(){
 	
-	  karotz.wakeup(openkarotz);
+	  karotz.sleep(config.openkarotz);
 	
   }, function () {
 	  console.log('Karotz is sleeping');

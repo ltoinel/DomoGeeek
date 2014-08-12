@@ -18,7 +18,6 @@ var config = require('./config');
 //Init the Express App
 var app = express();
 
-
 /**
  * HTTP GET /multipush
  */

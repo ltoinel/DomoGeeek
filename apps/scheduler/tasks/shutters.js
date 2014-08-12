@@ -25,7 +25,7 @@ config.shutters.close.url =  'http://192.168.1.4/down';
 
 // Open
 config.shutters.open = {};
-config.shutters.open.hour = '00 00 9 * * *';
+config.shutters.open.hour = '00 30 9 * * *';
 config.shutters.open.url = 'http://192.168.1.4/up';
 
 /**
@@ -39,7 +39,6 @@ var job = new CronJob(config.shutters.open.hour, function(){
 	};
 	
   }, function () {
-	  
 		if (config.enabled){
 			console.log('Shutters are open');
 		};
