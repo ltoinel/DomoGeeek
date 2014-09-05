@@ -13,10 +13,11 @@ var CronJob = require('cron').CronJob;
 	
 //Local require
 var config = require('../config');
-var karotz = require('../../../lib/openkarotz');
+var openkarotz = require('../../../lib/openkarotz');
 
 // Local config
 config.openkarotz = {};
+config.openkarotz.enabled = false;
 config.openkarotz.ip = '192.168.1.12';
 config.openkarotz.wakeup = '00 00 8 * * *';
 config.openkarotz.sleep = '00 00 23 * * *';
@@ -26,7 +27,9 @@ config.openkarotz.sleep = '00 00 23 * * *';
  */ 
 var job = new CronJob(config.openkarotz.wakeup, function(){
 	
-	karotz.wakeup(config.openkarotz);
+	if (config.openkarotz.enabled){
+		openkarotz.wakeup(config.openkarotz);
+	};
 	
   }, function () {
 	  console.log('Karotz is waking up');
@@ -40,8 +43,10 @@ var job = new CronJob(config.openkarotz.wakeup, function(){
  * Make the karotz sleep
  */ 
 var job = new CronJob(config.openkarotz.sleep, function(){
-	
-	  karotz.sleep(config.openkarotz);
+
+	if (config.openkarotz.enabled){
+		openkarotz.sleep(config.openkarotz);
+	};
 	
   }, function () {
 	  console.log('Karotz is sleeping');

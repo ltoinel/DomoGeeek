@@ -17,6 +17,7 @@ var config = require('../config');
 
 // Local config
 config.shutters = {};
+config.shutters.enabled = false;
 
 // Close
 config.shutters.close = {};
@@ -33,13 +34,13 @@ config.shutters.open.url = 'http://192.168.1.4/up';
  */ 
 var job = new CronJob(config.shutters.open.hour, function(){
 
-	if (config.enabled){
+	if (config.shutters.enabled){
 		console.log("Opening the shutters");
 		request.get(config.shutters.open.url);
 	};
 	
   }, function () {
-		if (config.enabled){
+		if (config.shutters.enabled){
 			console.log('Shutters are open');
 		};
   },
@@ -53,13 +54,13 @@ var job = new CronJob(config.shutters.open.hour, function(){
  */
 var job = new CronJob(config.shutters.close.hour, function(){
 	
-	if (config.enabled){
+	if (config.shutters.enabled){
 		console.log("Closing the shutters");
 		request.get(config.shutters.close.url);
 	};
 	
   }, function () {
-		if (config.enabled){
+		if (config.shutters.enabled){
 			console.log('Shutters are closed');
 		};
   },
