@@ -16,6 +16,7 @@ config.version = '0.1';
 config.debug = true;
 config.timezone = 'Europe/Paris';
 config.port = 9092;
+config.multipush = 'http://localhost:9091/multipush';
 
 module.exports = config;
 

@@ -19,7 +19,7 @@ var config = require('./config');
 var app = express();
 
 /**
- * HTTP GET /multipush
+ * HTTP PUT /scheduler
  */
 app.put('/scheduler/:status',  function (req, resp, next) {
 	
@@ -38,7 +38,7 @@ app.put('/scheduler/:status',  function (req, resp, next) {
 
 
 /**
- * HTTP GET /multipush
+ * HTTP GET /scheduler
  */
 app.get('/scheduler',  function (req, resp, next) {
 	

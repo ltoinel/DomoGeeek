@@ -62,7 +62,11 @@ zwave.on('node ready', handler.onNodeReady);
 zwave.on('notification', handler.onNotification);
 
 // The scan is complete
-zwave.on('scan complete', handler.onScanComplete);
+zwave.on('scan complete', function(){
+	handler.onScanComplete();
+	zwave.setValue(5, 0x70, 81 , 42);
+    zwave.setValue(5, 0x70, 82 , 1);
+});
 
 // Starting 
 console.info("Starting DomoGeek Z-WaveBus v%s",config.version);

@@ -61,6 +61,8 @@ exports.onValueAdded = function (nodeid, comclass, value) {
         nodes[nodeid]['classes'][comclass] = {};
     }
     nodes[nodeid]['classes'][comclass][value.index] = value;
+    
+	console.log('node%d: value added: %d:%s:%s',  nodeid, comclass, value['label'], value['value']);
 }
 
 /*
@@ -79,12 +81,12 @@ exports.onValueChanged = function (nodeid, comclass, value) {
 	bus.emit(comclass ,nodeid, value);
 	
     if (nodes[nodeid]['ready']) {
-        console.log('node%d: changed: %d:%s:%s->%s', nodeid, comclass,
+        console.log('node%d: value changed: %d:%s:%s->%s', nodeid, comclass,
                 value['label'],
                 nodes[nodeid]['classes'][comclass][value.index]['value'],
                 value['value']);
     } else {
-    	console.log('node%d: changed: %d:%s:%s',  nodeid, comclass, value['label'], value['value']);
+    	console.log('node%d: value changed: %d:%s:%s',  nodeid, comclass, value['label'], value['value']);
     }
     
     nodes[nodeid]['classes'][comclass][value.index] = value;
@@ -170,5 +172,4 @@ exports.onNotification = function (nodeid, notif) {
  */
 exports.onScanComplete = function () {
     console.log('scan complete, hit ^C to finish.');
-    //zwave.setValue(4, 0x70, 5 , 2);
 }
