@@ -14,7 +14,8 @@ var config = {}
 // Zwavebus
 config.version = '0.1';
 config.database = 'mongodb://localhost/zwavebus';
-config.debug = true;
+config.debug = false;
+config.modpath = '/home/pi/domogeeek/deps/node-openzwave/lib';
 config.saveconfig = false;
 config.logging =  false; 
 config.consoleoutput = true;

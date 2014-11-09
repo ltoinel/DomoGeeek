@@ -12,10 +12,10 @@
 // Local require
 var bus = require( './bus' );
 
-//Model
+// Model
 var Event = require('./models/event');
 
-//Initialize the node array
+// Initialize the node array
 var nodes = [];
 
 /*

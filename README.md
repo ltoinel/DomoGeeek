@@ -2,7 +2,7 @@ DomoGeeek
 =========
 
 Domotic apps experiments based on Z-wave / Raspberry / NodeJS / MongoDB.
-These apps are totally experimental for the moment.
+These small NodeJS apps are totally experimental.
 
 ## GroupSMS
 The Group SMS app allows persons to subscribe to group SMS. 
@@ -28,4 +28,3 @@ This app is based on the cron module from NodeJS.
 * apps : Contains Node.js apps.
 * deps : Contains specific Node.js modules that need to be installed (npm install xxxx -g)
 * lib  : Contains shared libraries for the apps.
-* misc : Contains miscellaneous code.

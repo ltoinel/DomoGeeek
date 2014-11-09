@@ -3,30 +3,34 @@
 var bus = require( '../bus' );
 
 // The command to listen
-var COMMAND_CLASS_SENSOR_BINARY = 48;
+var COMMAND_CLASS_BASIC = 32;
 
 /**
- * We listen for a COMMAND_CLASS_SENSOR_BINARY event.
- * This event is sent on my Aenon Lab Multisensor when a presence is detected.
+ * We listen for a COMMAND_CLASS_BASIC event.
+ * 
+ * This event is sent on my Fibaro Smoke Detector when smoke is detected.
+ * 
+ * Change the zwcfg to remove the mapping and add the attribute "setasreport" to true
+ *  <CommandClass id="32" name="COMMAND_CLASS_BASIC" version="1" after_mark="true" setasreport="true">
  */
-bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
+bus.on(COMMAND_CLASS_BASIC, function(nodeid, value){
 
-	if(value['label'] == "Sensor"){
+	if(value['label'] == "Basic"){
 		
 		// Request
 		var request = require('request');
 		
 		// Somebody has been detected
-		if (value['value'] == true){
+		if (value['value'] > 0){
 			
-			var subject = 'Alerte intrusion';
-			var message = 'Une présence a été détectée';
+			var subject = 'Alerte Incendie';
+			var message = 'De la fumée et de fortes températures ont été détectés à votre domicile';
 
 		// Nobody's here since few minutes
-		} else {
+		} else if (value['value'] == 0) {
 
-			var subject = 'Alerte intrusion terminée';
-			var message = 'Aucune présence détectée depuis 4 minutes';
+			var subject = 'Alerte Incendie terminée';
+			var message = 'Le détecteur de fumée ne détecte plus de fumée';
 		}
 		
 	     // Configure the request to the multipush service

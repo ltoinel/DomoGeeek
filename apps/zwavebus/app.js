@@ -31,6 +31,7 @@ if (config.debug){
 
 // Initialize the Zwave connector
 var zwave = new openZwave(config.device, {
+	modpath: config.modpath,
     saveconfig: config.saveconfig,
     logging: config.logging, 
     consoleoutput: config.consoleoutput,
@@ -64,8 +65,9 @@ zwave.on('notification', handler.onNotification);
 // The scan is complete
 zwave.on('scan complete', function(){
 	handler.onScanComplete();
-	zwave.setValue(5, 0x70, 81 , 42);
-    zwave.setValue(5, 0x70, 82 , 1);
+	zwave.setValue(5, 0x70, 81 , 45);
+    //zwave.setValue(5, 0x70, 82 , 1);
+	zwave.setValue(5 ,0x70 ,5, 255);
 });
 
 // Starting 

@@ -12,10 +12,10 @@
 // Global require
 var express = require('express');
 
-//Local require
+// Local require
 var config = require('./config');
 
-//Init the Express App
+// Init the Express App
 var app = express();
 
 /**
