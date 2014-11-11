@@ -43,12 +43,11 @@ app.put('/scheduler/:status',  function (req, resp, next) {
 app.get('/scheduler',  function (req, resp, next) {
 	
 	resp.send(200, {enabled: config.enabled});
-	
 });
 
 
 // Starting 
-console.info("Starting DomoGeek Scheduler v%s",config.version);
+console.info("Starting DomoGeeek Scheduler v%s",config.version);
 
 // Loading tasks 
 var tasks = require('./tasks/index');

@@ -21,7 +21,6 @@ config.logging =  false;
 config.consoleoutput = true;
 config.suppressrefresh = false;
 config.device = '/dev/ttyUSB0';
-config.phones = ['ether-1c:1a:c0:1f:c0:b1','ether-60:fa:cd:84:7d:d8'];
 
 module.exports = config;
 

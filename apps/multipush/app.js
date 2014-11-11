@@ -89,7 +89,7 @@ function multipush(subject,message, canal){
     }
 }
 
-console.info("Starting DomoGeek MultiPush v%s",config.version);
+console.info("Starting DomoGeeek MultiPush v%s",config.version);
 
 // Starting the REST server
 app.listen(config.port); 

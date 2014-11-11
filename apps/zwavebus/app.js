@@ -71,7 +71,7 @@ zwave.on('scan complete', function(){
 });
 
 // Starting 
-console.info("Starting DomoGeek Z-WaveBus v%s",config.version);
+console.info("Starting DomoGeeek Z-WaveBus v%s",config.version);
 
 // Loading event listener
 var events = require('./listeners/index');

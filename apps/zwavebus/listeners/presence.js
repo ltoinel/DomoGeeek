@@ -1,7 +1,6 @@
 
 // Local require
 var bus = require( '../bus' );
-var freebox = require('../../../lib/freebox');
 var config = require('./../config');
 
 // The command to listen
@@ -14,29 +13,7 @@ var COMMAND_CLASS_SENSOR_BINARY = 48;
 bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
 
 	if(value['label'] == "Sensor"){
-		
-		freebox.connect();
-		freebox.on('ready', function(box) {
-			freebox.browserPub(function(devices){
-
-				var alert = true;
-				devices.forEach(function(device){
-			
-					// We check if one of our devices are connected
-					if (config.phones.indexOf(device.id) != -1){
-						if (device.active == true){
-								alert = false;
-						        console.log("Device detected : " + device.primary_name);
-						}
-					}
-				});
-				
-				// We a presence is detected with no phone connected (strange)
-				if (alert){
-					sendAlert();
-				}
-			});
-		});
+	
 	}
 });
 
