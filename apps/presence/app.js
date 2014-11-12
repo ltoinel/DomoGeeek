@@ -77,7 +77,11 @@ app.get('/presence',  function (req, resp, next) {
  * Check the presence of well known Wifi devices.
  */
 function checkWifiDevices(phones,callback){
-	freebox.connect();
+	freebox.connect({
+		'app_token' : config.freebox.app_token, 
+		'track_id'  : config.freebox.track_id
+	});
+	
 	freebox.on('ready', function(box) {
 		freebox.browserPub(function(devices){
 	

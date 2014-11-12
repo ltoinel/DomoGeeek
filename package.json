@@ -1,0 +1,15 @@
+{
+  "name": "domogeek",
+  "version": "0.0.1",
+  "description" : "DomoGeeek is a set of Domotic apps based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.",
+  "homepage" : "https://github.com/ltoinel/domogeeek",
+  "keywords" : ["domotic", "z-wave"],
+  "devDependencies": {
+    "istanbul": "^0.3.2",
+    "mocha": "^2.0.1"
+  },
+  "repository" : { 
+  "type" : "git",
+  "url" : "https://github.com/ltoinel/domogeeek.git"
+  }
+}

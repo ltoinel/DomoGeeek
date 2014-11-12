@@ -44,7 +44,7 @@ The Multipush application allows to broadcast messages on multiple communication
 Multipush exposes a REST service easy to use to send a message quickly to any device.
 
 ## Presence
-![Presence](./assets/img/icons/presence.png "Presence") *Check human presence at your home*
+![Presence](./assets/img/icons/presence.png "Presence") *Checks human presence in your home*
  
 The Presence applications allows to check if a known presence is inside your home. This application uses the Smartphone Wifi detection (using the Freebox API) and 
 Karotz Tag to check if there is somebody known inside the home.
@@ -52,7 +52,7 @@ This application exposes a REST service that return who is inside the home: a kn
 This application is used by the "Presence" module inside the ZwaveBus project to check when a movement is detected if their is a known person into the home.
 
 ## Scheduler
-![Scheduler](./assets/img/icons/scheduler.png "Scheduler") *Schedule tasks for you at your home*
+![Scheduler](./assets/img/icons/scheduler.png "Scheduler") *Schedules tasks in your home*
 
 The Scheduler app provides a tasks mechanism to schedule tasks like opening or closing the shutters automatically when your are in travel, reminder you when trash cans needs to be put outside the home.
 This app is based on the cron module from NodeJS. You can easily add your own tasks in the tasks directory or extend the existing ones.

@@ -5,8 +5,8 @@
  * Copyright 2014 DomoGeeek
  * Released under the Apache License 2.0 (Apache-2.0)
  * 
- * @desc: Freebox Connector
- * @author: ltoinel@free.fr (code from guillaumewuip Freebox SDK)
+ * @desc: Freebox API Connector
+ * @author: ltoinel@free.fr (code based on the guillaumewuip Freebox SDK)
  * https://raw.githubusercontent.com/guillaumewuip/freeboxApi_node/master/freebox.js
  */
 
@@ -49,7 +49,7 @@ var app = {
 
 
 /**
- * Connection method.
+ * Connection method to the Freebox API.
  *
  * Example :
  *
@@ -59,8 +59,6 @@ var app = {
  * 	'app_token' : '012345', (optional)
  * 	'track_id'  : '12', (optional)
  * });
- * 
- * Update freebox information
  * 
  * @return void
  */
@@ -275,9 +273,7 @@ function sessionApp(next) {
 
 
 /**
- * downloadsStats method
- *
- * Return the download stats
+ * Return the list of connected Wifi devices on the Freebox.
  *
  * Example : 
  * 

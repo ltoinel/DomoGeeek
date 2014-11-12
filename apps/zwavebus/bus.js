@@ -5,7 +5,7 @@
  * Copyright 2014 DomoGeeek
  * Released under the Apache License 2.0 (Apache-2.0)
  * 
- * @desc: Event emitter for the ZwaveBus
+ * @desc: Event emitter for the ZwaveBus.
  * @author: ltoinel@free.fr
  */
 

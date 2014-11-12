@@ -25,11 +25,6 @@ if (config.mail.enabled){
 	var mail = require('../../libs/mail');
 }
 
-// Loading Karotz connector
-if (config.karotz.enabled){
-	var karotz = require('../../libs/karotz');
-}
-
 // Loading OpenKarotz connector
 if (config.openkarotz.enabled){
 	var openkarotz = require('../../libs/openkarotz');

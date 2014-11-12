@@ -1,4 +1,14 @@
-
+/**
+ * DomoGeeek v0.1
+ * https://github.com/ltoinel/domogeeek
+ *
+ * Copyright 2014 DomoGeeek
+ * Released under the Apache License 2.0 (Apache-2.0)
+ * 
+ * @desc: Presence module for the Aenon Lab Multisensor.
+ * @author: ltoinel@free.fr
+ */
+ 
 // Local require
 var bus = require( '../bus' );
 var config = require('./../config');
@@ -13,7 +23,7 @@ var COMMAND_CLASS_SENSOR_BINARY = 48;
 bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
 
 	if(value['label'] == "Sensor"){
-	
+		// TODO
 	}
 });
 

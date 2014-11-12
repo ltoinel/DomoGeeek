@@ -1,4 +1,14 @@
-
+/**
+ * DomoGeeek v0.1
+ * https://github.com/ltoinel/domogeeek
+ *
+ * Copyright 2014 DomoGeeek
+ * Released under the Apache License 2.0 (Apache-2.0)
+ * 
+ * @desc: Smoke detector module for the Fibaro Smoke Detector.
+ * @author: ltoinel@free.fr
+ */
+ 
 // Local require
 var bus = require( '../bus' );
 

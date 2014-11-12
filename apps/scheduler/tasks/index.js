@@ -5,7 +5,7 @@
  * Copyright 2014 DomoGeeek
  * Released under the Apache License 2.0 (Apache-2.0)
  * 
- * @desc: Scheduler task loader
+ * @desc: Scheduler tasks loader
  * @author: ltoinel@free.fr
  */
 

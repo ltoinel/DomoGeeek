@@ -17,13 +17,13 @@ config.database = 'mongodb://localhost/groupsms';
 config.debug = false;
 config.port = 9090;
 
-// Admin
-config.phone = '+33646340951';
-config.name = 'Ludovic Toinel';
+// Admin phone number
+config.phone = '+33655668899';
+config.name = 'Me';
 
 // SMS Gateway configuration (Android App : eu.apksoft.android.smsgateway)
 config.smsgateway = {};
-config.smsgateway.url = 'http://192.168.1.3:9090/sendsms';
+config.smsgateway.url = 'http://myandroidphone:9090/sendsms';
 
 module.exports = config;
 
