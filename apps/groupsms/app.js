@@ -15,7 +15,7 @@ var mongoose = require('mongoose');
 
 // Local require
 var config = require('./config');
-var sms = require('../../lib/sms');
+var sms = require('../../libs/sms');
 
 // Model 
 var List = require('./models/list.js');

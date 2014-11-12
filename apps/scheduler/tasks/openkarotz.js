@@ -13,7 +13,7 @@ var CronJob = require('cron').CronJob;
 	
 //Local require
 var config = require('../config');
-var openkarotz = require('../../../lib/openkarotz');
+var openkarotz = require('../../../libs/openkarotz');
 
 // Local config
 config.openkarotz = {};

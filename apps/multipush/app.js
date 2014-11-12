@@ -17,22 +17,22 @@ var config = require('./config');
 
 // Loading SMS connector
 if (config.sms.enabled){
-	var sms = require('../../lib/sms');
+	var sms = require('../../libs/sms');
 }
 
 // Loading Mail connector
 if (config.mail.enabled){
-	var mail = require('../../lib/mail');
+	var mail = require('../../libs/mail');
 }
 
 // Loading Karotz connector
 if (config.karotz.enabled){
-	var karotz = require('../../lib/karotz');
+	var karotz = require('../../libs/karotz');
 }
 
 // Loading OpenKarotz connector
 if (config.openkarotz.enabled){
-	var openkarotz = require('../../lib/openkarotz');
+	var openkarotz = require('../../libs/openkarotz');
 }
 
 // Init the Express App

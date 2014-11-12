@@ -17,6 +17,7 @@ config.debug = true;
 config.phones = ['ether-1c:1a:c0:1f:c0:b1','ether-60:fa:cd:84:7d:d8'];
 config.port = 9093;
 config.multipush = 'http://localhost:9091/multipush';
+config.forceperiod = 4; // In hours
 
 module.exports = config;
 

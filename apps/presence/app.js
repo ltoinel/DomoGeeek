@@ -14,7 +14,7 @@ var express = require('express');
 
 // Local require
 var config = require('./config');
-var freebox = require('../../lib/freebox');
+var freebox = require('../../libs/freebox');
 
 // Force the presence for guests
 var forcePresence = false;
@@ -24,14 +24,16 @@ var forceDate = null;
 var app = express();
 
 /**
+ * Force the presence to true or false for the guests when the owners of the home are not present.
+ *
  * HTTP PUT /presence
  */
 app.put('/presence/:status',  function (req, resp, next) {
 	
 	if (req.params.status === "true"){
 		forcePresence = true;
-		forceDate = ne Date.now() + (4 * 60 * 60 * 1000);
-		multipush("Presence activée pour une durée de 4 heures");
+		forceDate = Date.now() + ( config.forceperiod * 60 * 60 * 1000);
+		multipush("Presence activée pour une durée de "+config.forceperiod+" heures");
 		console.log("Presence is force to true");
 		
 	} else if (req.params.status === "false"){
@@ -48,6 +50,8 @@ app.put('/presence/:status',  function (req, resp, next) {
 
 
 /**
+ * Get the presence. This presence can be forced or not.
+ *
  * HTTP GET /presence
  */
 app.get('/presence',  function (req, resp, next) {
@@ -62,16 +66,17 @@ app.get('/presence',  function (req, resp, next) {
 		resp.send(200, {presence: true});
 	} else {
 		// We check if there is a well known mobile device connected to the Wifi network
-		var presence = checkWifiDevices(config.phones);
-		resp.send(200, {presence: presence});
+		var presence = checkWifiDevices(config.phones, function(presence){
+			resp.send(200, {presence: presence});
+		}
 	}
 });
 
 
 /** 
- * Check the presence of well known Wifi devices
+ * Check the presence of well known Wifi devices.
  */
-function checkWifiDevices(phones){
+function checkWifiDevices(phones,callback){
 	freebox.connect();
 	freebox.on('ready', function(box) {
 		freebox.browserPub(function(devices){
@@ -88,7 +93,7 @@ function checkWifiDevices(phones){
 				}
 			});
 			
-			
+			callback(prensence);
 		})
 	});
 }
