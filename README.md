@@ -1,17 +1,23 @@
 ![DomoGeeek](./assets/img/logo.jpg "Domogeek")
 
-*DomoGeeek* is a set of Domotic apps based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.
+**DomoGeeek** is a set of Domotic apps based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.
 
-The goal of DomoGeeek is to provide a set of small modular applications to allow any geek to create their own domotic box quickly.
+The goal of DomoGeeek is to provide a set of small modular applications to allow any **geek** to create their **own domotic box** quickly.
 All the apps provided can be used separately. They can be modified and adapted without any difficulty.
 
-**Note : These small NodeJS apps are fully experimental. You can use PM2 to start the apps and maintain them up.**
+*Note : These small NodeJS apps are fully experimental. You can use PM2 to start the apps and maintain them up.*
 
+## Logical architecture schema
 ![DomoGeeek Logical Architecture](./assets/img/architecture.jpg "Logical Architecture")
+
+## My installation 
+* A Raspberry Pi with a Z-wave Dongle / Raspian / NodeJS and MongoDB that hosts all the NodeJS apps.
+* An Android Phone that provides me a free SMS gateway and notify me when there is a power outage.
 
 ![DomoGeeek Physical Architecture](./assets/img/installation.jpg "Physical Architecture")
 
 ----
+#Core apps description
 
 ## GroupSMS 
 *Exchanges SMS with your neighbourhood.*
@@ -51,9 +57,3 @@ This application is used by the "Presence" module inside the ZwaveBus project to
 The Scheduler app provides a tasks mechanism to schedule tasks like opening or closing the shutters automatically when your are in travel, reminder you when trash cans needs to be put outside the home.
 This app is based on the cron module from NodeJS. You can easily add your own tasks in the tasks directory or extend the existing ones.
 
-----
-### Directory description
-
-* apps : Contains NodeJS modular apps.
-* vendor : Contains specific Node.js modules that need to be installed (npm install xxxx -g).
-* libs  : Contains commons libraries shared by the apps.
