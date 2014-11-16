@@ -35,10 +35,10 @@ var freebox = {
 var app = {
 		app_id        : "domogeek", 
 		app_name      : "DomoGeeek",
-		app_version   : '0.1.0',
+		app_version   : '0.1',
 		device_name   : "domogeeek",
-		app_token     : 'EAB5eMi9qGkIUHzw7TCu9+ni+BKcZySkcWMrKgSA6rrjHF7L3qBMET4/SFrCqMKJ', 
-		track_id      : '7',
+		app_token     : '', 
+		track_id      : '',
 		status        : 'granted',
 		logged_in     : false,
 		challenge     : '',
@@ -64,6 +64,8 @@ var app = {
  */
 controller.connect = function infos(box) {
 
+	console.log("Freebox connection ...");
+	
 	if(typeof box != 'undefined') {
 		//Update ip (optional)
 		if(typeof box.ip != 'undefined') freebox.ip = box.ip;
@@ -75,6 +77,8 @@ controller.connect = function infos(box) {
 		if(typeof box.track_id != 'undefined') app.track_id = box.track_id;
 	}
 
+	console.log('Calling http://'+freebox.ip+'/api_version');
+	
 	// Make the connection request call
 	request('http://'+freebox.ip+'/api_version', function (error, response, body) {
 
@@ -92,6 +96,7 @@ controller.connect = function infos(box) {
 
 			freebox.url        = 'http://'+freebox.ip+':'+freebox.port+freebox.apiBaseUrl+freebox.apiCode+'/';
 
+			console.log('Emit event "ready"');
 			controller.emit('ready', freebox);	
 		}
 		else
@@ -159,8 +164,6 @@ controller.register = function registerApp() {
  */
 function loginApp(next) {
 
-	console.log('loginApp');
-	
 	if(app.status == 'granted') //If we know the app accepted by the box (user action)
 	{
 		//Update challenge and log the app if needed
@@ -212,6 +215,8 @@ function loginApp(next) {
  */
 function sessionApp(next) {
 
+	console.log("Asking a new challenge ...");
+	
 	//Asking a new challenge
 	request(freebox.url+'login', function (error, response, body) {
 
@@ -228,6 +233,9 @@ function sessionApp(next) {
 			//If we're not logged_in
 			if (!app.logged_in)
 			{
+				
+				console.log("App is not logged in");
+				
 				//POST app_id & password
 				var options = {
 					url    : freebox.url+'login/session/',
@@ -251,11 +259,15 @@ function sessionApp(next) {
 							app.logged_in   = true; //Update login status
 							app.permissions = body.result.permissions;
 
+							console.log("App is now logged in ...");
+							
 							if(next) next();
 						}
 						else if(response.statusCode == 403) { //Forbidden
 							app.logged_in = false; //Update login status
 							console.log(body.msg + ' : ' + body.error_code);
+							
+							console.log("App cannot log in ...");
 						}
 					} else {
 						console.log(error);
@@ -284,8 +296,9 @@ function sessionApp(next) {
  * @see http://dev.freebox.fr/sdk/os/download/#get-the-download-stats
  * 
  */
-function browserPub(next) {
+function browserPub(callback) {
 
+	// Prepare the options for the HTT Request
 	var options = {
 		url : freebox.url+'lan/browser/pub/',
 		headers : {
@@ -294,27 +307,31 @@ function browserPub(next) {
 		method : 'GET',
 	};
 
+	// Make the request
 	request(options, function (error, response, body) {
 
+		console.log("Calling "+freebox.url+"lan/browser/pub/");
+		
 		body = JSON.parse(body);
 
 		if (!error && response.statusCode == 200) 
 		{
-			//console.log(body.result);
-			if (next != undefined){
-				next(body.result); 
-			}
+			console.log("Getting the response from the service ...");
+			callback(body.result); 
+			
 		} else {
 			console.log(body);
+			callback();
 		}
 
 	});
 }
 
+// Browse the wifi devices
 controller.browserPub = function (next) {
 	loginApp(function(){ browserPub(next) });
 };
 
 
-//Exports the module
+// Exports the module
 module.exports = controller;

@@ -11,7 +11,7 @@
 
 var config = {}
 
-// Scheduler
+// Presence
 config.version = '0.1';
 config.debug = true;
 config.port = 9093;
@@ -31,4 +31,3 @@ config.freebox.app_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 config.freebox.track_id = 'X',
 
 module.exports = config;
-

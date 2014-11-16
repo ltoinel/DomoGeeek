@@ -14,7 +14,6 @@ var express = require('express');
 
 // Local require
 var config = require('./config');
-var freebox = require('../../libs/freebox');
 
 // Force the presence for guests
 var forcePresence = false;
@@ -28,23 +27,25 @@ var app = express();
  *
  * HTTP PUT /presence
  */
-app.put('/presence/:status',  function (req, resp, next) {
+app.get('/presence/:status',  function (req, resp, next) {
 	
 	if (req.params.status === "true"){
 		forcePresence = true;
 		forceDate = Date.now() + ( config.forceperiod * 60 * 60 * 1000);
 		multipush("Presence activée pour une durée de "+config.forceperiod+" heures");
-		console.log("Presence is force to true");
+		console.log("Presence forced to true");
 		
 	} else if (req.params.status === "false"){
 		forcePresence = false;
 		multipush("Presence désactivée");
-		console.log("Prensence is force to false");
+		console.log("Prensence forced to false");
 		
 	} else {
+		// Unknown parameter
 		resp.status(400).send();
 	}
 	
+	// OK, presence status changed
 	resp.status(204).send();
 });
 
@@ -55,7 +56,7 @@ app.put('/presence/:status',  function (req, resp, next) {
  * HTTP GET /presence
  */
 app.get('/presence',  function (req, resp, next) {
-	
+
 	// Check the presence force timestamp
 	if (forcePresence && Date.now() > forceDate){
 		console.log("Presence expired");
@@ -66,9 +67,9 @@ app.get('/presence',  function (req, resp, next) {
 		resp.send(200, {presence: true});
 	} else {
 		// We check if there is a well known mobile device connected to the Wifi network
-		var presence = checkWifiDevices(config.phones, function(presence){
+		checkWifiDevices(config.phones, function(presence){
 			resp.send(200, {presence: presence});
-		}
+		});
 	}
 });
 
@@ -77,14 +78,24 @@ app.get('/presence',  function (req, resp, next) {
  * Check the presence of well known Wifi devices.
  */
 function checkWifiDevices(phones,callback){
+	
+	var freebox = require('../../libs/freebox');
+	console.log("Check wifi devices ....");
+	
 	freebox.connect({
 		'app_token' : config.freebox.app_token, 
 		'track_id'  : config.freebox.track_id
 	});
 	
 	freebox.on('ready', function(box) {
+		
+		// Removing the listener
+		freebox.removeAllListeners('ready');
+		
+		// Retrieving wifi devices
 		freebox.browserPub(function(devices){
-	
+			console.log("Retrieve wifi devices");
+			
 			var presence = false;
 			devices.forEach(function(device){
 		
@@ -96,8 +107,8 @@ function checkWifiDevices(phones,callback){
 					}
 				}
 			});
-			
-			callback(prensence);
+
+			callback(presence);
 		})
 	});
 }
