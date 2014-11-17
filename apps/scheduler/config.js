@@ -18,5 +18,32 @@ config.timezone = 'Europe/Paris';
 config.port = 9092;
 config.multipush = 'http://localhost:9091/multipush';
 
+// Shutters task service
+config.shutters = {};
+config.shutters.enabled = true;
+config.shutters.latitude = 47.2;
+config.shutters.longitude = -1.5; 
+config.shutters.open = {};
+config.shutters.open.message = 'Ouverture automatique des volets';
+config.shutters.open.url = 'http://192.168.1.4/xup';
+config.shutters.close = {};
+config.shutters.close.message = 'Fermeture automatique des volets';
+config.shutters.close.url =  'http://192.168.1.4/xdown';
+
+// Openkarotz task service
+config.openkarotz = {};
+config.openkarotz.enabled = false;
+config.openkarotz.ip = '192.168.1.12';
+config.openkarotz.wakeup = '00 00 8 * * *';
+config.openkarotz.sleep = '00 00 23 * * *';
+
+// Reminder task service
+config.reminder1 = {};
+config.reminder1.time = "0 0 22 * * 1";
+config.reminder1.message = "Avez-vous pensé à sortir la poubelle bleue ?";
+config.reminder2 = {};
+config.reminder2.time = "0 0 22 * * 2";
+config.reminder2.message = "Avez-vous pensé à sortir la poubelle jaune ?";
+
 module.exports = config;
 

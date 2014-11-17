@@ -15,12 +15,6 @@ var CronJob = require('cron').CronJob;
 var config = require('../config');
 var openkarotz = require('../../../libs/openkarotz');
 
-// Local config
-config.openkarotz = {};
-config.openkarotz.enabled = false;
-config.openkarotz.ip = '192.168.1.12';
-config.openkarotz.wakeup = '00 00 8 * * *';
-config.openkarotz.sleep = '00 00 23 * * *';
 
 /**
  * Wakeup the karotz

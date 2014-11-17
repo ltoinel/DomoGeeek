@@ -40,10 +40,10 @@ To understand what are the Command Class to listen, I recommend you to start the
 This project is based on the OpenZwave project and a NodeJS Wrapper.
 
 ## Multipush
-![MultiPush](./assets/img/icons/multipush.png "MultiPush") *Broadcast text message on your devices.*
+![MultiPush](./assets/img/icons/multipush.png "MultiPush") *Broadcast text message to your devices.*
 
 The Multipush application allows to broadcast messages on multiple communication channels : sms, mail, karotz, openkarotz ...
-Multipush exposes a simple REST service easy to use to send a message quickly to any device.
+The Multipush application exposes a simple REST service easy to use to send a message quickly to any devices.
 
 ## Presence
 ![Presence](./assets/img/icons/presence.png "Presence") *Checks human presence in your home*

@@ -25,15 +25,15 @@ config.mail.host = "smtp.free.fr";
 config.mail.tls = false;
 config.mail.ssl = false;
 config.mail.from = "xxxx@free.fr";
-config.mail.to = "xxxx@free.fr";
+config.mail.to = ["xxxx@free.fr"];
 
 // SMS Gateway Configuration
 config.sms = {};
 config.sms.enabled = true;
-config.sms.url = 'http://192.168.1.3:9090/sendsms';
-config.sms.phone = "0666666666";
+config.sms.url = 'http://android-phone:9090/sendsms';
+config.sms.phone = ["0666666666","0677777777"];
 
-//OpenKarotz Alert
+// OpenKarotz Configuration
 config.openkarotz = {};
 config.openkarotz.enabled = true;
 config.openkarotz.ip = "192.168.1.12"

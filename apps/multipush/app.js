@@ -56,7 +56,7 @@ app.get('/multipush',  function (req, resp, next) {
 
 
 /**
- * Send notification using different bearers.
+ * Send notification using different channels.
  * 
  * @param subject The subject of the notification.
  * @param message The content of the message.
@@ -65,17 +65,16 @@ function multipush(subject,message, canal){
 	
     // We send an SMS
     if (config.sms.enabled && (canal.indexOf("sms") != -1)){
-    	sms.send(config.sms, config.sms.phone, message);
+    	config.sms.phone.forEach(function(phone){
+    		sms.send(config.sms, config.sms.phone, message);
+    	});
     }
     
     // We send an Email
     if (config.mail.enabled && (canal.indexOf("mail") != -1)){
-    	mail.send(config.mail, config.mail.from, config.mail.to, "" , subject, message);
-    }
-    
-    // We make the Karotz talking
-    if (config.karotz.enabled && (canal.indexOf("karotz") != -1)){
-    	karotz.talk(config.karotz, message);
+    	config.mail.to.forEach(function(mailto){
+    		mail.send(config.mail, config.mail.from, mailto, "" , subject, message);
+    	});
     }
     
     // We make the Openkarotz talking

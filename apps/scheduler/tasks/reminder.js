@@ -14,18 +14,14 @@ var CronJob = require('cron').CronJob;
 	
 //Local require
 var config = require('../config');
-var openkarotz = require('../../../libs/openkarotz');
 
 /**
  *  Garbage can reminder
  */ 
-var job1 = new CronJob('0 0 22 * * 1', function(){
-	
-	multipush("Avez-vous pensé à sortir la poubelle bleue ?")
-	
-  }, function () {
-	  console.log('Garbage can reminder');
+var job1 = new CronJob(config.reminder1.time, function(){
+	multipush(config.reminder1.message)
   },
+  undefined,
   false,
   config.timezone 
 ).start();
@@ -34,13 +30,10 @@ var job1 = new CronJob('0 0 22 * * 1', function(){
 /**
  * Recycle garbage can reminder
  */
-var job2 = new CronJob('0 0 22 * * 2', function(){
-	
-	multipush("Avez-vous pensé à sortir la poubelle jaune ?");
-	
-  }, function () {
-	  console.log('Recycle garbage can reminder');
-  },
+var job2 = new CronJob(config.reminder2.time, function(){
+	multipush(config.reminder2.message);
+  }, 
+  undefined,
   false,
   config.timezone 
 ).start();
