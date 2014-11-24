@@ -66,7 +66,7 @@ function multipush(subject,message, canal){
     // We send an SMS
     if (config.sms.enabled && (canal.indexOf("sms") != -1)){
     	config.sms.phone.forEach(function(phone){
-    		sms.send(config.sms, config.sms.phone, message);
+    		sms.send(config.sms, phone, message);
     	});
     }
     

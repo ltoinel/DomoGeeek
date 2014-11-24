@@ -20,7 +20,7 @@ exports.send = function(config, from, to, cc , subject, text) {
 	
 	console.info("Sending an Email to %s",to);
 	 
-	// initialize the server instance
+	// Initialize the server instance
 	var server  = email.server.connect({
 	   user:    config.username, 
 	   password: config.password, 
@@ -29,7 +29,7 @@ exports.send = function(config, from, to, cc , subject, text) {
 	   ssl : config.ssl
 	});
 	
-	// initialize the message to send
+	// Initialize the message to send
 	var message = {
 	   text:    text, 
 	   from:    from, 
@@ -38,7 +38,7 @@ exports.send = function(config, from, to, cc , subject, text) {
 	   subject: subject,
 	};
 	
-	// send the message and get a callback with an error or details of the message that was sent
+	// Send the message and get a callback with an error or details of the message that was sent
 	server.send(message, function(err, message) { 
 		if (err != null) {
 			console.error(err); 

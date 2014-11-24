@@ -12,7 +12,10 @@
 var openkarotz = require('openkarotz');
 
 /**
- * Make the Openkarotz talk
+ * Makes the Openkarotz talk.
+ * 
+ * @param config : the OpenKarotz configuration.
+ * @param message : the message to say.
  */
 exports.talk = function(config, message) {
 	
@@ -26,7 +29,10 @@ exports.talk = function(config, message) {
 };
 
 /**
- * Play sound
+ * Plays sound.
+ * 
+ * @param config : the OpenKarotz configuration.
+ * @param sound : the sound filename to play.
  */
 exports.playsound = function(config, sound){
 	
@@ -38,7 +44,9 @@ exports.playsound = function(config, sound){
 };
 
 /**
- * Help the Openarotz to sleep
+ * Helps the OpenKarotz to sleep.
+ * 
+ * @param config : the OpenKarotz configuration.
  */
 exports.sleep = function(config) {
 	
@@ -52,7 +60,9 @@ exports.sleep = function(config) {
 };
 
 /**
- * Wakeup the Openkarotz
+ * Wakeup the Openkarotz.
+ * 
+ * @param config : the OpenKarotz configuration.
  */
 exports.wakeup = function(config) {
 	

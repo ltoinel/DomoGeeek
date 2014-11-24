@@ -1,6 +1,6 @@
 ![DomoGeeek](./assets/img/logo.jpg "Domogeek")
 
-**DomoGeeek** is a set of apps for home automation based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.
+**DomoGeeek** is a set of small and modulars applications for home automation based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.
 
 **DomoGeeek** provides a **Restful API** based on resources exposed by the Express.js framework.
 

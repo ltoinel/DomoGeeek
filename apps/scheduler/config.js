@@ -25,10 +25,10 @@ config.shutters.latitude = 47.2;
 config.shutters.longitude = -1.5; 
 config.shutters.open = {};
 config.shutters.open.message = 'Ouverture automatique des volets';
-config.shutters.open.url = 'http://192.168.1.4/xup';
+config.shutters.open.url = 'http://192.168.1.4/up';
 config.shutters.close = {};
 config.shutters.close.message = 'Fermeture automatique des volets';
-config.shutters.close.url =  'http://192.168.1.4/xdown';
+config.shutters.close.url =  'http://192.168.1.4/down';
 
 // Openkarotz task service
 config.openkarotz = {};

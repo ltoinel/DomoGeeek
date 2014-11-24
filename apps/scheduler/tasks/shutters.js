@@ -5,7 +5,7 @@
  * Copyright 2014 DomoGeeek
  * Released under the Apache License 2.0 (Apache-2.0)
  * 
- * @desc: Task that open and close my shutters
+ * @desc: Task that opens and closes my shutters
  * @author: ltoinel@free.fr
  */
 
@@ -15,6 +15,7 @@ var SunCalc = require('suncalc');
 	
 //Local require
 var config = require('../config');
+var multipush = require('../../../libs/multipush');
 
 /**
  * Initialize a new Cron job
@@ -37,10 +38,12 @@ function initJob(name, uri, timeFunction, date){
 		console.log("Job starting : " + name);
 		request.get(uri);
 		
+		multipush.send(config.multipush,"Job starting",name,"openkarotz,sms");
+		
 		// Stop the current job
 		this.stop();
 		
-	// OnCOmpleted
+	// OnCompleted
 	},function(){
 		
 		console.log("Job stop : " + name);
@@ -77,6 +80,7 @@ function getTimes(date){
  * @param date : the date to use for the sunrise calculation.
  */ 
 function getOpenTime(date){
+	// Todo 
 	return "0 0 10 * * *";
 }
 

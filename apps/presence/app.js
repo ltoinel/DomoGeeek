@@ -14,6 +14,7 @@ var express = require('express');
 
 // Local require
 var config = require('./config');
+var multipush = require('../../libs/multipush');
 
 // Force the presence for guests
 var forcePresence = false;
@@ -32,12 +33,13 @@ app.get('/presence/:status',  function (req, resp, next) {
 	if (req.params.status === "true"){
 		forcePresence = true;
 		forceDate = Date.now() + ( config.forceperiod * 60 * 60 * 1000);
-		multipush("Presence activée pour une durée de "+config.forceperiod+" heures");
+	
+		multipush.send(config.multipush,"","Presence activée pour une durée de "+config.forceperiod+" heures","openkarotz");
 		console.log("Presence forced to true");
 		
 	} else if (req.params.status === "false"){
 		forcePresence = false;
-		multipush("Presence désactivée");
+		multipush.send(config.multipush,"","Presence désactivée","openkarotz");
 		console.log("Prensence forced to false");
 		
 	} else {
@@ -111,31 +113,6 @@ function checkWifiDevices(phones,callback){
 			callback(presence);
 		})
 	});
-}
-
-/**
- * multipush
- */
-function multipush(message){
-	
-	// Request
-	var request = require('request');
-	
-	// Configure the request to the multipush service
-    var options = {
-       url: config.multipush,
-       method: 'GET',
-       qs: {'subject': 'Information', 'message': message, 'canal': 'openkarotz'}
-    } 
-    
-    // Sending the request
-    request(options, function (error, response, body) {
-       if (!error && response.statusCode == 201) {
-       		console.info('Information sent');
-       } else {
-       		console.error('Information error : %s', error);
-       }
-    });
 }
 
 // Starting 

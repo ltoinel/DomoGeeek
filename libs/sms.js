@@ -28,7 +28,7 @@ exports.send = function (config, phone, message){
         'Content-Type':     'application/x-www-form-urlencoded'
      }
 
-     // Configure the request
+     // Configure the HTTP request
      var options = {
         url: config.url,
         method: 'GET',
@@ -36,7 +36,7 @@ exports.send = function (config, phone, message){
         qs: {'phone': phone, 'text': message}
      }
 
-     // Start the request
+     // Send the request
      request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
         	console.info('SMS sent to: %s => %s', phone, message);
