@@ -13,6 +13,9 @@
 var bus = require( '../bus' );
 var config = require('./../config');
 
+var presence = require('../../../libs/presence');
+var multipush = require('../../../libs/multipush');
+
 // The command to listen
 var COMMAND_CLASS_SENSOR_BINARY = 48;
 
@@ -22,45 +25,30 @@ var COMMAND_CLASS_SENSOR_BINARY = 48;
  */
 bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
 
-	if(value['label'] == "Sensor"){
-		// TODO
+	console.log("Sensor : " + JSON.stringify(value));
+	if(value['label'] == "Sensor" && value['value'] == true){
+		presence.check(config.presence, sendAlert);
 	}
 });
 
 /**
  * This function sends an alert to all the devices.
  */
-function sendAlert(){
+function sendAlert(presence){
 	
-	// Request
-	var request = require('request');
-	
-	// Somebody has been detected
-	if (value['value'] == true){
+	if (!presence){
 		
+		console.log("Abnormal presence detected");
+		
+		// Request
+		var request = require('request');
+		
+		// Somebody has been detected
 		var subject = 'Alerte intrusion';
-		var message = 'Une présence a été détectée';
-
-	// Nobody's here since few minutes
+		var message = 'Une présence anormale a été détectée à votre domicile';
+		
+		multipush.send(config.multipush,subject,message,"sms,openkarotz");
 	} else {
-
-		var subject = 'Alerte intrusion terminée';
-		var message = 'Aucune présence détectée depuis 4 minutes';
+		console.log("Normal presence detected, well known Wifi devices founds");
 	}
-	
-     // Configure the request to the multipush service
-     var options = {
-        url: "http://localhost:9091/multipush",
-        method: 'GET',
-        qs: {'subject': subject, 'message': message, 'canal': 'mail,sms,openkarotz'}
-     } 
-     
-     // Sending the request
-     request(options, function (error, response, body) {
-        if (!error && response.statusCode == 201) {
-        	console.info('Alert sent');
-        } else {
-        	console.error('Alert error : %s', error);
-        }
-     });
 }

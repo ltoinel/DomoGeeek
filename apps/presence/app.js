@@ -26,19 +26,20 @@ var app = express();
 /**
  * Force the presence to true or false for the guests when the owners of the home are not present.
  *
- * HTTP PUT /presence
+ * HTTP GET /presence
  */
 app.get('/presence/:status',  function (req, resp, next) {
 	
 	if (req.params.status === "true"){
 		forcePresence = true;
-		forceDate = Date.now() + ( config.forceperiod * 60 * 60 * 1000);
+		forceDate = Date.now() + (config.forceperiod * 60 * 60 * 1000);
 	
 		multipush.send(config.multipush,"","Presence activée pour une durée de "+config.forceperiod+" heures","openkarotz");
 		console.log("Presence forced to true");
 		
 	} else if (req.params.status === "false"){
 		forcePresence = false;
+		
 		multipush.send(config.multipush,"","Presence désactivée","openkarotz");
 		console.log("Prensence forced to false");
 		

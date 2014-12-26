@@ -21,6 +21,8 @@ config.logging =  false;
 config.consoleoutput = true;
 config.suppressrefresh = false;
 config.device = '/dev/ttyUSB0';
+config.multipush = 'http://localhost:9091/multipush';
+config.presence = 'http://localhost:9093/presence';
 
 module.exports = config;
 

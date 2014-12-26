@@ -15,7 +15,6 @@ var CronJob = require('cron').CronJob;
 var config = require('../config');
 var openkarotz = require('../../../libs/openkarotz');
 
-
 /**
  * Wakeup the karotz
  */ 

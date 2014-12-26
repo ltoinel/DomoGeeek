@@ -18,7 +18,7 @@ var config = require('../config');
 var multipush = require('../../../libs/multipush');
 
 /**
- * Initialize a new Cron job
+ * Initializes a new Cron job.
  * 
  * @param name : the job name
  * @param uri : the uri to request
@@ -48,10 +48,27 @@ function initJob(name, uri, timeFunction, date){
 		
 		console.log("Job stop : " + name);
 		
-		// Start the next job
-		initJob(name, uri, timeFunction, getTomorrowDate());
+		// Schedule the next job
+		scheduleNextJob();
 
 	}, false, config.timezone).start();
+}
+
+/**
+ * Schedules the next jobs.
+ * 
+ * @param previousJobName The previous job name
+ */
+function scheduleNextJob(previousJobName){
+	
+	// If the previous job was closing the shutters
+	if (previousJobName == config.shutters.close.message) {
+		initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, new Date());
+
+	// If the previous job was opening the shutters
+	} else if (previousJobName == config.shutters.open.message){
+		initJob(config.shutters.close.message, config.shutters.close.url, getCloseTime, new Date());
+	}
 }
 
 /**
@@ -80,7 +97,7 @@ function getTimes(date){
  * @param date : the date to use for the sunrise calculation.
  */ 
 function getOpenTime(date){
-	// Todo 
+
 	return "0 0 10 * * *";
 }
 
@@ -100,10 +117,10 @@ function getCloseTime(date){
 		times = getTimes(getTomorrowDate());
 	}
 	
-	return times.sunset.getSeconds() +" "+times.sunset.getMinutes()+" "+times.sunset.getHours()+" * * *";
+	return times.sunset.getSeconds()+" "+times.sunset.getMinutes()+" "+times.sunset.getHours()+" * * *";
 }
 
 // Initialize the jobs now
 initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, new Date());
-initJob(config.shutters.close.message, config.shutters.close.url, getCloseTime, new Date());
+
 

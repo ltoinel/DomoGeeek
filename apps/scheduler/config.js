@@ -32,10 +32,10 @@ config.shutters.close.url =  'http://192.168.1.4/down';
 
 // Openkarotz task service
 config.openkarotz = {};
-config.openkarotz.enabled = false;
+config.openkarotz.enabled = true;
 config.openkarotz.ip = '192.168.1.12';
-config.openkarotz.wakeup = '00 00 8 * * *';
-config.openkarotz.sleep = '00 00 23 * * *';
+config.openkarotz.wakeup = '00 45 7 * * *';
+config.openkarotz.sleep = '00 30 23 * * *';
 
 // Reminder task service
 config.reminder1 = {};
