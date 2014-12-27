@@ -36,8 +36,8 @@ function initJob(name, uri, timeFunction, date){
 	function(){
 		
 		console.log("Job starting : " + name);
-		request.get(uri);
 		
+		request.get(uri);
 		multipush.send(config.multipush,"Job starting",name,"openkarotz,sms");
 		
 		// Stop the current job
@@ -49,7 +49,7 @@ function initJob(name, uri, timeFunction, date){
 		console.log("Job stop : " + name);
 		
 		// Schedule the next job
-		scheduleNextJob();
+		scheduleNextJob(name);
 
 	}, false, config.timezone).start();
 }
@@ -98,7 +98,15 @@ function getTimes(date){
  */ 
 function getOpenTime(date){
 
-	return "0 0 10 * * *";
+	// Fix configured time
+	if (config.shutters.open.time!= undefined){
+		return config.shutters.open.time;
+	}
+	
+	var times = getTimes(date);
+	console.log("Get sunrise time for " + date + " => " + times.sunrise);
+	
+	return times.sunrise.getSeconds()+" "+times.sunrise.getMinutes()+" "+times.sunrise.getHours()+" * * *";
 }
 
 /**
@@ -108,19 +116,35 @@ function getOpenTime(date){
  */ 
 function getCloseTime(date){
 	
+	// Fix configured time
+	if (config.shutters.close.time!= undefined){
+		return config.shutters.close.time;
+	}
+	
 	var times = getTimes(date);
 	console.log("Get sunset time for " + date + " => " + times.sunset);
-	
-	// Check if the date is previous
-	if (new Date() > times.sunset){ 
-		console.log("Previous Sunset time, using tomorow time");
-		times = getTimes(getTomorrowDate());
-	}
 	
 	return times.sunset.getSeconds()+" "+times.sunset.getMinutes()+" "+times.sunset.getHours()+" * * *";
 }
 
-// Initialize the jobs now
-initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, new Date());
+// Starts the right job now
+var now = new Date();
+var times = getTimes(now);
+
+// Sunrise will arrive today, we have to open the shutters today
+if (times.surise > now){
+	initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, new Date());
+}
+// Sunrise was previous, sunset will arrive today, we have to close the shutters today
+else if (times.sunset > now ){
+	initJob(config.shutters.close.message, config.shutters.close.url, getCloseTime, new Date());
+	
+// Sunrise and sunset are past, we have to open the shutters tomorrow
+} else if (times.sunset < now ){
+	initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, getTomorrowDate());
+
+}
+	
+
 
 

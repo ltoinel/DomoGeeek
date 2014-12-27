@@ -24,5 +24,10 @@ config.device = '/dev/ttyUSB0';
 config.multipush = 'http://localhost:9091/multipush';
 config.presence = 'http://localhost:9093/presence';
 
+//OpenKarotz 
+config.openkarotz = {};
+config.openkarotz.ip = "192.168.1.6";
+config.openkarotz.voice = "alice";
+
 module.exports = config;
 

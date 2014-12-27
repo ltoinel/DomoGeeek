@@ -35,7 +35,7 @@ All the messages and subscriptions are saved into a MongoDB database.
 
 The ZwaveBus application allows you to communicate with your Z-Wave devices. All the Z-Wave events received by the Raspberry Pi are transmitted to an event bus developed in NodeJS.
 You can quickly develop your own listeners that subscribe to specific Z-Wave events. Few lines of codes are enough to retrieve or submit some Z-Wave events.
-There are currently 2 listeners available : Fibaro smoke detector and AEON LABS Multisensor. You can use them as samples to develop your own listeners for your devices.
+There are currently 3 listeners available : Movement detection, smoke detection and power consumption. You can use them as samples to develop your own listeners for your devices.
 To understand what are the Command Class to listen, I recommend you to start the ZwaveBus with the debug options activated.
 This project is based on the OpenZwave project and a NodeJS Wrapper.
 

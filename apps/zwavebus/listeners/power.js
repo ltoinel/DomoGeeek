@@ -12,6 +12,7 @@
 // Local require
 var bus = require( '../bus' );
 var config = require('./../config');
+var openkarotz = require('../../../libs/openkarotz');
 
 //Model
 var Event = require('../models/event');
@@ -19,14 +20,35 @@ var Event = require('../models/event');
 // The command to listen
 var COMMAND_CLASS_METER = 50;
 
+// RGB to Hex
+function rgbToHex(r, g, b) {
+    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
 /**
  * We listen for a COMMAND_CLASS_METER event.
- * This event is sent by the Aeon HEM2 power energy meter
+ * This event is sent by the Aeon HEM2 power energy meter.
  */
 bus.on(COMMAND_CLASS_METER, function(nodeid, value){
 
 	if (nodeid == 7 && value['label'] == "Power"){
-		console.log("Saving the power value : " + value['value']);
+		var power = value['value'];
+		console.log("Saving the power value : " + power);
+		
+		// Max possible consume is 12000 Wh
+		var n = power / 12000 * 100;
+		var red = (255 * n) / 100;
+		var green = (255 * (100 - n)) / 100;
+		var blue = 0;
+		
+		var color =  rgbToHex(red,green,blue);
+		console.log("Color :  " + color);
+		
+		// Change the OpenKarotz led
+		openkarotz.led(config.openkarotz, color);
+		
+		// Make the OpenKarotz talking
+		openkarotz.talk(config.openkarotz, "La maison consomme "+ power + " Watt");
 		
 		// Saving the event
 		new Event({ nodeid: nodeid,
@@ -34,6 +56,7 @@ bus.on(COMMAND_CLASS_METER, function(nodeid, value){
 		    type: value['type'],
 		    label: value['label'],
 		    value: value['value']}).save();
+		
 	} else {
 		//console.log(JSON.stringify(value));
 	}

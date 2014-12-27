@@ -43,6 +43,28 @@ exports.playsound = function(config, sound){
     });
 };
 
+
+/**
+ * Change LED color.
+ * 
+ * @param config : the OpenKarotz configuration.
+ * @param color : the color to display.
+ */
+exports.led = function(config, color){
+	
+	var karotz = new openkarotz(config.ip);
+	
+	karotz.led(
+		    'light',
+		    {
+		        color : color, //hexa RGB color
+		    },
+		    function(msg) {
+		    	console.log(msg);
+		    }
+		);
+}
+
 /**
  * Helps the OpenKarotz to sleep.
  * 
