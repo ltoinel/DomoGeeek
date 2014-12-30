@@ -5,20 +5,20 @@
  * Copyright 2014 DomoGeeek
  * Released under the Apache License 2.0 (Apache-2.0)
  * 
- * @desc: Presence module for the Aenon Lab Multisensor.
+ * @desc: Energy module for the Aenon Lab HEM2.
  * @author: ltoinel@free.fr
  */
  
 // Local require
 var bus = require( '../bus' );
-var config = require('./../config');
+var config = require('../config');
 var openkarotz = require('../../../libs/openkarotz');
 
 //Model
 var Event = require('../models/event');
 
 // The command to listen
-var COMMAND_CLASS_METER = 50;
+const COMMAND_CLASS_METER = 50;
 
 // RGB to Hex
 function rgbToHex(r, g, b) {
@@ -31,12 +31,19 @@ function rgbToHex(r, g, b) {
  */
 bus.on(COMMAND_CLASS_METER, function(nodeid, value){
 
-	if (nodeid == 7 && value['label'] == "Power"){
+	// Global Energy
+	if (nodeid == 7 && value['label'] == "Energy"){
+		var energy = value['value'];
+		global.data['energy'] = energy;
+	}
+	
+	// Current power consumed
+	else if (nodeid == 7 && value['label'] == "Power"){
 		var power = value['value'];
-		console.log("Saving the power value : " + power);
+		global.data['power'] = power;
 		
 		// Max possible consume is 12000 Wh
-		var n = power / 12000 * 100;
+		var n = power / config.power.max * 100;
 		var red = (255 * n) / 100;
 		var green = (255 * (100 - n)) / 100;
 		var blue = 0;
@@ -48,7 +55,9 @@ bus.on(COMMAND_CLASS_METER, function(nodeid, value){
 		openkarotz.led(config.openkarotz, color);
 		
 		// Make the OpenKarotz talking
-		openkarotz.talk(config.openkarotz, "La maison consomme "+ power + " Watt");
+		if (power > config.power.voice){
+			openkarotz.talk(config.openkarotz, "La maison consomme "+ power + " Watt");
+		}
 		
 		// Saving the event
 		new Event({ nodeid: nodeid,
@@ -57,7 +66,5 @@ bus.on(COMMAND_CLASS_METER, function(nodeid, value){
 		    label: value['label'],
 		    value: value['value']}).save();
 		
-	} else {
-		//console.log(JSON.stringify(value));
-	}
+	} 
 });

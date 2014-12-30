@@ -12,10 +12,15 @@
 // Global require
 var openZwave = require('openzwave');
 var mongoose = require('mongoose');
+var express = require('express');
 
 // Local require
 var config = require('./config');
 var handler = require('./handler');
+var Event = require('./models/event');
+
+// Initialize the express app
+var app = express();
 
 //Initialize the MongoDB connection
 mongoose.connect(config.database);
@@ -84,3 +89,34 @@ process.on('SIGINT', function() {
     zwave.disconnect();
     process.exit();
 });
+
+//We initialize the global map of data
+global.data = new Array();
+
+/**
+ * Get ZWave context
+ *
+ * HTTP GET /context
+ */
+app.get('/context',  function (req, resp, next) {
+	resp.send(200, {
+			energy: global.data["energy"],
+			power: global.data["power"],
+			presence: global.data["presence"]
+		});
+});
+
+/**
+ * Get ZWave data
+ *
+ * HTTP GET /data
+ */
+app.get('/data/:label',  function (req, resp, next) {
+	Event.find().exec(function(err,events){
+		if(err) resp.send(err);
+		resp.json(events);
+	});
+});
+
+//Starting the REST server
+app.listen(config.port); 

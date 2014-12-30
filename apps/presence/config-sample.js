@@ -19,8 +19,8 @@ config.port = 9093;
 // The list of devices to check the presence
 config.phones = ['ether-1c:XX:XX:XX:XX:XX','ether-60:XX:XX:XX:XX:XX'];
 
-// Force period in hours
-config.forceperiod = 4; 
+// Force period in minutes
+config.forceperiod = 30; 
 
 // Multipush API URI
 config.multipush = 'http://localhost:9091/multipush';

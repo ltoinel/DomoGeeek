@@ -37,7 +37,10 @@ function initJob(name, uri, timeFunction, date){
 		
 		console.log("Job starting : " + name);
 		
-		request.get(uri);
+		request.get(uri).on('error', function(err) {
+		    console.error("Shutter API error : " + err);
+		})
+		
 		multipush.send(config.multipush,"Job starting",name,"openkarotz,sms");
 		
 		// Stop the current job
@@ -63,10 +66,14 @@ function scheduleNextJob(previousJobName){
 	
 	// If the previous job was closing the shutters
 	if (previousJobName == config.shutters.close.message) {
-		initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, new Date());
+		
+		// Schedules the task that will open the shutters tomorrow
+		initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, getTomorrowDate());
 
 	// If the previous job was opening the shutters
 	} else if (previousJobName == config.shutters.open.message){
+		
+		// Schedules the task that will close the shutters today
 		initJob(config.shutters.close.message, config.shutters.close.url, getCloseTime, new Date());
 	}
 }
@@ -142,7 +149,6 @@ else if (times.sunset > now ){
 // Sunrise and sunset are past, we have to open the shutters tomorrow
 } else if (times.sunset < now ){
 	initJob(config.shutters.open.message, config.shutters.open.url, getOpenTime, getTomorrowDate());
-
 }
 	
 

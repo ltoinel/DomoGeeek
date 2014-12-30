@@ -11,7 +11,7 @@
  
 // Local require
 var bus = require( '../bus' );
-var config = require('./../config');
+var config = require('../config');
 
 var presence = require('../../../libs/presence');
 var multipush = require('../../../libs/multipush');
@@ -25,7 +25,7 @@ var COMMAND_CLASS_SENSOR_BINARY = 48;
  */
 bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value){
 
-	console.log("Sensor : " + JSON.stringify(value));
+	global.data['presence'] = new Date();
 	if(value['label'] == "Sensor" && value['value'] == true){
 		presence.check(config.presence, sendAlert);
 	}
@@ -45,10 +45,11 @@ function sendAlert(presence){
 		
 		// Somebody has been detected
 		var subject = 'Alerte intrusion';
-		var message = 'Une présence anormale a été détectée à votre domicile';
+		var message = 'Une présence anormale a été détectée';
 		
 		multipush.send(config.multipush,subject,message,"sms,openkarotz");
+		
 	} else {
-		console.log("Normal presence detected, well known Wifi devices founds");
+		console.log("Normal presence detected, well known Wifi devices found");
 	}
 }

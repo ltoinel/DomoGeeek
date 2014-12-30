@@ -17,11 +17,29 @@ var config = require('./config');
 var multipush = require('../../libs/multipush');
 
 // Force the presence for guests
-var forcePresence = false;
-var forceDate = null;
+var presence = false;
+var date = null;
 
 // Init the Express App
 var app = express();
+
+/**
+ * Disable the presence.
+ */
+function disablePresence(){
+	presence = false;
+	date = null;
+	console.log("Presence forced to false");
+}
+
+/**
+ * Force the presence.
+ */
+function forcePresence(){
+	presence = true;
+	date = Date.now() + (config.forceperiod * 60 * 1000);
+	console.log("Presence forced to true until => " + date);
+}
 
 /**
  * Force the presence to true or false for the guests when the owners of the home are not present.
@@ -31,17 +49,10 @@ var app = express();
 app.get('/presence/:status',  function (req, resp, next) {
 	
 	if (req.params.status === "true"){
-		forcePresence = true;
-		forceDate = Date.now() + (config.forceperiod * 60 * 60 * 1000);
-	
-		multipush.send(config.multipush,"","Presence activée pour une durée de "+config.forceperiod+" heures","openkarotz");
-		console.log("Presence forced to true");
-		
+		forcePresence();
+
 	} else if (req.params.status === "false"){
-		forcePresence = false;
-		
-		multipush.send(config.multipush,"","Presence désactivée","openkarotz");
-		console.log("Prensence forced to false");
+		disablePresence();
 		
 	} else {
 		// Unknown parameter
@@ -61,16 +72,26 @@ app.get('/presence/:status',  function (req, resp, next) {
 app.get('/presence',  function (req, resp, next) {
 
 	// Check the presence force timestamp
-	if (forcePresence && Date.now() > forceDate){
-		console.log("Presence expired");
-		forcePresence = false;
+	if (presence && Date.now() > date){
+		console.log("Presence has expired");
+		disablePresence();
 	}
 	
-	if (forcePresence){
+	// If the presence is enabled
+	if (presence){
 		resp.send(200, {presence: true});
+	
+	// Presence is disabled
 	} else {
-		// We check if there is a well known mobile device connected to the Wifi network
+		
+		// We check if there is a well known mobile device connected to the Wifi network.
 		checkWifiDevices(config.phones, function(presence){
+			
+			// If a well known device is found, we force the presence for a delay of 30 minutes.
+			if (presence){
+				forcePresence();
+			}
+			
 			resp.send(200, {presence: presence});
 		});
 	}
@@ -102,7 +123,7 @@ function checkWifiDevices(phones,callback){
 			var presence = false;
 			devices.forEach(function(device){
 		
-				// We check if one of our devices are connected
+				// We check if one of our smartphone devices are connected
 				if (phones.indexOf(device.id) != -1){
 					if (device.active == true){
 							presence = true;

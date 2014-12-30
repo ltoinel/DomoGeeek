@@ -13,21 +13,27 @@ var config = {}
 
 // Zwavebus
 config.version = '0.1';
+config.port = 9094;
 config.database = 'mongodb://localhost/zwavebus';
 config.debug = false;
 config.modpath = '/home/pi/domogeeek/deps/node-openzwave/lib';
 config.saveconfig = false;
 config.logging =  false; 
-config.consoleoutput = true;
+config.consoleoutput = false;
 config.suppressrefresh = false;
 config.device = '/dev/ttyUSB0';
 config.multipush = 'http://localhost:9091/multipush';
 config.presence = 'http://localhost:9093/presence';
 
-//OpenKarotz 
+// OpenKarotz 
 config.openkarotz = {};
 config.openkarotz.ip = "192.168.1.6";
 config.openkarotz.voice = "alice";
 
+// Power
+config.power = {};
+config.power.max = 12000;
+config.power.voice = 8000;
+	
 module.exports = config;
 

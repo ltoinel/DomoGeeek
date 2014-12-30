@@ -17,7 +17,7 @@ var openkarotz = require('openkarotz');
  * @param config : the OpenKarotz configuration.
  * @param message : the message to say.
  */
-exports.talk = function(config, message) {
+exports.talk = function(config, message, callback) {
 	
 	console.info("Sending a message to the Openarotz TTS");
 	
@@ -25,6 +25,9 @@ exports.talk = function(config, message) {
 	
 	karotz.tts(message, config.voice, true, function(msg) {
         console.log(msg); 
+        if (callback != undefined){
+        	callback();
+        }
     });
 };
 
