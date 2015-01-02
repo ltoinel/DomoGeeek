@@ -94,6 +94,15 @@ process.on('SIGINT', function() {
 global.data = new Array();
 
 /**
+ * We allow cors.
+ */
+app.all('/*', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	next();
+});
+
+/**
  * Get ZWave context
  *
  * HTTP GET /context
@@ -112,7 +121,24 @@ app.get('/context',  function (req, resp, next) {
  * HTTP GET /data
  */
 app.get('/data/:label',  function (req, resp, next) {
-	Event.find().exec(function(err,events){
+	
+	console.log("Date :" + req.query.date);
+	console.log("Label :" + req.params.label);
+	
+	var label = req.params.label;
+	
+	// Date to display
+	if (req.query.date){
+		var start = new Date(req.query.date);
+	} else {
+		var start = new Date();
+	}
+	
+	// end date 
+	var end = new Date(start);
+	end.setDate(start.getDate() + 1);
+	
+	Event.find({label: label, date: {$gt: start, $lt: end}}, function(err,events){
 		if(err) resp.send(err);
 		resp.json(events);
 	});

@@ -22,4 +22,7 @@ var eventSchema = new Schema({
     date: {type: Date, default: Date.now},
 });
 
+// Main index
+eventSchema.index({ label: 1, label: 1 }, {unique: true}); // schema level
+
 module.exports = mongoose.model('Event', eventSchema);
