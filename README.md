@@ -35,22 +35,29 @@ All the messages and subscriptions are saved into a MongoDB database.
 
 The ZwaveBus application allows you to communicate with your Z-Wave devices. All the Z-Wave events received by the Raspberry Pi are transmitted to an event bus developed in NodeJS.
 You can quickly develop your own listeners that subscribe to specific Z-Wave events. Few lines of codes are enough to retrieve or submit some Z-Wave events.
-There are currently 3 listeners available : Movement detection, smoke detection and power consumption. You can use them as samples to develop your own listeners for your devices.
+
+There are currently 3 listeners available : 
+* Movement detection
+* smoke detection
+* power consumption. 
+
+You can use them as samples to develop your own listeners for your devices.
 To understand what are the Command Class to listen, I recommend you to start the ZwaveBus with the debug options activated.
 This project is based on the OpenZwave project and a NodeJS Wrapper.
+This module exposes a webservice to known the real time power consumption, last presence detection ... 
 
 ## Multipush
 ![MultiPush](./assets/img/icons/multipush.png "MultiPush") *Broadcast text message to your devices.*
 
 The Multipush application allows to broadcast messages on multiple communication channels : sms, mail, karotz, openkarotz ...
-The Multipush application exposes a simple REST service easy to use to send a message quickly to any devices.
+The Multipush application exposes a simple REST service easy to use to send a message quickly to any configured devices.
 
 ## Presence
 ![Presence](./assets/img/icons/presence.png "Presence") *Checks human presence in your home*
  
 The Presence applications allows to check if a known presence is inside your home. This application uses the Smartphone Wifi detection (using the Freebox API) and 
 Karotz Tag to check if there is somebody known inside the home.
-This application exposes a REST service that returns who is inside the home: a known mobile device or a guest that used the Karotz RFID tag to announce his presense.
+This application exposes a REST service that returns who is inside the home: a known mobile device or a guest that used the Karotz RFID tag to announce his presence.
 This application is used by the "Presence" module inside the ZwaveBus project to check when a movement is detected if their is a known person into the home.
 
 ## Scheduler
