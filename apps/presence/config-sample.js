@@ -16,18 +16,33 @@ config.version = '0.1';
 config.debug = true;
 config.port = 9093;
 
+//Multipush API URI
+config.multipush = 'http://localhost:9091/multipush';
+
 // The list of devices to check the presence
+// If one of these devices are present, there is a presence.
 config.phones = ['ether-1c:XX:XX:XX:XX:XX','ether-60:XX:XX:XX:XX:XX'];
 
-// Force period in minutes
+// Force presence period in minutes
 config.forceperiod = 30; 
 
-// Multipush API URI
-config.multipush = 'http://localhost:9091/multipush';
+// Last device active time in minutes
+config.lastactivetime = 10; 
+
+//The hours we force the presence value
+config.forcepresence = new Array();
+config.forcepresence[0] = [10,14]; // Sunday 10h to 14h
+config.forcepresence[1] = []; // Monday
+config.forcepresence[2] = []; // Tuesday
+config.forcepresence[3] = []; // Wednesday
+config.forcepresence[4] = []; // Thursday
+config.forcepresence[5] = []; // Friday
+config.forcepresence[6] = []; // Saturday
+
 
 // Freebox API Access Token
 config.freebox = {};
-config.freebox.app_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 
-config.freebox.track_id = 'X',
+config.freebox.app_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+config.freebox.track_id = 'X';
 
 module.exports = config;

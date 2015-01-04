@@ -84,18 +84,37 @@ app.get('/presence',  function (req, resp, next) {
 	// Presence is disabled
 	} else {
 		
-		// We check if there is a well known mobile device connected to the Wifi network.
-		checkWifiDevices(config.phones, function(presence){
+		// We check if the current time is a forced presence.
+		if (checkForcePresence()){
+			console.log("Current hour has a configured presence to true");
+			resp.send(200, {presence: true, message : "Scheduled presence"});
 			
-			// If a well known device is found, we force the presence for a delay of 30 minutes.
-			if (presence){
-				forcePresence();
-			}
-			
-			resp.send(200, {presence: presence});
-		});
+		} else {
+		
+			// We check if there is a well known mobile device connected to the Wifi network.
+			checkWifiDevices(config.phones, function(presence){
+				
+				// If a well known device is found, we force the presence for a delay of 30 minutes.
+				if (presence){
+					forcePresence();
+				}
+				
+				resp.send(200, {presence: presence, message : "Device found"});
+			});
+		}
 	}
 });
+
+/**
+ * Check if the current time has a force presence in configuration.
+ */
+function checkForcePresence(){
+	var now = new Date();
+	var forcepresence = config.forcepresence[now.getDay()];
+	if (forcepresence.indexOf(now.getHours()) != -1){
+		return true;
+	}
+}
 
 
 /** 
@@ -125,9 +144,16 @@ function checkWifiDevices(phones,callback){
 		
 				// We check if one of our smartphone devices are connected
 				if (phones.indexOf(device.id) != -1){
+					
+					// If a device is active
 					if (device.active == true){
-							presence = true;
-					        console.log("Device detected : " + device.primary_name);
+						presence = true;
+					    console.log("Device detected : " + device.primary_name);
+					    
+					// If a device was active few minutes ago
+					} else if (new Date((device.last_time_reachable * 1000) + (config.lastactivetime * 60 * 1000)) > new Date()){
+						presence = true;
+				        console.log("Device detected few minutes ago: " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
 					}
 				}
 			});

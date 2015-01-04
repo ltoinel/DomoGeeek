@@ -38,7 +38,7 @@ var job = new CronJob(config.openkarotz.wakeup, function(){
 var job = new CronJob(config.openkarotz.sleep, function(){
 
 	if (config.openkarotz.enabled){
-		openkarotz.talk(config.openkarotz, "Bonne nuit !", function(){
+		openkarotz.talk(config.openkarotz, config.openkarotz.goodnight , function(){
 			openkarotz.sleep(config.openkarotz);
 		});
 	};

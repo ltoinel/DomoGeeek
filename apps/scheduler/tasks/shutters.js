@@ -41,7 +41,7 @@ function initJob(name, uri, timeFunction, date){
 		    console.error("Shutter API error : " + err);
 		})
 		
-		multipush.send(config.multipush,"Job starting",name,"openkarotz,sms");
+		multipush.send(config.multipush,"Job starting",name,config.shutters.channel);
 		
 		// Stop the current job
 		this.stop();
