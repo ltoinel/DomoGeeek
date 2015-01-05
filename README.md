@@ -9,8 +9,8 @@ All the apps provided can be used separately. They can be modified and adapted e
 
 *Note : These small NodeJS apps are fully experimental. You can use PM2 to start the apps and maintain them up.*
 
-## Logical architecture schema
-![DomoGeeek Logical Architecture](./assets/img/architecture.jpg "Logical Architecture")
+## Architecture schema
+![DomoGeeek Architecture](./assets/img/architecture.jpg "Architecture")
 
 ## My installation 
 * A Raspberry Pi with a Z-wave Dongle / Raspian / NodeJS and MongoDB that hosts all the NodeJS apps.
