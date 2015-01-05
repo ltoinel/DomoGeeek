@@ -17,6 +17,9 @@ var express = require('express');
 // Local require
 var config = require('./config');
 var handler = require('./handler');
+var pjson = require('./package.json');
+
+// Model
 var Event = require('./models/event');
 
 // Initialize the express app
@@ -75,7 +78,7 @@ zwave.on('scan complete', function(){
 });
 
 // Starting 
-console.info("Starting DomoGeeek Z-WaveBus v%s",config.version);
+console.info("Starting DomoGeeek %s v%s",pjson.name, pjson.version);
 
 // Loading event listener
 var events = require('./listeners/index');
@@ -146,3 +149,4 @@ app.get('/data/:label',  function (req, resp, next) {
 
 //Starting the REST server
 app.listen(config.port); 
+console.info("Service started on http://localhost:%s",config.port);

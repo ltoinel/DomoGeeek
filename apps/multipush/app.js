@@ -14,6 +14,7 @@ var express = require('express');
 
 //Local require
 var config = require('./config');
+var pjson = require('./package.json');
 
 // Loading SMS connector
 if (config.sms.enabled){
@@ -83,7 +84,8 @@ function multipush(subject,message, canal){
     }
 }
 
-console.info("Starting DomoGeeek MultiPush v%s",config.version);
+console.info("Starting DomoGeeek %s v%s",pjson.name, pjson.version);
 
 // Starting the REST server
 app.listen(config.port); 
+console.info("Service started on http://localhost:%s",config.port);

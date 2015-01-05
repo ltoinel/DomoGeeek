@@ -12,7 +12,6 @@
 var config = {}
 
 // Scheduler
-config.version = '0.1';
 config.debug = true;
 config.timezone = 'Europe/Paris';
 config.port = 9092;

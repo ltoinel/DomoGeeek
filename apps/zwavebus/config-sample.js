@@ -12,7 +12,6 @@
 var config = {}
 
 // Zwavebus
-config.version = '0.1';
 config.port = 9094;
 config.database = 'mongodb://localhost/zwavebus';
 config.debug = false;

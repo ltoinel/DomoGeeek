@@ -13,6 +13,7 @@
 var bus = require( '../bus' );
 var config = require('../config');
 
+// Shared libs
 var presence = require('../../../libs/presence');
 var multipush = require('../../../libs/multipush');
 

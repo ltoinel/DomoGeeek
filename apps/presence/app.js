@@ -14,6 +14,9 @@ var express = require('express');
 
 // Local require
 var config = require('./config');
+var pjson = require('./package.json');
+
+// Share libs
 var multipush = require('../../libs/multipush');
 
 // Force the presence for guests
@@ -164,7 +167,8 @@ function checkWifiDevices(phones,callback){
 }
 
 // Starting 
-console.info("Starting DomoGeeek Presence v%s",config.version);
+console.info("Starting DomoGeeek %s v%s",pjson.name, pjson.version);
 
 // Starting the REST server
 app.listen(config.port); 
+console.info("Service started on http://localhost:%s",config.port);

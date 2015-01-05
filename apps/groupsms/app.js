@@ -177,8 +177,10 @@ app.get('/messages', function (req, resp, next) {
 });
 
 
-console.info("Starting DomoGeek GroupSMS v%s",config.version);
+//Starting 
+console.info("Starting DomoGeeek %s v%s",pjson.name, pjson.version);
 
 // Starting the rest server
 app.listen(config.port);
+console.info("Service started on http://localhost:%s",config.port);
 

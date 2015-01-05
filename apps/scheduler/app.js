@@ -14,6 +14,7 @@ var express = require('express');
 
 // Local require
 var config = require('./config');
+var pjson = require('./package.json');
 
 // Init the Express App
 var app = express();
@@ -47,10 +48,11 @@ app.get('/scheduler',  function (req, resp, next) {
 
 
 // Starting 
-console.info("Starting DomoGeeek Scheduler v%s",config.version);
+console.info("Starting DomoGeeek %s v%s",pjson.name, pjson.version);
 
 // Loading tasks 
 var tasks = require('./tasks/index');
 
 // Starting the REST server
 app.listen(config.port); 
+console.info("Service started on http://localhost:%s",config.port);

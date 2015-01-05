@@ -1,15 +1,29 @@
 {
   "name": "domogeek",
   "version": "0.0.1",
-  "description" : "DomoGeeek is a set of Domotic apps based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.",
-  "homepage" : "https://github.com/ltoinel/domogeeek",
-  "keywords" : ["domotic", "z-wave"],
-  "devDependencies": {
-    "istanbul": "^0.3.2",
-    "mocha": "^2.0.1"
+  "description": "DomoGeeek is a set of small Home automation apps based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.",
+  "homepage": "https://github.com/ltoinel/domogeeek",
+  "keywords": [
+    "home automotion",
+    "z-wave",
+    "raspberry"
+  ],
+  "dependencies": {
+    "cron": "~1.0.5",
+    "emailjs": "~0.3.12",
+    "events": "^1.0.2",
+    "express": "~4.10.7",
+    "mongoose": "^3.8.21",
+    "openkarotz": "~1.1.4",
+    "request": "~2.51.0",
+    "suncalc": "~1.6.0",
+    "time": "^0.11.0",
+    "openzwave": "file:./deps/node-openzwave/"
   },
-  "repository" : { 
-  "type" : "git",
-  "url" : "https://github.com/ltoinel/domogeeek.git"
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ltoinel/domogeeek.git"
+  },
+  "author": "Ludovic Toinel <ltoinel@free.fr> (https://github.com/ltoinel)",
+  "license": "Apache License"
 }

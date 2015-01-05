@@ -12,7 +12,6 @@
 var config = {}
 
 // Presence
-config.version = '0.1';
 config.debug = true;
 config.port = 9093;
 

@@ -18,6 +18,7 @@ All the apps provided can be used separately. They can be modified and adapted e
 
 ![DomoGeeek Physical Architecture](./assets/img/installation.jpg "Physical Architecture")
 
+
 ----
 #Core apps description
 
@@ -65,4 +66,48 @@ This application is used by the "Presence" module inside the ZwaveBus project to
 
 The Scheduler application provides a tasks mechanism to schedule tasks like opening or closing the shutters automatically regarding the sunset and sunrise hours, reminder you when trash cans needs to be put outside the home.
 This application is based on a Cron module from NodeJS. You can easily add your own tasks in the tasks directory or extend the existing ones.
+
+----
+#Tutorial
+
+1. Install NPM on your server 
+2. Install MongoDB and start a daemon
+3. Install the dependencies modules
+```sh
+$ cd ./domogeek/
+$ npm install
+```
+4. Configure the apps that you plan to use
+```sh
+$ cd apps/scheduler/
+$ mv config-sample.js config.js
+$ vi config.js
+```
+5. Test the app 
+```sh
+$ node app.js
+ctrl+c to close the app
+```
+6. Install pm2 
+```sh
+$ npm install pm2 -g
+```
+6. Starts the apps 
+```sh
+$ pm2 start ./apps/scheduler/app.js --name scheduler
+$ pm2 start ./apps/presence/app.js --name presence
+.....
+```
+7. Check the logs and flush them if needed
+```sh
+$ pm2 logs
+$ pm2 flush
+.....
+```
+7. Check apps status and the memory
+```sh
+$ pm2 list
+$ pm2 monit
+.....
+```
 

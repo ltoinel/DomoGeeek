@@ -1,0 +1,15 @@
+{
+  "name": "zwavebus",
+  "version": "0.1.0",
+  "description": "The ZwaveBus application allows you to communicate with your Z-Wave devices. All the Z-Wave events received by the Raspberry Pi are transmitted to an event bus developed in NodeJS. You can quickly develop your own listeners that subscribe to specific Z-Wave events. Few lines of codes are enough to retrieve or submit some Z-Wave events.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ltoinel/domogeeek/tree/master/apps/zwavebus"
+  },
+  "author": "Ludovic Toinel <ltoinel@free.fr> (https://github.com/ltoinel)",
+  "license": "Apache License"
+}

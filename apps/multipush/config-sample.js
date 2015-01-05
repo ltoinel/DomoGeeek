@@ -12,7 +12,6 @@
 var config = {}
 
 // Multipush API
-config.version = '0.1';
 config.debug = false;
 config.port = 9091;
 
