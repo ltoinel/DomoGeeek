@@ -17,6 +17,9 @@ var openkarotz = require('../../../libs/openkarotz');
 //Model
 var Event = require('../models/event');
 
+// Last power notification
+var lastPowerNotification = 0;
+
 // The command to listen
 const COMMAND_CLASS_METER = 50;
 
@@ -54,9 +57,20 @@ bus.on(COMMAND_CLASS_METER, function(nodeid, value){
 		// Change the OpenKarotz led
 		openkarotz.led(config.openkarotz, color);
 		
-		// Make the OpenKarotz talking
+		// We reset the notification
 		if (power > config.power.voice){
-			openkarotz.talk(config.openkarotz, "La maison consomme "+ power + " Watt");
+			
+			if ((power > (lastPowerNotification + lastPowerNotification * 0.2)
+					|| (power < (lastPowerNotification - lastPowerNotification * 0.2)))){
+				
+				lastPowerNotification = power;
+				openkarotz.talk(config.openkarotz, "La maison consomme "+ power + " Watt");
+			}
+		} else {
+			
+			if (lastPowerNotification > 0){
+				lastPowerNotification = 0;
+			} 
 		}
 		
 		// Saving the event

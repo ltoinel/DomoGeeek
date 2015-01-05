@@ -70,41 +70,41 @@ This application is based on a Cron module from NodeJS. You can easily add your 
 ----
 #Tutorial
 
-1. Install NPM on your server 
-2. Install MongoDB and start a daemon
-3. Install the dependencies modules
+* Install Node (http://nodejs.org/download/)
+* Install MongoDB and start the daemon
+* Install the dependencies modules, this will create a "node_modules" directory inside the project
 ```sh
-$ cd ./domogeek/
+$ cd ./domogeeek/
 $ npm install
 ```
-4. Configure the apps that you plan to use
+* Configure the apps that you plan to use
 ```sh
 $ cd apps/scheduler/
 $ mv config-sample.js config.js
 $ vi config.js
 ```
-5. Test the app 
+* Test the app quickly
 ```sh
 $ node app.js
 ctrl+c to close the app
 ```
-6. Install pm2 
+* Install pm2 
 ```sh
 $ npm install pm2 -g
 ```
-6. Starts the apps 
+* Start the apps into a daemon
 ```sh
 $ pm2 start ./apps/scheduler/app.js --name scheduler
 $ pm2 start ./apps/presence/app.js --name presence
 .....
 ```
-7. Check the logs and flush them if needed
+* Check the logs and flush them if needed
 ```sh
 $ pm2 logs
 $ pm2 flush
 .....
 ```
-7. Check apps status and the memory
+* Check apps status and the memory
 ```sh
 $ pm2 list
 $ pm2 monit
