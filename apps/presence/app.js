@@ -38,9 +38,12 @@ function disablePresence(){
 /**
  * Force the presence.
  */
-function forcePresence(){
+function forcePresence(period){
+	if (period == undefined){
+		period = config.forceperiod;
+	}
 	presence = true;
-	date = Date.now() + (config.forceperiod * 60 * 1000);
+	date = Date.now() + (period * 60 * 1000);
 	console.log("Presence forced to true until => " + date);
 }
 
@@ -52,10 +55,12 @@ function forcePresence(){
 app.get('/presence/:status',  function (req, resp, next) {
 	
 	if (req.params.status === "true"){
-		forcePresence();
-
+		forcePresence(120);
+		multipush.send(config.multipush,"Presence","Présence activée pour une durée de " + config.forceperiod + " minutes","openkarotz");
+		
 	} else if (req.params.status === "false"){
 		disablePresence();
+		multipush.send(config.multipush,"Presence","Présence désactivée","openkarotz");
 		
 	} else {
 		// Unknown parameter

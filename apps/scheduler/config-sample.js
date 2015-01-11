@@ -41,12 +41,21 @@ config.openkarotz.sleep = '0 0 23 * * *';
 config.openkarotz.goodnight = 'Bonne nuit !';
 
 // Reminder task service
-config.reminder1 = {};
-config.reminder1.time = '0 0 22 * * 1'; // Lundi soir
-config.reminder1.message = 'Avez-vous pensé à sortir la poubelle bleue ?';
-config.reminder2 = {};
-config.reminder2.time = '0 0 22 * * 2'; // Mardi soir
-config.reminder2.message = 'Avez-vous pensé à sortir la poubelle jaune ?';
+config.reminder = new Array();
+config.reminder[0] = {};
+config.reminder[0].time = '0 0 22 * * 1'; // Lundi soir
+config.reminder[0].message = 'Avez-vous pensé à sortir la poubelle bleue ?';
+config.reminder[0].channel = 'openkarotz';
+config.reminder[1] = {};
+config.reminder[1].time = '0 0 22 * * 2'; // Mardi soir
+config.reminder[1].message = 'Avez-vous pensé à sortir la poubelle jaune ?';
+config.reminder[1].channel = 'openkarotz';
+
+
+//Power consumption information
+config.energy = {};
+config.energy.time = '0 0 20 * * *';
+config.energy.url = 'http://192.168.1.2:9094/context';
 
 module.exports = config;
 

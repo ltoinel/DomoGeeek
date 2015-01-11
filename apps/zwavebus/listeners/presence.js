@@ -41,9 +41,6 @@ function sendAlert(presence){
 		
 		console.log("Abnormal presence detected");
 		
-		// Request
-		var request = require('request');
-		
 		// Somebody has been detected
 		var subject = 'Alerte intrusion';
 		var message = 'Une présence anormale a été détectée';

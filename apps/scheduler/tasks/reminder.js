@@ -9,35 +9,21 @@
  * @author: ltoinel@free.fr
  */
 
-var request = require('request');
 var CronJob = require('cron').CronJob;
 	
 //Local require
 var config = require('../config');
 var multipush = require('../../../libs/multipush');
 
-/**
- *  Garbage can reminder
- */ 
-var job1 = new CronJob(config.reminder1.time, function(){
-	multipush.send(config.multipush,"Reminder1",config.reminder1.message,"openkarotz");
-  },
-  undefined,
-  false,
-  config.timezone 
-).start();
-
-
-/**
- * Recycle garbage can reminder
- */
-var job2 = new CronJob(config.reminder2.time, function(){
-	multipush.send(config.multipush,"Reminder2",config.reminder2.message,"openkarotz");
-  }, 
-  undefined,
-  false,
-  config.timezone 
-).start();
-
+// For each reminders
+config.reminder.forEach(function(reminder) {
+	var reminder1 = new CronJob(reminder.time, function(){
+		multipush.send(config.multipush,"Reminder",reminder.message,reminder.channel);
+	  },
+	  undefined,
+	  false,
+	  config.timezone 
+	).start();
+});
 
 

@@ -23,10 +23,10 @@ config.multipush = 'http://localhost:9091/multipush';
 config.phones = ['ether-1c:XX:XX:XX:XX:XX','ether-60:XX:XX:XX:XX:XX'];
 
 // Force presence period in minutes
-config.forceperiod = 30; 
+config.forceperiod = 20; 
 
 // Last device active time in minutes
-config.lastactivetime = 10; 
+config.lastactivetime = 15; 
 
 //The hours we force the presence value
 config.forcepresence = new Array();

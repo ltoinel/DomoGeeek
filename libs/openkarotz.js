@@ -11,6 +11,22 @@
 
 var openkarotz = require('openkarotz');
 
+// Unique instance of OpenKarotz
+var karotzInstance = null;
+
+/**
+ * Return an OpenKarotz instance.
+ * 
+ * @param ip of the OpenKarotz to connect with
+ * @returns an instance of OpenKarotz
+ */
+function getOpenKarotz(ip){
+	if (karotzInstance == null){
+		karotzInstance = new openkarotz(ip);
+	}
+	return karotzInstance;
+}
+
 /**
  * Makes the Openkarotz talk.
  * 
@@ -21,7 +37,7 @@ exports.talk = function(config, message, callback) {
 	
 	console.info("Sending a message to the Openarotz TTS");
 	
-	var karotz = new openkarotz(config.ip);
+	var karotz = getOpenKarotz(config.ip);
 	
 	karotz.tts(message, config.voice, true, function(msg) {
         console.log(msg); 
@@ -39,7 +55,7 @@ exports.talk = function(config, message, callback) {
  */
 exports.playsound = function(config, sound){
 	
-	var karotz = new openkarotz(config.ip);
+	var karotz = getOpenKarotz(config.ip);
 	
 	karotz.sound_control(sound, function(msg) {
         console.log(msg); 
@@ -55,17 +71,11 @@ exports.playsound = function(config, sound){
  */
 exports.led = function(config, color){
 	
-	var karotz = new openkarotz(config.ip);
+	var karotz = getOpenKarotz(config.ip);
 	
-	karotz.led(
-		    'light',
-		    {
-		        color : color, //hexa RGB color
-		    },
-		    function(msg) {
-		    	console.log(msg);
-		    }
-		);
+	karotz.fixedLed(color, function(msg) {
+		console.log(msg);
+	});
 }
 
 /**
@@ -74,10 +84,8 @@ exports.led = function(config, color){
  * @param config : the OpenKarotz configuration.
  */
 exports.sleep = function(config) {
-	
-	console.info("Make the Openarotz sleeping");
 	 
-	var karotz = new openkarotz(config.ip);
+	var karotz = getOpenKarotz(config.ip);
 
 	karotz.sleep(function(msg) {
         console.log(msg); 
@@ -90,10 +98,8 @@ exports.sleep = function(config) {
  * @param config : the OpenKarotz configuration.
  */
 exports.wakeup = function(config) {
-	
-	console.info("Wakeup the Openarotz ");
-	 
-	var karotz = new openkarotz(config.ip);
+
+	var karotz = getOpenKarotz(config.ip);
 
 	karotz.wakeup(true, function(msg) {
         console.log(msg); 
