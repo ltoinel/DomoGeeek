@@ -9,7 +9,7 @@
  * @author: ltoinel@free.fr
  */
 
-var config = {}
+var config = {};
 
 // Presence
 config.debug = true;
@@ -29,7 +29,7 @@ config.forceperiod = 20;
 config.lastactivetime = 15; 
 
 //The hours we force the presence value
-config.forcepresence = new Array();
+config.forcepresence = [];
 config.forcepresence[0] = [10,14]; // Sunday 10h to 14h
 config.forcepresence[1] = []; // Monday
 config.forcepresence[2] = []; // Tuesday
@@ -38,10 +38,13 @@ config.forcepresence[4] = []; // Thursday
 config.forcepresence[5] = []; // Friday
 config.forcepresence[6] = []; // Saturday
 
-
 // Freebox API Access Token
 config.freebox = {};
 config.freebox.app_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 config.freebox.track_id = 'X';
+
+//Multipush message
+config.voice.activated = "Présence activée pour une durée de {0} minutes";
+config.voice.unactivated = "Présence désactivée";
 
 module.exports = config;

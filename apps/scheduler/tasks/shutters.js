@@ -38,8 +38,8 @@ function initJob(name, uri, timeFunction, date){
 		console.log("Job starting : " + name);
 		
 		request.get(uri).on('error', function(err) {
-		    console.error("Shutter API error : " + err);
-		})
+			console.error("Shutter API error : " + err);
+		});
 		
 		multipush.send(config.multipush,"Job starting",name,config.shutters.channel);
 		
@@ -106,7 +106,7 @@ function getTimes(date){
 function getOpenTime(date){
 
 	// Fix configured time
-	if (config.shutters.open.time!= undefined){
+	if (config.shutters.open.time !== undefined){
 		return config.shutters.open.time;
 	}
 	
@@ -124,7 +124,7 @@ function getOpenTime(date){
 function getCloseTime(date){
 	
 	// Fix configured time
-	if (config.shutters.close.time!= undefined){
+	if (config.shutters.close.time !== undefined){
 		return config.shutters.close.time;
 	}
 	

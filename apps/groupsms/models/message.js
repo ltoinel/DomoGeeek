@@ -9,9 +9,9 @@
  * @author: ltoinel@free.fr
  */
  
-var mongoose = require('mongoose')
-   ,Schema = mongoose.Schema
-   ,ObjectId = Schema.ObjectId;
+var mongoose = require('mongoose'),
+Schema = mongoose.Schema,
+ObjectId = Schema.ObjectId;
  
 var messageSchema = new Schema({
     member: ObjectId,

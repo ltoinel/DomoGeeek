@@ -9,7 +9,7 @@
  * @author: ltoinel@free.fr
  */
 
-var config = {}
+var config = {};
 
 // Scheduler
 config.debug = true;
@@ -38,10 +38,10 @@ config.openkarotz.enabled = true;
 config.openkarotz.ip = 'xxx.xxx.xxx.xxx';
 config.openkarotz.wakeup = '0 0 8 * * *';
 config.openkarotz.sleep = '0 0 23 * * *';
-config.openkarotz.goodnight = 'Bonne nuit !';
+config.openkarotz.goodnight = 'Bonne nuit les amis !';
 
 // Reminder task service
-config.reminder = new Array();
+config.reminder = [];
 config.reminder[0] = {};
 config.reminder[0].time = '0 0 22 * * 1'; // Lundi soir
 config.reminder[0].message = 'Avez-vous pensé à sortir la poubelle bleue ?';
@@ -56,6 +56,7 @@ config.reminder[1].channel = 'openkarotz';
 config.energy = {};
 config.energy.time = '0 0 20 * * *';
 config.energy.url = 'http://192.168.1.2:9094/context';
+config.energy.message.today = 'La maison a consommé {0} kilowatt aujourd\'hui !';
 
 module.exports = config;
 

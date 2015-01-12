@@ -9,8 +9,8 @@
  * @author: ltoinel@free.fr
  */
  
-var mongoose = require('mongoose')
-  , Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+Schema = mongoose.Schema;
  
 var listSchema = new Schema({
     name:  String,

@@ -9,9 +9,9 @@
  * @author: ltoinel@free.fr
  */
  
-var mongoose = require('mongoose')
-   ,Schema = mongoose.Schema
-   ,ObjectId = Schema.ObjectId;
+var mongoose = require('mongoose'),
+Schema = mongoose.Schema,
+ObjectId = Schema.ObjectId;
  
 var eventSchema = new Schema({
     nodeid: Number,
@@ -23,6 +23,6 @@ var eventSchema = new Schema({
 });
 
 // Main index
-eventSchema.index({ label: 1, label: 1 }, {unique: true}); // schema level
+eventSchema.index({ label: 1, date: 1 }, {unique: true}); // schema level
 
 module.exports = mongoose.model('Event', eventSchema);

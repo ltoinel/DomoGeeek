@@ -22,31 +22,30 @@ exports.send = function(config, from, to, cc , subject, text) {
 	 
 	// Initialize the server instance
 	var server  = email.server.connect({
-	   user:    config.username, 
-	   password: config.password, 
-	   host:    config.host, 
-	   tls: config.tls ,
-	   ssl : config.ssl
+		user:     config.username, 
+		password: config.password, 
+		host:     config.host, 
+		tls:      config.tls ,
+		ssl :     config.ssl
 	});
 	
 	// Initialize the message to send
 	var message = {
-	   text:    text, 
-	   from:    from, 
-	   to:      to,
-	   cc:      cc,
-	   subject: subject,
+		text:    text, 
+		from:    from, 
+		to:      to,
+		cc:      cc,
+		subject: subject,
 	};
 	
 	// Send the message and get a callback with an error or details of the message that was sent
 	server.send(message, function(err, message) { 
-		if (err != null) {
+		if (err !== null) {
 			console.error(err); 
 		} else {
 			console.log("Email correctly sended");
 		}
-		
 	});
 	
 	return true;
-}
+};

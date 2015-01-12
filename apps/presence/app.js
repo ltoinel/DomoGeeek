@@ -39,7 +39,7 @@ function disablePresence(){
  * Force the presence.
  */
 function forcePresence(period){
-	if (period == undefined){
+	if (period === undefined){
 		period = config.forceperiod;
 	}
 	presence = true;
@@ -56,11 +56,11 @@ app.get('/presence/:status',  function (req, resp, next) {
 	
 	if (req.params.status === "true"){
 		forcePresence(120);
-		multipush.send(config.multipush,"Presence","Présence activée pour une durée de " + config.forceperiod + " minutes","openkarotz");
+		multipush.send(config.multipush,"Presence",config.message.activated.format(config.forceperiod),"openkarotz");
 		
 	} else if (req.params.status === "false"){
 		disablePresence();
-		multipush.send(config.multipush,"Presence","Présence désactivée","openkarotz");
+		multipush.send(config.multipush,"Presence",config.message.unactivated,"openkarotz");
 		
 	} else {
 		// Unknown parameter
@@ -154,20 +154,20 @@ function checkWifiDevices(phones,callback){
 				if (phones.indexOf(device.id) != -1){
 					
 					// If a device is active
-					if (device.active == true){
+					if (device.active === true){
 						presence = true;
-					    console.log("Device detected : " + device.primary_name);
-					    
+						console.log("Device detected : " + device.primary_name);
+
 					// If a device was active few minutes ago
 					} else if (new Date((device.last_time_reachable * 1000) + (config.lastactivetime * 60 * 1000)) > new Date()){
 						presence = true;
-				        console.log("Device detected few minutes ago: " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
+						console.log("Device detected few minutes ago: " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
 					}
 				}
 			});
 
 			callback(presence);
-		})
+		});
 	});
 }
 

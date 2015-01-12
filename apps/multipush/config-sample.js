@@ -9,7 +9,7 @@
  * @author: ltoinel@free.fr
  */
 
-var config = {}
+var config = {};
 
 // Multipush API
 config.debug = false;
@@ -35,7 +35,7 @@ config.sms.phone = ["0666666666","0677777777"];
 // OpenKarotz Configuration
 config.openkarotz = {};
 config.openkarotz.enabled = true;
-config.openkarotz.ip = "192.168.1.12"
+config.openkarotz.ip = "192.168.1.12";
 config.openkarotz.voice = "alice";
 
 module.exports = config;

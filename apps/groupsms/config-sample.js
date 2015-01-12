@@ -9,7 +9,7 @@
  * @author: ltoinel@free.fr
  */
 
-var config = {}
+var config = {};
 
 // Group SMS
 config.database = 'mongodb://localhost/groupsms';

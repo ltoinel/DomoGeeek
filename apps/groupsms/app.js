@@ -22,7 +22,7 @@ var List = require('./models/list.js');
 var Member = require('./models/member.js');
 var Message = require('./models/message.js');
 
-// Init the Express App
+// Initialize the Express App
 var app = express();
 
 // Initialize the MongoDB connection
@@ -32,10 +32,10 @@ mongoose.connect(config.database);
 if (config.debug){
 	mongoose.connection.on('open', function(){
 		mongoose.connection.db.dropDatabase(function (err) {
-  			console.log('Database dropped');
+			console.log('Database dropped');
 		});
 	});
-};
+}
 
 /**
  * HTTP GET /sms
@@ -43,12 +43,12 @@ if (config.debug){
  */
 app.get('/sms', function (req, resp, next) {
 
-    if (!req.query['phone']){
+    if (!req.query.phone){
         resp.json(400, { message: "Missing phone number"}); 
     }
     
-    var phone = req.query['phone'];
-    var message = req.query['text'];
+    var phone = req.query.phone;
+    var message = req.query.text;
     var response;
 
     // We return the result
@@ -75,28 +75,27 @@ app.get('/sms', function (req, resp, next) {
 
 				// The administrator can create a new list with its own phone
 				if (phone === config.phone){
-					var list =  new List({name: listName});
+					list =  new List({name: listName});
 					list.save();
 					new Member({list: list._id, phone: phone, name: config.name, status: 1}).save();
 					response = 'Liste SMS créée : ' + list.name;
 				} else {
 				
-				    // We reject the user that asks an unknown list
-				    response = 'Votre téléphone n\'est inscrit à aucune liste SMS active';
-				};
+					// We reject the user that asks an unknown list
+					response = 'Votre téléphone n\'est inscrit à aucune liste SMS active';
+				}
 
 			// The list exists we add the user as a subscriber and ask him a name
 			} else {
 				new Member({list: list._id, phone: phone}).save();
 				response = 'Veuillez préciser votre Nom et Prénom par SMS pour rejoindre la liste SMS: '+ list.name + ' (ex: Gérard Dupont)';
-			};
+			}
 
 			sms.send(config.smsgateway, phone,response);
-
 		});
 
- 	} else {
- 		
+	} else {
+		
 		// We find the list of the members 
 		List.findOne({_id : member.list}, function(error, list){
 
@@ -120,7 +119,7 @@ app.get('/sms', function (req, resp, next) {
 							response = 'Désinscription effective à la liste : ' + list.name;
 						} else {
 							response = 'Demande de désinscription en erreur à la liste : ' + list.name;
-						};
+						}
 						sms.send(config.smsgateway, phone,response);
 					});
 
@@ -132,7 +131,7 @@ app.get('/sms', function (req, resp, next) {
 						var count = 0;
 						members.forEach(function(dest){
 							if (phone !== dest.phone){
-						     	sms.send(config.smsgateway, dest.phone,member.name+': '+message);
+								sms.send(config.smsgateway, dest.phone,member.name+': '+message);
 								count++;
 							}
 						});
@@ -140,10 +139,10 @@ app.get('/sms', function (req, resp, next) {
 						response = 'Message correctement envoyé aux '+count+' personne(s) abonnée(s) à liste SMS : '+list.name;
 						sms.send(config.smsgateway, phone,response);
 					});	
-				};
-			};
+				}
+			}
 		});
-	};
+	}
 
     });
 

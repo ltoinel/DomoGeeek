@@ -12,27 +12,31 @@
 /**
  * Multipush client API
  */
-exports.send = function(url,subject,message,canal){
-	
+exports.send = function(url, subject, message, canal) {
+
 	// Request
 	var request = require('request');
-	
-	if (Array.isArray(canal)){
+
+	if (Array.isArray(canal)) {
 		canal = canal.join();
 	}
 	// Configure the request to the multipush service
-    var options = {
-       url: url,
-       method: 'GET',
-       qs: {'subject': subject, 'message': message, 'canal': canal}
-    } 
-    
-    // Sending the request
-    request(options, function (error, response, body) {
-       if (!error && response.statusCode == 201) {
-       		console.info('Multipush request sent');
-       } else {
-       		console.error('Multipush request : %s', error);
-       }
-    });
-}
+	var options = {
+		url : url,
+		method : 'GET',
+		qs : {
+			'subject' : subject,
+			'message' : message,
+			'canal' : canal
+		}
+	};
+
+	// Sending the request
+	request(options, function(error, response, body) {
+		if (!error && response.statusCode == 201) {
+			console.info('Multipush request sent');
+		} else {
+			console.error('Multipush request : %s', error);
+		}
+	});
+};

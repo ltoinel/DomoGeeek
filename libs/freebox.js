@@ -56,10 +56,10 @@ var app = {
  * Example :
  *
  * freebox.connect({
- * 	'ip'        : 'mafreebox.freebox.fr', (optional)
- * 	'port'      : 80, (optional)
- * 	'app_token' : '012345', (optional)
- * 	'track_id'  : '12', (optional)
+ *  'ip'        : 'mafreebox.freebox.fr', (optional)
+ *  'port'      : 80, (optional)
+ *  'app_token' : '012345', (optional)
+ *  'track_id'  : '12', (optional)
  * });
  * 
  * @return void
@@ -107,7 +107,7 @@ controller.connect = function infos(box) {
 		}
 
 	});
-}
+};
 
 
 /**
@@ -129,10 +129,10 @@ controller.register = function registerApp() {
 		url    : freebox.url+'login/authorize',
 		method : 'POST',
 		json   : {
-			   "app_id"      : app.app_id,
-			   "app_name"    : app.app_name,
-			   "app_version" : app.app_version,
-			   "device_name" : app.device_name
+			"app_id"      : app.app_id,
+			"app_name"    : app.app_name,
+			"app_version" : app.app_version,
+			"device_name" : app.device_name
 			},
 		encode : 'utf-8'
 	};
@@ -154,7 +154,7 @@ controller.register = function registerApp() {
 		}
 
 	});
-}
+};
 
 /**
  * login App method
@@ -185,7 +185,7 @@ function loginApp(next) {
 					
 					console.log('App is granted');
 					//Go ahead : logging the app
-					sessionApp(next)
+					sessionApp(next);
 				}
 				else if (app.status != 'pending') //If the app is denied or timeout or revoked
 				{
@@ -243,9 +243,9 @@ function sessionApp(next) {
 					url    : freebox.url+'login/session/',
 					method : 'POST',
 					json   : {
-						   "app_id"      : app.app_id,
-						   "app_version" : app.app_version,
-						   "password"    : app.password,
+						"app_id"      : app.app_id,
+						"app_version" : app.app_version,
+						"password"    : app.password,
 						},
 					encode : 'utf-8'
 				};
@@ -331,7 +331,7 @@ function browserPub(callback) {
 
 // Browse the wifi devices
 controller.browserPub = function (next) {
-	loginApp(function(){ browserPub(next) });
+	loginApp(function(){ browserPub(next); });
 };
 
 

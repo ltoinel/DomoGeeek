@@ -11,4 +11,5 @@
 
 // Bus event shared between the components
 var bus = require( 'events' ).EventEmitter;
-module.exports = new bus;
+
+module.exports = new bus();

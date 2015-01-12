@@ -32,10 +32,10 @@ mongoose.connect(config.database);
 if (config.debug){
 	mongoose.connection.on('open', function(){
 		mongoose.connection.db.dropDatabase(function (err) {
-  			console.log('Database dropped');
+			console.log('Database dropped');
 		});
 	});
-};
+}
 
 // Initialize the Zwave connector
 var zwave = new openZwave(config.device, {
@@ -94,7 +94,7 @@ process.on('SIGINT', function() {
 });
 
 //We initialize the global map of data
-global.data = new Array();
+global.data = [];
 
 /**
  * We allow cors.
@@ -112,9 +112,9 @@ app.all('/*', function(req, res, next) {
  */
 app.get('/context',  function (req, resp, next) {
 	resp.send(200, {
-			energy: global.data["energy"],
-			power: global.data["power"],
-			presence: global.data["presence"]
+			energy: global.data.energy,
+			power: global.data.power,
+			presence: global.data.presence
 		});
 });
 
@@ -129,12 +129,13 @@ app.get('/data/:label',  function (req, resp, next) {
 	console.log("Label :" + req.params.label);
 	
 	var label = req.params.label;
+	var start;
 	
 	// Date to display
 	if (req.query.date){
-		var start = new Date(req.query.date);
+		start = new Date(req.query.date);
 	} else {
-		var start = new Date();
+		start = new Date();
 	}
 	
 	// end date 

@@ -12,25 +12,25 @@
 /**
  * Presence client API
  */
-exports.check = function(serviceUrl,callback){
-	
+exports.check = function(serviceUrl, callback) {
+
 	// Request
 	var request = require('request');
 
 	// Configure the request to the multipush service
-    var options = {
-       url: serviceUrl,
-       method: 'GET'
-    } 
-    
-    // Sending the HTTP request
-    request(options, function (error, response, body) {
-       if (!error && response.statusCode == 200) {
-    	   var response = JSON.parse(body);
-    	   callback(response['presence']);
-       } else {
-    	   console.error("Presence API request error : " + error);
-    	   callback(false);
-       }
-    });
-}
+	var options = {
+		url : serviceUrl,
+		method : 'GET'
+	};
+
+	// Sending the HTTP request
+	request(options, function(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			response = JSON.parse(body);
+			callback(response.presence);
+		} else {
+			console.error("Presence API request error : " + error);
+			callback(false);
+		}
+	});
+};
