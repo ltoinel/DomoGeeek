@@ -1,0 +1,15 @@
+{
+  "name": "smartmeter",
+  "version": "0.1.0",
+  "description": "The SmartMeter application manage the energy consumes in your home.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ltoinel/domogeeek/tree/master/apps/smartmeter"
+  },
+  "author": "Ludovic Toinel <ltoinel@free.fr> (https://github.com/ltoinel)",
+  "license": "Apache License"
+}
