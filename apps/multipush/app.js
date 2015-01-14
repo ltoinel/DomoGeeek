@@ -16,17 +16,17 @@ var pjson = require('./package.json');
 
 // Loading SMS connector
 if (config.sms.enabled) {
-	var sms = require('../../libs/sms');
+	var sms = require('libs/sms');
 }
 
 // Loading Mail connector
 if (config.mail.enabled) {
-	var mail = require('../../libs/mail');
+	var mail = require('libs/mail');
 }
 
 // Loading OpenKarotz connector
 if (config.openkarotz.enabled) {
-	var openkarotz = require('../../libs/openkarotz');
+	var openkarotz = require('libs/openkarotz');
 }
 
 // Init the Express App

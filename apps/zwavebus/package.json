@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+	    "openzwave": "file:./deps/node-openzwave/",
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ltoinel/domogeeek/tree/master/apps/zwavebus"

@@ -12,9 +12,6 @@ var bus = require('../bus');
 var config = require('../config');
 var openkarotz = require('../../../libs/openkarotz');
 
-// Model
-var Event = require('../models/event');
-
 // Last power notification
 var lastPowerNotification = 0;
 
@@ -34,19 +31,13 @@ bus.on(
 		COMMAND_CLASS_METER,
 		function(nodeid, value) {
 
-			// Global Energy
-			if (nodeid == 7 && value.label == "Energy") {
-				var energy = value.value;
-				global.data.energy = energy;
-			}
 
 			// Current power consumed
-			else if (nodeid == 7 && value.label == "Power") {
+			if (nodeid == 7 && value.label == "Power") {
 				var power = value.value;
-				global.data.power = power;
 
 				// Max possible consume is 12000 Wh
-				var n = power / config.power.max * 100;
+				var n = power / config.max * 100;
 				var red = (255 * n) / 100;
 				var green = (255 * (100 - n)) / 100;
 				var blue = 0;
@@ -58,26 +49,16 @@ bus.on(
 				openkarotz.led(config.openkarotz, color);
 
 				// We reset the notification
-				if (power > config.power.voice) {
+				if (power > config.alert.level) {
 
 					if ((power > (lastPowerNotification + (lastPowerNotification * 0.2)) || (power < (lastPowerNotification - (lastPowerNotification * 0.2))))) {
 
 						lastPowerNotification = power;
-						openkarotz.talk(config.openkarotz,config.power.message.warning.format(power));
+						openkarotz.talk(config.openkarotz,config.alert.message.format(power));
 					}
 
 				} else {
 					lastPowerNotification = 0;
 				}
-
-				// Saving the event
-				new Event({
-					nodeid : nodeid,
-					comclass : COMMAND_CLASS_METER,
-					type : value.type,
-					label : value.label,
-					value : value.value
-				}).save();
-
 			}
 		});

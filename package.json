@@ -1,24 +1,19 @@
 {
   "name": "domogeek",
-  "version": "0.0.1",
-  "description": "DomoGeeek is a set of small Home automation apps based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.",
+  "version": "0.1.0",
+  "description": "DomoGeeek is a set of small Home automation apps based on MQTT / Z-Wave / Raspberry Pi / NodeJS / MongoDB.",
+  "main": "app.js",
   "homepage": "https://github.com/ltoinel/domogeeek",
   "keywords": [
-    "home automotion",
-    "z-wave",
-    "raspberry"
+    "Home automotion",
+    "Z-Wave",
+    "Raspberry",
+    "MQTT"
   ],
   "dependencies": {
-    "cron": "~1.0.5",
-    "emailjs": "~0.3.12",
-    "events": "^1.0.2",
     "express": "~4.10.7",
     "mongoose": "^3.8.21",
-    "openkarotz": "~1.1.4",
-    "request": "~2.51.0",
-    "suncalc": "~1.6.0",
-    "time": "^0.11.0",
-    "openzwave": "file:./deps/node-openzwave/"
+    "mosca": "^0.26.2"
   },
   "repository": {
     "type": "git",

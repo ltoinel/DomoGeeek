@@ -7,9 +7,6 @@
  * @author: ltoinel@free.fr
  */
 
-// Local require
-var bus = require('./bus');
-
 // Initialize the node array
 var nodes = [];
 
