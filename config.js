@@ -13,7 +13,13 @@ var config = {};
 
 // Message Broker 
 config.debug = false;
-config.port = 1883;
-config.database = 'mongodb://localhost/mqtt';
+
+config.port = {};
+config.port.http = 8080;
+config.port.coap = 3000;
+config.port.mqtt = 3001;
+
+config.broker = {};
+config.broker.persistence = 'mongodb://localhost/domogeeek';
 
 module.exports = config;

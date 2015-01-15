@@ -3,9 +3,11 @@
  * 
  * Copyright 2014 DomoGeeek Released under the Apache License 2.0 (Apache-2.0)
  * 
- * @desc: Configuration file for the ZwaveBus
+ * @desc: Event handler for the ZwaveBus
  * @author: ltoinel@free.fr
  */
+
+var constants = require('./constants');
 
 // Initialize the node array
 var nodes = [];
@@ -15,15 +17,6 @@ var nodes = [];
  */
 exports.onDriverReady = function(homeid) {
 	console.log('scanning homeid=0x%s...', homeid.toString(16));
-};
-
-/*
- * When the driver failed to start.
- */
-exports.onDriverFailed = function() {
-	console.log('failed to start driver');
-	zwave.disconnect();
-	process.exit();
 };
 
 /*
@@ -61,9 +54,9 @@ exports.onValueAdded = function(nodeid, comclass, value) {
  * When a value changed.
  */
 exports.onValueChanged = function(nodeid, comclass, value) {
-
-	// Broadcast the event with the comclass
-	bus.emit(comclass, nodeid, value);
+	
+	// We publish the value on the MQTT broker
+	global.client.publish("/"+constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
 
 	if (nodes[nodeid].ready) {
 		console

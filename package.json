@@ -11,9 +11,8 @@
     "MQTT"
   ],
   "dependencies": {
-    "express": "~4.10.7",
-    "mongoose": "^3.8.21",
-    "mosca": "^0.26.2"
+    "mosca": "^0.26.2",
+    "ponte": "0.0.13"
   },
   "repository": {
     "type": "git",
