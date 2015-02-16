@@ -1,8 +1,6 @@
 ![DomoGeeek](./assets/img/logo.jpg "Domogeek")
 
-**DomoGeeek** is a set of small applications for home automation based on Z-Wave / Raspberry Pi / NodeJS / MongoDB.
-
-**DomoGeeek** provides a **Restful API** based on resources exposed by the Express.js framework.
+**DomoGeeek** is a set of small applications for home automation based on Z-Wave / Raspberry Pi / NodeJS / MongoDB and plugged to an MQTT brocker.
 
 The goal of DomoGeeek is to provide a set of small modular applications to allow any **geek** to create their **own home automation box** quickly.
 All the apps provided can be used separately. They can be modified and adapted easily.
@@ -13,7 +11,7 @@ All the apps provided can be used separately. They can be modified and adapted e
 ![DomoGeeek Architecture](./assets/img/architecture.jpg "Architecture")
 
 ## My installation 
-* A Raspberry Pi with a Z-wave Dongle / Raspian / NodeJS and MongoDB that hosts all the NodeJS apps.
+* A Raspberry Pi with a Z-wave Dongle / Raspian / NodeJS / Mosquitto and MongoDB that hosts all the NodeJS apps.
 * An Android Phone that provides me a free SMS gateway and notifies me when there is a power outage.
 
 ![DomoGeeek Physical Architecture](./assets/img/installation.jpg "Physical Architecture")

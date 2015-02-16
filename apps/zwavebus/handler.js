@@ -56,7 +56,7 @@ exports.onValueAdded = function(nodeid, comclass, value) {
 exports.onValueChanged = function(nodeid, comclass, value) {
 	
 	// We publish the value on the MQTT broker
-	global.client.publish("/"+constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
+	global.client.publish(constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
 
 	if (nodes[nodeid].ready) {
 		console

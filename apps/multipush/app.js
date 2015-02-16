@@ -7,51 +7,68 @@
  * @author: ltoinel@free.fr
  */
 
-// Global require
-var express = require('express');
+// Loading MQTT 
+var mqtt = require('mqtt');
 
-// Local require
+// Global settings
+var gcfg = require('../../config');
+
+// Local settings
 var config = require('./config');
 var pjson = require('./package.json');
 
+// Create an MQTT client
+var client = mqtt.connect(gcfg.mqtt.uri);
+
 // Loading SMS connector
 if (config.sms.enabled) {
-	var sms = require('libs/sms');
+	var sms = require('./libs/sms');
 }
 
 // Loading Mail connector
 if (config.mail.enabled) {
-	var mail = require('libs/mail');
+	var mail = require('./libs/mail');
 }
 
 // Loading OpenKarotz connector
 if (config.openkarotz.enabled) {
-	var openkarotz = require('libs/openkarotz');
+	var openkarotz = require('./libs/openkarotz');
 }
 
-// Init the Express App
-var app = express();
-
 /**
- * HTTP GET /multipush
+ * MQTT multipush 
  */
-app.get('/multipush', function(req, resp, next) {
+client.on('message', function(topic, message, packet) {
 
-	var subject = req.query.subject;
-	var message = req.query.message;
-	var canal;
+	console.log("Receiving a message : " + topic +" => " + message);
+	
+	// We transform the JSON string message into an object
+	var params = JSON.parse(message);
 
-	// By default we send a message to all the canal
-	if (req.query.canal === undefined) {
-		canal = [ 'sms', 'mail', 'karotz' ];
-	} else {
-		canal = req.querycanal.split(',');
+	if (topic === "multipush"){
+		
+		// Send a multipush message
+		multipush(params.subject, params.content, params.canal);
 	}
+});
 
-	// Send multipush
-	multipush(subject, message, canal);
+client.on('connect', function(){
+	console.log("Connected to the MQTT broker");
+	
+	// The client subscribe to the bus
+	client.subscribe('multipush');
+});
 
-	resp.status(201).send();
+client.on('close', function(){
+	console.log("Disconnected from the MQTT broker");
+});
+
+client.on('offline', function(){
+	console.log("Going offline ...");
+});
+
+client.on('error', function(error){
+	console.error(error);
 });
 
 /**
@@ -62,12 +79,12 @@ app.get('/multipush', function(req, resp, next) {
  * @param message
  *            The content of the message.
  */
-function multipush(subject, message, canal) {
+function multipush(subject, content, canal) {
 
 	// We send an SMS
 	if (config.sms.enabled && (canal.indexOf("sms") != -1)) {
 		config.sms.phone.forEach(function(phone) {
-			sms.send(config.sms, phone, message);
+			sms.send(config.sms, phone, content);
 		});
 	}
 
@@ -75,18 +92,31 @@ function multipush(subject, message, canal) {
 	if (config.mail.enabled && (canal.indexOf("mail") != -1)) {
 		config.mail.to.forEach(function(mailto) {
 			mail.send(config.mail, config.mail.from, mailto, "", subject,
-					message);
+					content);
 		});
 	}
 
 	// We make the Openkarotz talking
 	if (config.openkarotz.enabled && (canal.indexOf("openkarotz") != -1)) {
-		openkarotz.talk(config.openkarotz, message);
+		openkarotz.talk(config.openkarotz, content);
 	}
 }
 
+// Starting the service
 console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
 
-// Starting the REST server
-app.listen(config.port);
-console.info("Service started on http://localhost:%s", config.port);
+// Cleaning resources on SIGINT
+process.on('SIGINT', stop);
+
+// Stop the process
+function stop(){
+	
+	// Stopping the service
+	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
+	
+	// Disconnecting the client
+	client.end();
+
+	// Stopping the process
+	process.exit();
+}

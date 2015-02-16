@@ -13,7 +13,6 @@ var config = {};
 
 // Multipush API
 config.debug = false;
-config.port = 9091;
 
 // Mail configuration
 config.mail = {};

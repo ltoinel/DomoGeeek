@@ -36,12 +36,16 @@ function getOpenKarotz(ip) {
  */
 exports.talk = function(config, message, callback) {
 
-	console.info("Sending a message to the Openarotz TTS");
+	console.info("Sending a message to the Openkarotz TTS");
 
 	var karotz = getOpenKarotz(config.ip);
 
 	karotz.tts(message, config.voice, true, function(msg) {
-		console.log(msg);
+		if (msg){
+			console.info("Message correctly sent to the Openkarotz TTS");
+		} else {
+			console.warn("Message cannot be sent to the Openkarotz TTS");
+		}
 		if (callback !== undefined) {
 			callback();
 		}

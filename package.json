@@ -11,8 +11,7 @@
     "MQTT"
   ],
   "dependencies": {
-    "mosca": "^0.26.2",
-    "ponte": "0.0.13"
+    "mqtt": "^1.0.10"
   },
   "repository": {
     "type": "git",

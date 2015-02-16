@@ -11,15 +11,11 @@
 
 var config = {};
 
-// Message Broker 
+// Debug
 config.debug = false;
 
-config.port = {};
-config.port.http = 8080;
-config.port.coap = 3000;
-config.port.mqtt = 3001;
-
-config.broker = {};
-config.broker.persistence = 'mongodb://localhost/domogeeek';
+//Message Broker 
+config.mqtt = {};
+config.mqtt.uri = "mqtt://192.168.1.2:1883";
 
 module.exports = config;

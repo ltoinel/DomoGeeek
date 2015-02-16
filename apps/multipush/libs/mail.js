@@ -18,7 +18,7 @@ var email   = require("emailjs/email");
  */
 exports.send = function(config, from, to, cc , subject, text) {
 	
-	console.info("Sending an Email to %s",to);
+	console.info("Sending an Email to %s", to);
 	 
 	// Initialize the server instance
 	var server  = email.server.connect({
@@ -41,9 +41,9 @@ exports.send = function(config, from, to, cc , subject, text) {
 	// Send the message and get a callback with an error or details of the message that was sent
 	server.send(message, function(err, message) { 
 		if (err !== null) {
-			console.error(err); 
+			console.error("Email error : " + err); 
 		} else {
-			console.log("Email correctly sended");
+			console.log("Email correctly sent to %s", to);
 		}
 	});
 	
