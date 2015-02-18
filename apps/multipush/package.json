@@ -1,7 +1,7 @@
 {
   "name": "multipush",
-  "version": "0.1.0",
-  "description": "The Multipush application allows to broadcast messages on multiple communication channels : sms, mail, karotz, openkarotz ... The Multipush application exposes a simple REST service easy to use to send a message quickly to any configured devices.",
+  "version": "1.0.0",
+  "description": "The Multipush application allows to broadcast messages on multiple communication channels based on MQTT messages : sms, mail, karotz, openkarotz ...",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

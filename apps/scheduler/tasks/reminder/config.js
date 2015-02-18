@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1
+ * DomoGeeek v1.0
  * https://github.com/ltoinel/domogeeek
  *
  * Copyright 2014 DomoGeeek
@@ -14,14 +14,19 @@ var config = {};
 // Timezone
 config.timezone = 'Europe/Paris';
 
-//Reminder task service
+
 config.reminder = [];
+
+//Reminder n°1
 config.reminder[0] = {};
 config.reminder[0].time = '0 0 22 * * 1'; // Lundi soir
 config.reminder[0].message = 'Avez-vous pensé à sortir la poubelle bleue ?';
-config.reminder[0].channel = 'openkarotz';
+config.reminder[0].channel =  ["openkarotz"];
+
+//Reminder n°2
 config.reminder[1] = {};
 config.reminder[1].time = '0 0 22 * * 2'; // Mardi soir
 config.reminder[1].message = 'Avez-vous pensé à sortir la poubelle jaune ?';
-config.reminder[1].channel = 'openkarotz';
+config.reminder[1].channel =  ["openkarotz"];
 
+module.exports = config;

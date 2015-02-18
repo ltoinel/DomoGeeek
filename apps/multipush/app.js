@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1 https://github.com/ltoinel/domogeeek
+ * DomoGeeek v1.0 https://github.com/ltoinel/domogeeek
  * 
  * Copyright 2014 DomoGeeek Released under the Apache License 2.0 (Apache-2.0)
  * 
@@ -22,17 +22,17 @@ var client = mqtt.connect(gcfg.mqtt.uri);
 
 // Loading SMS connector
 if (config.sms.enabled) {
-	var sms = require('./libs/sms');
+	var sms = require('./channels/sms');
 }
 
 // Loading Mail connector
 if (config.mail.enabled) {
-	var mail = require('./libs/mail');
+	var mail = require('./channels/mail');
 }
 
 // Loading OpenKarotz connector
 if (config.openkarotz.enabled) {
-	var openkarotz = require('./libs/openkarotz');
+	var openkarotz = require('./channels/openkarotz');
 }
 
 /**
@@ -108,7 +108,7 @@ console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
 // Cleaning resources on SIGINT
 process.on('SIGINT', stop);
 
-// Stop the process
+// Stop the process properly
 function stop(){
 	
 	// Stopping the service

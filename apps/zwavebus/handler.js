@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1 https://github.com/ltoinel/domogeeek
+ * DomoGeeek v1.0 https://github.com/ltoinel/domogeeek
  * 
  * Copyright 2014 DomoGeeek Released under the Apache License 2.0 (Apache-2.0)
  * 
@@ -54,6 +54,8 @@ exports.onValueAdded = function(nodeid, comclass, value) {
  * When a value changed.
  */
 exports.onValueChanged = function(nodeid, comclass, value) {
+	
+	console.log("Publishing : " + constants.commandClass[comclass] + " message");
 	
 	// We publish the value on the MQTT broker
 	global.client.publish(constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});

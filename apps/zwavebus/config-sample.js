@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1
+ * DomoGeeek v1.0
  * https://github.com/ltoinel/domogeeek
  *
  * Copyright 2014 DomoGeeek
@@ -19,7 +19,6 @@ config.logging =  false;
 config.consoleoutput = false;
 config.suppressrefresh = false;
 config.device = '/dev/ttyUSB0';
-config.broker = 'mqtt://localhost:3001';
 
 module.exports = config;
 

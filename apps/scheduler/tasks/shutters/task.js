@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1
+ * DomoGeeek v1.0
  * https://github.com/ltoinel/domogeeek
  *
  * Copyright 2014 DomoGeeek
@@ -41,8 +41,15 @@ function initJob(name, uri, timeFunction, date){
 			console.error("Shutter API error : " + err);
 		});
 		
-		multipush.send(config.multipush,"Job starting",name,config.shutters.channel);
-		
+		// Create message
+		var message = {};
+		message.subject = "Job starting";
+		message.content = name;
+		message.canal = config.shutters.channel;
+
+		// Publishing a message
+		global.client.publish('multipush', JSON.stringify(message));
+
 		// Stop the current job
 		this.stop();
 		

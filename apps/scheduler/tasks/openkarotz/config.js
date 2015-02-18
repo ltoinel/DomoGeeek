@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1
+ * DomoGeeek v1.0
  * https://github.com/ltoinel/domogeeek
  *
  * Copyright 2014 DomoGeeek
@@ -21,3 +21,5 @@ config.openkarotz.ip = '192.168.1.6';
 config.openkarotz.wakeup = '0 45 7 * * *';
 config.openkarotz.sleep = '0 30 23 * * *';
 config.openkarotz.goodnight = 'Bonne nuit les amis !';
+
+module.exports = config;

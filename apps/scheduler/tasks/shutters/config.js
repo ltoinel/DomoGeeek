@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1
+ * DomoGeeek v1.0
  * https://github.com/ltoinel/domogeeek
  *
  * Copyright 2014 DomoGeeek
@@ -27,4 +27,6 @@ config.shutters.close = {};
 //config.shutters.open.time = '0 0 10 * * *';
 config.shutters.close.message = 'Fermeture automatique des volets';
 config.shutters.close.url =  'http://192.168.1.4/down';
-config.shutters.channel =  'openkarotz';
+config.shutters.channel =  ['openkarotz'];
+
+module.exports = config;

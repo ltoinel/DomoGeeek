@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1 https://github.com/ltoinel/domogeeek
+ * DomoGeeek v1.0 https://github.com/ltoinel/domogeeek
  * 
  * Copyright 2014 DomoGeeek Released under the Apache License 2.0 (Apache-2.0)
  * 
@@ -11,12 +11,19 @@ var CronJob = require('cron').CronJob;
 
 // Local require
 var config = require('./config');
-var multipush = require('../../../libs/multipush');
 
 // For each reminders
 config.reminder.forEach(function(reminder) {
-	var reminder1 = new CronJob(reminder.time, function() {
-		multipush.send(config.multipush, "Reminder", reminder.message,
-				reminder.channel);
+	var reminderJob = new CronJob(reminder.time, function() {
+		
+		// Create message
+		var message = {};
+		message.subject = "Reminder";
+		message.content = reminder.message;
+		message.canal = reminder.channel;
+
+		// Publishing a message
+		global.client.publish('multipush', JSON.stringify(message));
+		
 	}, undefined, false, config.timezone).start();
 });

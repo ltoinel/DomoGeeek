@@ -1,7 +1,7 @@
 {
   "name": "scheduler",
   "version": "0.1.0",
-  "description": "The tasksScheduler application provides a tasks mechanism to schedule tasks like opening or closing the shutters automatically regarding the sunset and sunrise hours, reminder you when trash cans needs to be put outside the home. This application is based on a Cron module from NodeJS. You can easily add your own tasks in the tasks directory or extend the existing ones.",
+  "description": "The Scheduler application provides a tasks mechanism to schedule tasks like opening or closing the shutters automatically regarding the sunset and sunrise hours, reminder you when trash cans needs to be put outside the home. This application is based on a Cron module from NodeJS. You can easily add your own tasks in the tasks directory or extend the existing ones.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,7 +9,8 @@
   "dependencies": {
 	    "cron": "~1.0.5",
 	    "suncalc": "~1.6.0",
-	    "time": "^0.11.0"
+	    "time": "^0.11.0",
+	    "openkarotz": "~1.1.5"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1 https://github.com/ltoinel/domogeeek
+ * DomoGeeek v1.0 https://github.com/ltoinel/domogeeek
  * 
  * Copyright 2014 DomoGeeek Released under the Apache License 2.0 (Apache-2.0)
  * 
@@ -10,7 +10,6 @@
 // Global require
 var openZwave = require('openzwave');
 var mqtt = require('mqtt');
-
 
 //Global settings
 var gcfg = require('../../config');
@@ -74,6 +73,9 @@ zwave.connect();
 // Stop the process
 function stop() {
 
+	// Stopping the service
+	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
+	
 	// Stopping the MQTT Client
 	client.end();
 

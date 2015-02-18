@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-excluded=deps//*\:node_modules//*
+excluded=apps/alarm/node_modules//*\:apps/groupsms/node_modules//*\:apps/multipush/node_modules//*\:apps/presence/node_modules//*\:apps/scheduler/node_modules//*\:apps/smartmeter/node_modules//*\:apps/zwavebus/node_modules//*\:node_modules//*
 included=//*.js

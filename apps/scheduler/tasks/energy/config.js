@@ -1,5 +1,5 @@
 /**
- * DomoGeeek v0.1
+ * DomoGeeek v1.0
  * https://github.com/ltoinel/domogeeek
  *
  * Copyright 2014 DomoGeeek
@@ -17,5 +17,6 @@ config.timezone = 'Europe/Paris';
 //Power consumption information
 config.energy = {};
 config.energy.time = '0 0 20 * * *';
-config.energy.url = 'http://192.168.1.2:9094/context';
-config.energy.message.today = 'La maison a consommé {0} kilowatt aujourd\'hui !';
+config.energy.message = 'La maison a consommé {0} kilowatt aujourd\'hui !';
+
+module.exports = config;
