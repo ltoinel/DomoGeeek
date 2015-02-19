@@ -32,7 +32,7 @@ if (config.mail.enabled) {
 
 // Loading OpenKarotz connector
 if (config.openkarotz.enabled) {
-	var openkarotz = require('./channels/openkarotz');
+	var openkarotz = require('../../libs/openkarotz');
 }
 
 /**
@@ -52,6 +52,7 @@ client.on('message', function(topic, message, packet) {
 	}
 });
 
+// MQTT Connection
 client.on('connect', function(){
 	console.log("Connected to the MQTT broker");
 	
@@ -59,14 +60,17 @@ client.on('connect', function(){
 	client.subscribe('multipush');
 });
 
+// MQTT Close connection
 client.on('close', function(){
 	console.log("Disconnected from the MQTT broker");
 });
 
+// MQTT Offline
 client.on('offline', function(){
 	console.log("Going offline ...");
 });
 
+// MQTT error
 client.on('error', function(error){
 	console.error(error);
 });

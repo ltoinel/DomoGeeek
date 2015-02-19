@@ -7,39 +7,87 @@
  * @author: ltoinel@free.fr
  */
 
+// Loading MQTT 
+var mqtt = require('mqtt');
+
+// Global settings
+var gcfg = require('../../config');
+
 // Local require
 var config = require('../config');
+var pjson = require('./package.json');
 
-// Shared libs
-var presence = require('../../../libs/presence');
-var multipush = require('../../../libs/multipush');
-
-// The command to listen
-var COMMAND_CLASS_SENSOR_BINARY = 48;
+//Create an MQTT client
+var client = mqtt.connect(gcfg.mqtt.uri);
+var askPresence = false;
 
 /**
- * We listen for a COMMAND_CLASS_SENSOR_BINARY event. This event is sent on my
- * Aenon Lab Multisensor when a presence is detected.
+ * MQTT sensorBinary & Presence 
  */
-bus.on(COMMAND_CLASS_SENSOR_BINARY, function(nodeid, value) {
+client.on('message', function(topic, message, packet) {
 
-	global.data.presence = new Date();
-	if (value.label == "Sensor" && value.value === true) {
-		presence.check(config.presence, sendAlert);
+	console.log("Receiving a message : " + topic +" => " + message);
+	
+	// SensorBinary message
+	if (topic === "sensorBinary"){
+		
+		// We transform the JSON string message into an object
+		var params = JSON.parse(message);
+		
+		if (params.label == "Sensor" && params.value === true) {
+			presence.check(config.presence, sendAlert);
+		}
+
+		// Publishing a message
+		client.publish('presence', '?');
+		askPresence = true;
+	
+	// Presence message
+	} else if (topic === "presence"){
+		
+		if (askPresence === true){
+			if (message === "true"){
+				
+				console.log("Abnormal presence detected");
+				
+				// Create message
+				var multipush = {};
+				multipush.subject = config.presence.alert.subject;
+				multipush.content = config.presence.alert.message;
+				multipush.canal = ["sms","openkarotz"];
+	
+				// Publishing a message
+				client.publish('multipush', JSON.stringify(message));
+				
+			} else if (message === "false"){
+				console.log("Normal presence detected, well known Wifi devices found");
+			}
+			
+			askPresence = false;
+		}
 	}
 });
 
-/**
- * This function sends an alert to all the devices.
- */
-function sendAlert(presence) {
+// MQTT Connection
+client.on('connect', function(){
+	console.log("Connected to the MQTT broker");
+	
+	// The client subscribe to the bus
+	client.subscribe('presence');
+	client.subscribe('sensorBinary');
+});
 
-	if (!presence) {
+// MQTT Close connection
+client.on('close', function(){
+	console.log("Disconnected from the MQTT broker");
+});
 
-		console.log("Abnormal presence detected");
-		multipush.send(config.multipush, config.presence.alert.subject, config.presence.alert.message, "sms,openkarotz");
+// MQTT Offline
+client.on('offline', function(){
+	console.log("Going offline ...");
+});
 
-	} else {
-		console.log("Normal presence detected, well known Wifi devices found");
-	}
-}
+// MQTT error
+client.on('error', function(error){
+	console.error(error);
+});

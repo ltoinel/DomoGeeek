@@ -7,63 +7,111 @@
  * @author: ltoinel@free.fr
  */
 
-// Local require
-var bus = require('../bus');
+// Loading MQTT 
+var mqtt = require('mqtt');
 
-// The command to listen
-var COMMAND_CLASS_BASIC = 32;
+// Global settings
+var gcfg = require('../../config');
+
+//Local require
+var config = require('../config');
+var pjson = require('./package.json');
+
+//Create an MQTT client
+var client = mqtt.connect(gcfg.mqtt.uri);
 
 /**
- * We listen for a COMMAND_CLASS_BASIC event.
- * 
- * This event is sent on my Fibaro Smoke Detector when smoke is detected.
- * 
- * Change the zwcfg to remove the mapping and add the attribute "setasreport" to
- * true <CommandClass id="32" name="COMMAND_CLASS_BASIC" version="1"
- * after_mark="true" setasreport="true">
+ * MQTT Basic
  */
-bus.on(
-		COMMAND_CLASS_BASIC,
-		function(nodeid, value) {
+client.on('message', function(topic, message, packet) {
 
-			if (value.label == "Basic") {
+	console.log("Receiving a message : " + topic +" => " + message);
+	
+	// We transform the JSON string message into an object
+	var params = JSON.parse(message);
 
-				// Request
-				var request = require('request');
-				var subject;
-				var message;
+	if (topic === "basic"){
 
-				// Smoke has been detected
-				if (value.value > 0) {
+		/**
+		 * We listen for a COMMAND_CLASS_BASIC event.
+		 * 
+		 * This event is sent on my Fibaro Smoke Detector when smoke is detected.
+		 * 
+		 * Change the zwcfg to remove the mapping and add the attribute "setasreport" to
+		 * true <CommandClass id="32" name="COMMAND_CLASS_BASIC" version="1"
+		 * after_mark="true" setasreport="true">
+		 */
+		
+		if (params.label == "Basic") {
 
-					subject = config.smoke.alert.subject;
-					message = config.smoke.alert.subject;
+			// Request
+			var subject;
+			var content;
 
-					// No smoke
-				} else if (value.value === 0) {
+			// Smoke has been detected
+			if (params.value > 0) {
 
-					subject = config.smoke.cancel.subject ;
-					message = config.smoke.cancel.subject;
-				}
+				subject = config.smoke.alert.subject;
+				content = config.smoke.alert.subject;
 
-				// Configure the request to the multipush service
-				var options = {
-					url : "http://localhost:9091/multipush",
-					method : 'GET',
-					qs : {
-						'subject' : subject,
-						'message' : message,
-						'canal' : 'mail,sms,openkarotz'
-					}
-				};
+				// No smoke
+			} else if (params.value === 0) {
 
-				// Sending the request
-				request(options, function(error, response, body) {
-					if (!error && response.statusCode == 201) {
-						console.info('Alert sent');
-					} else {
-						console.error('Alert error : %s', error);
-					}
-				});
+				subject = config.smoke.cancel.subject ;
+				content = config.smoke.cancel.subject;
 			}
-		});
+
+			// Create message
+			var multipush = {};
+			multipush.subject = subject;
+			multipush.content = content;
+			multipush.canal = ["sms","email"];
+
+			// Publishing a message
+			client.publish('multipush', JSON.stringify(multipush));
+		}
+	}
+});
+
+// MQTT Connection
+client.on('connect', function(){
+	console.log("Connected to the MQTT broker");
+	
+	// The client subscribe to the bus
+	client.subscribe('basic');
+});
+
+// MQTT Close connection
+client.on('close', function(){
+	console.log("Disconnected from the MQTT broker");
+});
+
+// MQTT Offline
+client.on('offline', function(){
+	console.log("Going offline ...");
+});
+
+// MQTT error
+client.on('error', function(error){
+	console.error(error);
+});
+
+//Starting the service
+console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
+
+//Cleaning resources on SIGINT
+process.on('SIGINT', stop);
+
+//Stop the process properly
+function stop(){
+	
+	// Stopping the service
+	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
+	
+	// Disconnecting the client
+	client.end();
+
+	// Stopping the process
+	process.exit();
+}
+
