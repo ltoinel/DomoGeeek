@@ -1,6 +1,6 @@
 {
   "name": "presence",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "The Presence application allows to check if a known presence is inside your home. This application uses the Smartphone Wifi detection (using the Freebox API) and Karotz Tag to check if there is somebody known inside the home. This application exposes a REST service that returns who is inside the home: a known mobile device or a guest that used the Karotz RFID tag to announce his presence. This application is used by the \"Presence\" module inside the ZwaveBus project to check when a movement is detected if their is a known person into the home.",
   "main": "app.js",
   "scripts": {

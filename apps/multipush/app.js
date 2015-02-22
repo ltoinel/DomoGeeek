@@ -48,7 +48,7 @@ client.on('message', function(topic, message, packet) {
 	if (topic === "multipush"){
 		
 		// Send a multipush message
-		multipush(params.subject, params.content, params.canal);
+		multipush(params.subject, params.content, params.chanel);
 	}
 });
 
@@ -83,17 +83,17 @@ client.on('error', function(error){
  * @param message
  *            The content of the message.
  */
-function multipush(subject, content, canal) {
+function multipush(subject, content, chanel) {
 
 	// We send an SMS
-	if (config.sms.enabled && (canal.indexOf("sms") != -1)) {
+	if (config.sms.enabled && (chanel.indexOf("sms") != -1)) {
 		config.sms.phone.forEach(function(phone) {
 			sms.send(config.sms, phone, content);
 		});
 	}
 
 	// We send an Email
-	if (config.mail.enabled && (canal.indexOf("mail") != -1)) {
+	if (config.mail.enabled && (chanel.indexOf("mail") != -1)) {
 		config.mail.to.forEach(function(mailto) {
 			mail.send(config.mail, config.mail.from, mailto, "", subject,
 					content);
@@ -101,7 +101,7 @@ function multipush(subject, content, canal) {
 	}
 
 	// We make the Openkarotz talking
-	if (config.openkarotz.enabled && (canal.indexOf("openkarotz") != -1)) {
+	if (config.openkarotz.enabled && (chanel.indexOf("openkarotz") != -1)) {
 		openkarotz.talk(config.openkarotz, content);
 	}
 }

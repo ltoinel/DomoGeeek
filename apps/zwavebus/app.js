@@ -11,13 +11,16 @@
 var openZwave = require('openzwave');
 var mqtt = require('mqtt');
 
-//Global settings
+// Global settings
 var gcfg = require('../../config');
 
 // Local require
 var config = require('./config');
-var handler = require('./handler');
 var pjson = require('./package.json');
+var handler = require('./handler');
+
+// Initialize the logger 
+var logger = require('../../libs/loggerFactory').getLogger(pjson.name);
 
 // Initialize the Zwave connector
 var zwave = new openZwave(config.device, {
@@ -62,7 +65,7 @@ zwave.on('scan complete', function() {
 process.on('SIGINT', stop);
 
 // Starting
-console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
+logger.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
 
 // Connect the client to the MQTT server
 var client = mqtt.connect(gcfg.mqtt.uri);
@@ -74,7 +77,7 @@ zwave.connect();
 function stop() {
 
 	// Stopping the service
-	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
+	logger.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
 	
 	// Stopping the MQTT Client
 	client.end();

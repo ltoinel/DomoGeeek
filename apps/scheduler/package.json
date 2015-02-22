@@ -1,6 +1,6 @@
 {
   "name": "scheduler",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "The Scheduler application provides a tasks mechanism to schedule tasks like opening or closing the shutters automatically regarding the sunset and sunrise hours, reminder you when trash cans needs to be put outside the home. This application is based on a Cron module from NodeJS. You can easily add your own tasks in the tasks directory or extend the existing ones.",
   "main": "app.js",
   "scripts": {

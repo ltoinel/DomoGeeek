@@ -11,6 +11,7 @@
     "MQTT"
   ],
   "dependencies": {
+    "bunyan": "^1.3.4",
     "mqtt": "^1.0.10"
   },
   "repository": {

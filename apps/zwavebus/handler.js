@@ -16,7 +16,7 @@ var nodes = [];
  * When the driver is ready. @param homeid: the home id.
  */
 exports.onDriverReady = function(homeid) {
-	console.log('scanning homeid=0x%s...', homeid.toString(16));
+	logger.info('Scanning homeid=0x%s...', homeid.toString(16));
 };
 
 /*
@@ -46,7 +46,7 @@ exports.onValueAdded = function(nodeid, comclass, value) {
 	}
 	nodes[nodeid].classes[comclass][value.index] = value;
 
-	console.log('node%d: value added: %d:%s:%s', nodeid, comclass, value.label,
+	logger.debug('node%d: value added: %d:%s:%s', nodeid, comclass, value.label,
 			value.value);
 };
 
@@ -55,19 +55,19 @@ exports.onValueAdded = function(nodeid, comclass, value) {
  */
 exports.onValueChanged = function(nodeid, comclass, value) {
 	
-	console.log("Publishing : " + constants.commandClass[comclass] + " message");
+	// Debug 
+	logger.info("Publishing : " + constants.commandClass[comclass] + " => " + JSON.stringify({source: nodeid, label: value.label, value: value.value}));
 	
 	// We publish the value on the MQTT broker
 	global.client.publish(constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
 
 	if (nodes[nodeid].ready) {
-		console
-				.log('node%d: value changed: %d:%s:%s->%s', nodeid, comclass,
+		logger.debug('node%d: value changed: %d:%s:%s->%s', nodeid, comclass,
 						value.label,
 						nodes[nodeid].classes[comclass][value.index].value,
 						value.value);
 	} else {
-		console.log('node%d: value changed: %d:%s:%s', nodeid, comclass,
+		logger.debug('node%d: value changed: %d:%s:%s', nodeid, comclass,
 				value.label, value.value);
 	}
 	nodes[nodeid].classes[comclass][value.index] = value;
@@ -96,10 +96,10 @@ exports.onNodeReady = function(nodeid, nodeinfo) {
 	nodes[nodeid].name = nodeinfo.name;
 	nodes[nodeid].loc = nodeinfo.loc;
 	nodes[nodeid].ready = true;
-	console.log('node%d: %s, %s', nodeid,
+	logger.debug('node%d: %s, %s', nodeid,
 			nodeinfo.manufacturer ? nodeinfo.manufacturer : 'id=' + nodeinfo.manufacturerid,
 			nodeinfo.product ? nodeinfo.product : 'product=' + nodeinfo.productid + ', type=' + nodeinfo.producttype);
-	console.log('node%d: name="%s", type="%s", location="%s"', nodeid,
+	logger.debug('node%d: name="%s", type="%s", location="%s"', nodeid,
 			nodeinfo.name, nodeinfo.type, nodeinfo.loc);
 	for (var comclass in nodes[nodeid].classes) {
 		switch (comclass) {
@@ -109,9 +109,9 @@ exports.onNodeReady = function(nodeid, nodeinfo) {
 			break;
 		}
 		var values = nodes[nodeid].classes[comclass];
-		console.log('node%d: class %d', nodeid, comclass);
+		logger.debug('node%d: class %d', nodeid, comclass);
 		for (var idx in values)
-			console.log('node%d:   %s=%s', nodeid, values[idx].label,
+			logger.debug('node%d:   %s=%s', nodeid, values[idx].label,
 					values[idx].value);
 	}
 };
@@ -122,25 +122,25 @@ exports.onNodeReady = function(nodeid, nodeinfo) {
 exports.onNotification = function(nodeid, notif) {
 	switch (notif) {
 	case 0:
-		console.log('node%d: message complete', nodeid);
+		logger.debug('node%d: message complete', nodeid);
 		break;
 	case 1:
-		console.log('node%d: timeout', nodeid);
+		logger.debug('node%d: timeout', nodeid);
 		break;
 	case 2:
-		console.log('node%d: nop', nodeid);
+		logger.debug('node%d: nop', nodeid);
 		break;
 	case 3:
-		console.log('node%d: node awake', nodeid);
+		logger.debug('node%d: node awake', nodeid);
 		break;
 	case 4:
-		console.log('node%d: node sleep', nodeid);
+		logger.debug('node%d: node sleep', nodeid);
 		break;
 	case 5:
-		console.log('node%d: node dead', nodeid);
+		logger.debug('node%d: node dead', nodeid);
 		break;
 	case 6:
-		console.log('node%d: node alive', nodeid);
+		logger.debug('node%d: node alive', nodeid);
 		break;
 	}
 };
@@ -149,5 +149,5 @@ exports.onNotification = function(nodeid, notif) {
  * When the network scan is complete.
  */
 exports.onScanComplete = function() {
-	console.log('scan complete, hit ^C to finish.');
+	logger.info('Scan complete, hit ^C to finish.');
 };

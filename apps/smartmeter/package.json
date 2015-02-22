@@ -1,6 +1,6 @@
 {
   "name": "smartmeter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "The SmartMeter application manage the energy consumed in your home.",
   "main": "app.js",
   "scripts": {
