@@ -7,23 +7,21 @@
  * @author: ltoinel@free.fr
  */
 
-// Loading MQTT 
-var mqtt = require('mqtt');
+// Local require
+var module = require("../../libs/module");
 
-// Global settings
-var gcfg = require('../../config');
+// Load the module
+var smokeDetector = new module( __dirname);
 
-//Local require
-var config = require('../config');
-var pjson = require('./package.json');
+// Start the connection
+smokeDetector.start(function(){
+	
+	// The client subscribe to the bus
+	smokeDetector.client.subscribe('basic');
+});
 
-//Create an MQTT client
-var client = mqtt.connect(gcfg.mqtt.uri);
-
-/**
- * MQTT Basic
- */
-client.on('message', function(topic, message, packet) {
+// On a message subscribed
+smokeDetector.client.on('message', function(topic, message, packet) {
 
 	console.log("Receiving a message : " + topic +" => " + message);
 	
@@ -68,50 +66,9 @@ client.on('message', function(topic, message, packet) {
 			multipush.canal = ["sms","email"];
 
 			// Publishing a message
-			client.publish('multipush', JSON.stringify(multipush));
+			smokeDetector.client.publish('multipush', JSON.stringify(multipush));
 		}
 	}
 });
 
-// MQTT Connection
-client.on('connect', function(){
-	console.log("Connected to the MQTT broker");
-	
-	// The client subscribe to the bus
-	client.subscribe('basic');
-});
-
-// MQTT Close connection
-client.on('close', function(){
-	console.log("Disconnected from the MQTT broker");
-});
-
-// MQTT Offline
-client.on('offline', function(){
-	console.log("Going offline ...");
-});
-
-// MQTT error
-client.on('error', function(error){
-	console.error(error);
-});
-
-//Starting the service
-console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
-
-//Cleaning resources on SIGINT
-process.on('SIGINT', stop);
-
-//Stop the process properly
-function stop(){
-	
-	// Stopping the service
-	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
-	
-	// Disconnecting the client
-	client.end();
-
-	// Stopping the process
-	process.exit();
-}
 

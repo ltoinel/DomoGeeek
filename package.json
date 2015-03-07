@@ -12,7 +12,8 @@
   ],
   "dependencies": {
     "bunyan": "^1.3.4",
-    "mqtt": "^1.0.10"
+    "mqtt": "^1.0.10",
+    "openkarotz": "^1.1.5"
   },
   "repository": {
     "type": "git",

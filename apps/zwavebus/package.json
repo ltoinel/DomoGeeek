@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-	    "openzwave": "file:./deps/node-openzwave/"
+	    "openzwave": "git://github.com/syphernl/node-openzwave.git#master"
   },
   "repository": {
     "type": "git",

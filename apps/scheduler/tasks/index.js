@@ -11,6 +11,6 @@
 require('fs').readdirSync(__dirname + '/').forEach(function(file) {
 	if (file !== 'index.js') {
 		console.log('loading task: ' + file);
-		exports[name] = require('./' + file + '/task.js');
+		exports[file] = require('./' + file + '/task.js');
 	}
 });

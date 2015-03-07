@@ -59,7 +59,7 @@ exports.onValueChanged = function(nodeid, comclass, value) {
 	logger.info("Publishing : " + constants.commandClass[comclass] + " => " + JSON.stringify({source: nodeid, label: value.label, value: value.value}));
 	
 	// We publish the value on the MQTT broker
-	global.client.publish(constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
+	global.zwaveBus.client.publish(constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
 
 	if (nodes[nodeid].ready) {
 		logger.debug('node%d: value changed: %d:%s:%s->%s', nodeid, comclass,

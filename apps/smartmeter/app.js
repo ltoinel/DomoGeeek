@@ -7,19 +7,21 @@
  * @author: ltoinel@free.fr
  */
 
-// Loading MQTT 
-var mqtt = require('mqtt');
-
-// Global settings
-var gcfg = require('../../config');
-
 // Local require
-var config = require('../config');
-var pjson = require('./package.json');
-var openkarotz = require('../../../libs/openkarotz');
+var openkarotz = require("../../libs/openkarotz");
+var module = require("../../libs/module");
 
-// Create an MQTT client
-var client = mqtt.connect(gcfg.mqtt.uri);
+
+// Load the module
+var smartMeter = new module( __dirname);
+
+// Start the connection
+smartMeter.start(function(){
+	
+	// The client subscribe to the bus
+	smartMeter.client.subscribe('meter');
+});
+
 
 // Last power notification
 var lastPowerNotification = 0;
@@ -34,7 +36,7 @@ function rgbToHex(r, g, b) {
 /**
  * MQTT Meter
  */
-client.on('message', function(topic, message, packet) {
+smartMeter.client.on('message', function(topic, message, packet) {
 
 	console.log("Receiving a message : " + topic +" => " + message);
 	
@@ -74,47 +76,5 @@ client.on('message', function(topic, message, packet) {
 		}
 	}
 });
-
-// MQTT Connection
-client.on('connect', function(){
-	console.log("Connected to the MQTT broker");
-	
-	// The client subscribe to the bus
-	client.subscribe('meter');
-});
-
-// MQTT Close connection
-client.on('close', function(){
-	console.log("Disconnected from the MQTT broker");
-});
-
-// MQTT Offline
-client.on('offline', function(){
-	console.log("Going offline ...");
-});
-
-// MQTT error
-client.on('error', function(error){
-	console.error(error);
-});
-
-//Starting the service
-console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
-
-//Cleaning resources on SIGINT
-process.on('SIGINT', stop);
-
-//Stop the process properly
-function stop(){
-	
-	// Stopping the service
-	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
-	
-	// Disconnecting the client
-	client.end();
-
-	// Stopping the process
-	process.exit();
-}
 
 

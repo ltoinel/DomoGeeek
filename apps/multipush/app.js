@@ -7,38 +7,40 @@
  * @author: ltoinel@free.fr
  */
 
-// Loading MQTT 
-var mqtt = require('mqtt');
+// Local require
+var module = require("../../libs/module");
 
-// Global settings
-var gcfg = require('../../config');
+// Load the module
+var multiPush = new module( __dirname);
+var config = multiPush.config;
 
-// Local settings
-var config = require('./config');
-var pjson = require('./package.json');
+// Start the connection
+multiPush.start(function(){
+	
+	// The client subscribe to the bus
+	multiPush.client.subscribe('multipush');
+	
+	// Loading SMS connector
+	if (multiPush.config.sms.enabled) {
+		var sms = require('./channels/sms');
+	}
 
-// Create an MQTT client
-var client = mqtt.connect(gcfg.mqtt.uri);
+	// Loading Mail connector
+	if (multiPush.config.mail.enabled) {
+		var mail = require('./channels/mail');
+	}
 
-// Loading SMS connector
-if (config.sms.enabled) {
-	var sms = require('./channels/sms');
-}
+	// Loading OpenKarotz connector
+	if (multiPush.config.openkarotz.enabled) {
+		var openkarotz = require('../../libs/openkarotz');
+	}
+});
 
-// Loading Mail connector
-if (config.mail.enabled) {
-	var mail = require('./channels/mail');
-}
-
-// Loading OpenKarotz connector
-if (config.openkarotz.enabled) {
-	var openkarotz = require('../../libs/openkarotz');
-}
 
 /**
  * MQTT multipush 
  */
-client.on('message', function(topic, message, packet) {
+multiPush.client.on('message', function(topic, message, packet) {
 
 	console.log("Receiving a message : " + topic +" => " + message);
 	
@@ -48,32 +50,12 @@ client.on('message', function(topic, message, packet) {
 	if (topic === "multipush"){
 		
 		// Send a multipush message
-		multipush(params.subject, params.content, params.chanel);
+		sendMessage(params.subject, params.content, params.chanel);
 	}
 });
 
-// MQTT Connection
-client.on('connect', function(){
-	console.log("Connected to the MQTT broker");
-	
-	// The client subscribe to the bus
-	client.subscribe('multipush');
-});
 
-// MQTT Close connection
-client.on('close', function(){
-	console.log("Disconnected from the MQTT broker");
-});
 
-// MQTT Offline
-client.on('offline', function(){
-	console.log("Going offline ...");
-});
-
-// MQTT error
-client.on('error', function(error){
-	console.error(error);
-});
 
 /**
  * Send notification using different channels.
@@ -83,7 +65,7 @@ client.on('error', function(error){
  * @param message
  *            The content of the message.
  */
-function multipush(subject, content, chanel) {
+function sendMessage(subject, content, chanel) {
 
 	// We send an SMS
 	if (config.sms.enabled && (chanel.indexOf("sms") != -1)) {
@@ -106,21 +88,4 @@ function multipush(subject, content, chanel) {
 	}
 }
 
-// Starting the service
-console.info("Starting DomoGeeek %s v%s", pjson.name, pjson.version);
 
-// Cleaning resources on SIGINT
-process.on('SIGINT', stop);
-
-// Stop the process properly
-function stop(){
-	
-	// Stopping the service
-	console.info("Stopping DomoGeeek %s v%s", pjson.name, pjson.version);
-	
-	// Disconnecting the client
-	client.end();
-
-	// Stopping the process
-	process.exit();
-}

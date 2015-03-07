@@ -15,7 +15,6 @@ var SunCalc = require('suncalc');
 	
 //Local require
 var config = require('./config');
-var multipush = require('../../../libs/multipush');
 
 /**
  * Initializes a new Cron job.
@@ -48,7 +47,7 @@ function initJob(name, uri, timeFunction, date){
 		message.canal = config.shutters.channel;
 
 		// Publishing a message
-		global.client.publish('multipush', JSON.stringify(message));
+		global.scheduler.client.publish('multipush', JSON.stringify(message));
 
 		// Stop the current job
 		this.stop();

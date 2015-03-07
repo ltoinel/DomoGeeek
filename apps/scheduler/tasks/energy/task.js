@@ -18,13 +18,13 @@ var previousConsumption = null;
 /**
  * MQTT multipush 
  */
-global.client.on('connect', function(){
+global.scheduler.client.on('connect', function(){
 	
 	// The client subscribe to the bus
-	global.client.subscribe('meter');
+	global.scheduler.client.subscribe('meter');
 });
 
-global.client.on('message', function(topic, message, packet) {
+global.scheduler.client.on('message', function(topic, message, packet) {
 
 	console.log("Receiving a message : " + topic +" => " + message);
 	
