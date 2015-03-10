@@ -21,5 +21,6 @@ config.openkarotz.ip = '192.168.1.6';
 config.openkarotz.wakeup = '0 45 7 * * *';
 config.openkarotz.sleep = '0 30 23 * * *';
 config.openkarotz.goodnight = 'Bonne nuit les amis !';
+config.openkarotz.voice = "alice";
 
 module.exports = config;

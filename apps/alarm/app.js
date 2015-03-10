@@ -28,7 +28,7 @@ var askPresence = false;
  */
 alarm.client.on('message', function(topic, message, packet) {
 
-	console.log("Receiving a message : " + topic +" => " + message);
+	alarm.logger.debug("Receiving a message : " + topic +" => " + message);
 	
 	// SensorBinary message
 	if (topic === "sensorBinary"){
@@ -38,29 +38,31 @@ alarm.client.on('message', function(topic, message, packet) {
 		
 		if (params.label == "Sensor" && params.value === true) {
 			// Publishing a message
-			client.publish('presence', '?');
+			alarm.client.publish('presence', '?');
 			askPresence = true;
 		}
 		
 	// Presence message
 	} else if (topic === "presence"){
+	
+		alarm.logger.info("Abnormal presence detected");
 		
-		if (askPresence === true){
+		if (message.toString() !== "?" & askPresence === true){
 			if (message === "true"){
 				
-				console.log("Abnormal presence detected");
+				alarm.logger.info("Abnormal presence detected");
 				
 				// Create message
 				var multipush = {};
-				multipush.subject = config.presence.alert.subject;
-				multipush.content = config.presence.alert.message;
-				multipush.canal = ["sms","openkarotz"];
+				multipush.subject = config.alert.subject;
+				multipush.content = config.alert.message;
+				multipush.canal = config.alert.channels;
 	
 				// Publishing a message
-				client.publish('multipush', JSON.stringify(message));
+				alarm.client.publish('multipush', JSON.stringify(message));
 				
 			} else if (message === "false"){
-				console.log("Normal presence detected, well known Wifi devices found");
+				alarm.logger.info("Normal presence detected, well known Wifi devices found");
 			}
 			
 			askPresence = false;

@@ -7,11 +7,13 @@
  * @author: ltoinel@free.fr
  */
 
+// Global Require
+var openkarotz = require('openkarotz');
 var CronJob = require('cron').CronJob;
 
 // Local require
 var config = require('./config');
-var openkarotz = require('../../../../libs/openkarotz');
+
 
 /**
  * Wakeup the karotz
@@ -19,7 +21,12 @@ var openkarotz = require('../../../../libs/openkarotz');
 var job = new CronJob(config.openkarotz.wakeup, function() {
 
 	if (config.openkarotz.enabled) {
-		openkarotz.wakeup(config.openkarotz);
+		
+		var karotz = new openkarotz(config.openkarotz.ip);
+		
+		karotz.wakeup(true, function(msg) {
+			console.log(msg);
+		});
 	}
 
 }, function() {
@@ -32,10 +39,15 @@ var job = new CronJob(config.openkarotz.wakeup, function() {
 var job = new CronJob(config.openkarotz.sleep, function() {
 
 	if (config.openkarotz.enabled) {
-		openkarotz.talk(config.openkarotz, config.openkarotz.goodnight,
-				function() {
-					openkarotz.sleep(config.openkarotz);
-				});
+		
+		var karotz = new openkarotz(config.openkarotz.ip);
+		
+		karotz.tts(config.openkarotz.goodnight, config.openkarotz.voice, true, function(msg) {
+	
+			karotz.sleep(function(msg) {
+				console.log(msg);
+			});
+		});
 	}
 
 }, function() {

@@ -15,5 +15,6 @@ var config = {};
 config.alert = {};
 config.alert.subject = 'Alerte intrusion';
 config.alert.message = 'Une présence anormale a été détectée';
-
+config.alert.channels = ["sms","openkarotz"];
+	
 module.exports = config;

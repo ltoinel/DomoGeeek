@@ -13,7 +13,7 @@ exports.getLogger = function getLogger(appname) {
 	var logger = bunyan.createLogger({
 		name : appname,
 		streams : [ {
-			level : 'info',
+			level : 'debug',
 			stream : process.stdout
 		// log INFO and above to stdout
 		}, {

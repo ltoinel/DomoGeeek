@@ -32,7 +32,7 @@ multiPush.start(function(){
 
 	// Loading OpenKarotz connector
 	if (multiPush.config.openkarotz.enabled) {
-		var openkarotz = require('../../libs/openkarotz');
+		var openkarotz = require('./channels/openkarotz');
 	}
 });
 
@@ -65,17 +65,17 @@ multiPush.client.on('message', function(topic, message, packet) {
  * @param message
  *            The content of the message.
  */
-function sendMessage(subject, content, chanel) {
+function sendMessage(subject, content, channels) {
 
 	// We send an SMS
-	if (config.sms.enabled && (chanel.indexOf("sms") != -1)) {
+	if (config.sms.enabled && (channels.indexOf("sms") != -1)) {
 		config.sms.phone.forEach(function(phone) {
 			sms.send(config.sms, phone, content);
 		});
 	}
 
 	// We send an Email
-	if (config.mail.enabled && (chanel.indexOf("mail") != -1)) {
+	if (config.mail.enabled && (channels.indexOf("mail") != -1)) {
 		config.mail.to.forEach(function(mailto) {
 			mail.send(config.mail, config.mail.from, mailto, "", subject,
 					content);
@@ -83,7 +83,7 @@ function sendMessage(subject, content, chanel) {
 	}
 
 	// We make the Openkarotz talking
-	if (config.openkarotz.enabled && (chanel.indexOf("openkarotz") != -1)) {
+	if (config.openkarotz.enabled && (channels.indexOf("openkarotz") != -1)) {
 		openkarotz.talk(config.openkarotz, content);
 	}
 }

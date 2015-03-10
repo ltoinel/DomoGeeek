@@ -7,17 +7,18 @@
  * @author: ltoinel@free.fr
  */
 
-// Local require
-var openkarotz = require("../../libs/openkarotz");
-var module = require("../../libs/module");
+// Global require
+var openkarotz = require('openkarotz');
 
+// Local require
+var module = require("../../libs/module");
 
 // Load the module
 var smartMeter = new module( __dirname);
 
 // Start the connection
 smartMeter.start(function(){
-	
+
 	// The client subscribe to the bus
 	smartMeter.client.subscribe('meter');
 });
@@ -58,9 +59,12 @@ smartMeter.client.on('message', function(topic, message, packet) {
 			// Get the RGB color
 			var color = rgbToHex(red, green, blue);
 
-			// Change the OpenKarotz led
-			openkarotz.led(config.openkarotz, color);
-
+			// Change the led color
+			var karotz = new openkarotz(config.openkarotz.ip);
+			karotz.fixedLed(color, function(msg) {
+				console.log(msg);
+			});
+			
 			// We reset the notification
 			if (power > config.alert.level) {
 

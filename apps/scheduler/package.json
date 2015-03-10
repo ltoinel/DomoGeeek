@@ -9,7 +9,8 @@
   "dependencies": {
 	    "cron": "~1.0.5",
 	    "suncalc": "~1.6.0",
-	    "time": "^0.11.0"
+	    "time": "^0.11.0",
+	    "openkarotz": "~1.1.5",
   },
   "repository": {
     "type": "git",
