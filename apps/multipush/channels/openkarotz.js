@@ -52,21 +52,5 @@ exports.talk = function(config, message, callback) {
 	});
 };
 
-/**
- * Plays sound.
- * 
- * @param config :
- *            the OpenKarotz configuration.
- * @param sound :
- *            the sound filename to play.
- */
-exports.playsound = function(config, sound) {
-
-	var karotz = getOpenKarotz(config.ip);
-
-	karotz.sound_control(sound, function(msg) {
-		console.log(msg);
-	});
-};
 
 

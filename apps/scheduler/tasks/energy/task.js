@@ -16,7 +16,7 @@ var currentConsumption = null;
 var previousConsumption = null;
 
 /**
- * MQTT multipush 
+ * Subscribe to the meter topic
  */
 global.scheduler.client.on('connect', function(){
 	
@@ -24,6 +24,10 @@ global.scheduler.client.on('connect', function(){
 	global.scheduler.client.subscribe('meter');
 });
 
+
+/**
+ * On a meter message ...
+ */
 global.scheduler.client.on('message', function(topic, message, packet) {
 
 	console.log("Receiving a message : " + topic +" => " + message);
@@ -39,12 +43,11 @@ global.scheduler.client.on('message', function(topic, message, packet) {
 });
 
 /**
- * Energy consumption announce
+ * Energy consumption announcement
  */
 var energy = new CronJob(config.energy.time, function() {
 
-	if (energy !== null) {
-		
+	if (previousConsumption !== null){
 		// How much energy the house consumes
 		var consumption = currentConsumption - previousConsumption;
 		
@@ -56,7 +59,9 @@ var energy = new CronJob(config.energy.time, function() {
 
 		// Publishing a message
 		global.client.publish('multipush', JSON.stringify(message));
-
+		
+		previousConsumption = currentConsumption;
+		
 	}
 
 }, undefined, false, config.timezone).start();
