@@ -13,17 +13,17 @@ var openZwave = require('openzwave');
 // Local require
 var module = require("../../libs/module");
 
-// Initialize the module
-var zwaveBus = new module( __dirname);
-zwaveBus.start();
-
-// Local require
+//Local require
 var config = require('./config');
 var handler = require('./handler');
 
+// Initialize the module
+var zwaveBus = new module( __dirname);
+handler.init(zwaveBus);
+zwaveBus.start();
+
 // Initialize the Zwave connector
 var zwave = new openZwave(config.device, {
-	modpath : config.modpath,
 	saveconfig : config.saveconfig,
 	logging : config.logging,
 	consoleoutput : config.consoleoutput,

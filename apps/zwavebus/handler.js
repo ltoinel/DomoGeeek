@@ -12,6 +12,15 @@ var constants = require('./constants');
 // Initialize the node array
 var nodes = [];
 
+//The logger for this module
+var logger;
+var zwaveBus;
+
+exports.init = function(module) {
+	logger = module.logger;
+	zwaveBus = module;
+};
+
 /*
  * When the driver is ready. @param homeid: the home id.
  */
@@ -56,10 +65,12 @@ exports.onValueAdded = function(nodeid, comclass, value) {
 exports.onValueChanged = function(nodeid, comclass, value) {
 	
 	// Debug 
-	logger.info("Publishing : " + constants.commandClass[comclass] + " => " + JSON.stringify({source: nodeid, label: value.label, value: value.value}));
+	var command = constants.commandClass[comclass];
+	var message = JSON.stringify({source: nodeid, label: value.label, value: value.value});
+	logger.info("Publishing : " +  command + " => " + message);
 	
 	// We publish the value on the MQTT broker
-	global.zwaveBus.client.publish(constants.commandClass[comclass], {source: nodeid, label: value.label, value: value.value});
+	zwaveBus.client.publish(command, message);
 
 	if (nodes[nodeid].ready) {
 		logger.debug('node%d: value changed: %d:%s:%s->%s', nodeid, comclass,
