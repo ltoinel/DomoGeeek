@@ -47,7 +47,7 @@ alarm.client.on('message', function(topic, message, packet) {
 	
 		alarm.logger.info("Abnormal presence detected");
 		
-		if (message.toString() !== "?" & askPresence === true){
+		if (message.toString() !== "?" && askPresence === true){
 			if (message === "true"){
 				
 				alarm.logger.info("Abnormal presence detected");

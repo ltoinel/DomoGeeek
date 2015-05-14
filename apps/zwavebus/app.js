@@ -14,7 +14,6 @@ var openZwave = require('openzwave');
 var module = require("../../libs/module");
 
 //Local require
-var config = require('./config');
 var handler = require('./handler');
 
 // Initialize the module
@@ -23,11 +22,11 @@ handler.init(zwaveBus);
 zwaveBus.start();
 
 // Initialize the Zwave connector
-var zwave = new openZwave(config.device, {
-	saveconfig : config.saveconfig,
-	logging : config.logging,
-	consoleoutput : config.consoleoutput,
-	suppressrefresh : config.suppressrefresh
+var zwave = new openZwave(zwaveBus.config.device, {
+	saveconfig : zwaveBus.config.saveconfig,
+	logging : zwaveBus.config.logging,
+	consoleoutput : zwaveBus.config.consoleoutput,
+	suppressrefresh : zwaveBus.config.suppressrefresh
 });
 
 // The driver is ready

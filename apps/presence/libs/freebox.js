@@ -37,11 +37,11 @@ var freebox = {
 var app = {
 		app_id        : "domogeek", 
 		app_name      : "DomoGeeek",
-		app_version   : '0.1',
+		app_version   : '1.0',
 		device_name   : "domogeeek",
 		app_token     : '', 
 		track_id      : '',
-		status        : 'granted',
+		status        : '',
 		logged_in     : false,
 		challenge     : '',
 		password      : '',
@@ -141,13 +141,15 @@ controller.register = function registerApp() {
 		
 		if (!error && response.statusCode == 200) 
 		{
-			
 			// Retrieve the token and the track id from the response
-			app.app_token = body.result.app_token;
-			app.track_id  = body.result.track_id;
-
-			console.log("App Token: " + app.app_token);
-			console.log("Track ID: " + app.track_id);
+			var params = {};
+			app.app_token =  params.app_token = body.result.app_token;
+			app.track_id = params.track_id  = body.result.track_id;
+				
+			controller.emit('registered', {
+					app_token : app.app_token,
+					track_id  : app.track_id,
+				});
 			
 		} else {
 			console.log(error);

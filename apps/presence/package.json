@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+	    "request": "~2.53.0",
+	    "xml2js": "^0.4.8",
+	    "fs": "0.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ltoinel/domogeeek/tree/master/apps/presence"

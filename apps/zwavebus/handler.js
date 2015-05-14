@@ -64,9 +64,9 @@ exports.onValueAdded = function(nodeid, comclass, value) {
  */
 exports.onValueChanged = function(nodeid, comclass, value) {
 	
-	// Debug 
+	// We prepare a message
 	var command = constants.commandClass[comclass];
-	var message = JSON.stringify({source: nodeid, label: value.label, value: value.value});
+	var message = JSON.stringify({source: "zwave["+nodeid+"]", label: value.label, value: value.value, action : "ValueChanged", timestamp: Date.now()});
 	logger.info("Publishing : " +  command + " => " + message);
 	
 	// We publish the value on the MQTT broker

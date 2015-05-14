@@ -1,179 +1,196 @@
 /**
- * DomoGeeek v1.0
- * https://github.com/ltoinel/domogeeek
- *
- * Copyright 2014 DomoGeeek
- * Released under the Apache License 2.0 (Apache-2.0)
+ * DomoGeeek v1.0 https://github.com/ltoinel/domogeeek
+ * 
+ * Copyright 2014 DomoGeeek Released under the Apache License 2.0 (Apache-2.0)
  * 
  * @desc: Presence main app
  * @author: ltoinel@free.fr
  */
 
 // Global require
-var express = require('express');
+var fs = require('fs');
 
 // Local require
-var config = require('./config');
-var pjson = require('./package.json');
+var freebox = require('./libs/freebox');
 
-// Share libs
-var multipush = require('../../libs/multipush');
+// We check the Freebox Token
+if (fs.existsSync('./token.json')) {
+	console.info("Freebox authorisation token found !");
+	var token = require('./token.json');
 
-// Force the presence for guests
-var presence = false;
-var date = null;
-
-// Init the Express App
-var app = express();
-
-/**
- * Disable the presence.
- */
-function disablePresence(){
-	presence = false;
-	date = null;
-	console.log("Presence forced to false");
-}
-
-/**
- * Force the presence.
- */
-function forcePresence(period){
-	if (period === undefined){
-		period = config.forceperiod;
-	}
-	presence = true;
-	date = Date.now() + (period * 60 * 1000);
-	console.log("Presence forced to true until => " + date);
-}
-
-/**
- * Force the presence to true or false for the guests when the owners of the home are not present.
- *
- * HTTP GET /presence
- */
-app.get('/presence/:status',  function (req, resp, next) {
-	
-	if (req.params.status === "true"){
-		forcePresence(120);
-		multipush.send(config.multipush,"Presence",config.message.activated.format(config.forceperiod),"openkarotz");
-		
-	} else if (req.params.status === "false"){
-		disablePresence();
-		multipush.send(config.multipush,"Presence",config.message.unactivated,"openkarotz");
-		
-	} else {
-		// Unknown parameter
-		resp.status(400).send();
-	}
-	
-	// OK, presence status changed
-	resp.status(204).send();
-});
-
-
-/**
- * Get the presence. This presence can be forced or not.
- *
- * HTTP GET /presence
- */
-app.get('/presence',  function (req, resp, next) {
-
-	// Check the presence force timestamp
-	if (presence && Date.now() > date){
-		console.log("Presence has expired");
-		disablePresence();
-	}
-	
-	// If the presence is enabled
-	if (presence){
-		resp.send(200, {presence: true});
-	
-	// Presence is disabled
-	} else {
-		
-		// We check if the current time is a forced presence.
-		if (checkForcePresence()){
-			console.log("Current hour has a configured presence to true");
-			resp.send(200, {presence: true, message : "Scheduled presence"});
-			
-		} else {
-		
-			// We check if there is a well known mobile device connected to the Wifi network.
-			checkWifiDevices(config.phones, function(presence){
-				
-				// If a well known device is found, we force the presence for a delay of 30 minutes.
-				if (presence){
-					forcePresence();
-				}
-				
-				resp.send(200, {presence: presence, message : "Device found"});
-			});
-		}
-	}
-});
-
-/**
- * Check if the current time has a force presence in configuration.
- */
-function checkForcePresence(){
-	var now = new Date();
-	var forcepresence = config.forcepresence[now.getDay()];
-	if (forcepresence.indexOf(now.getHours()) != -1){
-		return true;
-	}
-}
-
-
-/** 
- * Check the presence of well known Wifi devices.
- */
-function checkWifiDevices(phones,callback){
-	
-	var freebox = require('../../libs/freebox');
-	console.log("Check wifi devices ....");
-	
-	freebox.connect({
-		'app_token' : config.freebox.app_token, 
-		'track_id'  : config.freebox.track_id
-	});
-	
+} else {
+	// Registration
+	freebox.connect();
 	freebox.on('ready', function(box) {
-		
-		// Removing the listener
-		freebox.removeAllListeners('ready');
-		
-		// Retrieving wifi devices
-		freebox.browserPub(function(devices){
-			console.log("Retrieve wifi devices");
-			
-			var presence = false;
-			devices.forEach(function(device){
-		
-				// We check if one of our smartphone devices are connected
-				if (phones.indexOf(device.id) != -1){
-					
-					// If a device is active
-					if (device.active === true){
-						presence = true;
-						console.log("Device detected : " + device.primary_name);
+		freebox.register();
+		console.error("Please, accept the application on your Freebox !");
 
-					// If a device was active few minutes ago
-					} else if (new Date((device.last_time_reachable * 1000) + (config.lastactivetime * 60 * 1000)) > new Date()){
-						presence = true;
-						console.log("Device detected few minutes ago: " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
-					}
-				}
-			});
+		freebox.on('registered', function(receivedToken) {
+			token = receivedToken;
 
-			callback(presence);
+			// We persist the token for a futur use
+			fs.writeFile("./token.json", JSON.stringify(receivedToken));
 		});
 	});
 }
 
-// Starting 
-console.info("Starting DomoGeeek %s v%s",pjson.name, pjson.version);
+// Load the module dependency
+var module = require("../../libs/module");
 
-// Starting the REST server
-app.listen(config.port); 
-console.info("Service started on http://localhost:%s",config.port);
+// Define a new module
+var presence = new module(__dirname);
+
+// Start the module
+presence.start(function() {
+
+	// The client subscribe to the MQTT bus
+	presence.client.subscribe('presence');
+});
+
+// Respond the presence
+presence.client.on('message', function(topic, message, packet) {
+
+	if (topic === "presence") {
+		try {
+			var params = JSON.parse(message);
+
+			// We check if a known device is into the house
+			if (params.action === "check") {
+
+								
+				checkPresence(function(status){
+					var response = {action:"report",status:status,timestamp:Date.now()};
+					presence.client.publish('presence', JSON.stringify(response));
+				});
+			}
+			
+		} catch (e) {
+			presence.logger.error(e, "Bad message");
+		}
+	}
+});
+
+// Force the presence using the settings for guests
+var presenceDetected = false;
+var date = null;
+
+/**
+ * Disable the presence.
+ */
+function disablePresence() {
+	presenceDetected = false;
+	date = null;
+	presence.logger.debug("Presence forced to false");
+}
+
+/**
+ * Force the presence during a period
+ */
+function forcePresence(period) {
+	if (period === undefined) {
+		period = presence.config.forceperiod;
+	}
+	presenceDetected = true;
+	date = Date.now() + (period * 60 * 1000);
+	presence.logger.debug("Presence forced to true until => " + date);
+}
+
+/**
+ * Get the presence. This presence can be forced or not.
+ * 
+ * HTTP GET /presence
+ */
+function checkPresence(callback) {
+
+	// Check the presence force timestamp
+	if (presenceDetected && Date.now() > date) {
+		presence.logger.debug("Presence cache has expired");
+		disablePresence();
+	}
+
+	// If a presence has been found during the configured period
+	if (presenceDetected) {
+		callback(true);
+
+		// If a presence has not been found during the configured period
+	} else {
+
+		// We check if the current time is a forced presence.
+		if (checkForcePresence()) {
+			presence.logger.info("Current hour has a configured presence to true");
+			callback(true);
+
+		} else {
+
+			// We check if there is a well known mobile device connected to the
+			// Wifi network.
+			checkWifiDevices(presence.config.phones,
+				function(presenceDetected) {
+
+					// If a well known device is found, we force the
+					// presence for a delay of 30 minutes.
+					if (presenceDetected) {
+						forcePresence();
+					}
+
+					callback(presenceDetected);
+				});
+		}
+	}
+}
+
+/**
+ * Check if the current time has a force presence in configuration.
+ */
+function checkForcePresence() {
+	var now = new Date();
+	var forcepresence = presence.config.forcepresence[now.getDay()];
+	if (forcepresence.indexOf(now.getHours()) != -1) {
+		return true;
+	}
+}
+
+/**
+ * Check the presence of well known Wifi devices.
+ */
+function checkWifiDevices(phones, callback) {
+
+	console.log("Check wifi devices ....");
+
+	freebox.connect({
+		'app_token' : token.app_token,
+		'track_id' : token.track_id
+	});
+
+	freebox.on('ready', function(box) {
+
+			// Removing the listener
+			freebox.removeAllListeners('ready');
+
+			// Retrieving wifi devices
+			freebox.browserPub(function(devices) {
+				presence.logger.info("Retrieve wifi devices");
+
+				var deviceDetected = false;
+				devices.forEach(function(device) {
+
+					// We check if one of our smartphone devices are connected
+					if (phones.indexOf(device.id) != -1) {
+
+						// If a device is active
+						if (device.active === true) {
+							deviceDetected = true;
+							presence.logger.info("Device detected : " + device.primary_name);
+
+						// If a device was active few minutes ago
+						} else if (new Date((device.last_time_reachable * 1000) + (presence.config.lastactivetime * 60 * 1000)) > new Date()) {
+							deviceDetected = true;
+							presence.logger.info("Device detected few minutes ago: " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
+						}
+					}
+				});
+
+				callback(deviceDetected);
+			});
+		});
+}

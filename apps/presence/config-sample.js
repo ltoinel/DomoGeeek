@@ -11,13 +11,6 @@
 
 var config = {};
 
-// Presence
-config.debug = true;
-config.port = 9093;
-
-//Multipush API URI
-config.multipush = 'http://localhost:9091/multipush';
-
 // The list of devices to check the presence
 // If one of these devices are present, there is a presence.
 config.phones = ['ether-1c:XX:XX:XX:XX:XX','ether-60:XX:XX:XX:XX:XX'];
@@ -38,13 +31,9 @@ config.forcepresence[4] = []; // Thursday
 config.forcepresence[5] = []; // Friday
 config.forcepresence[6] = []; // Saturday
 
-// Freebox API Access Token
-config.freebox = {};
-config.freebox.app_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-config.freebox.track_id = 'X';
-
 //Multipush message
-config.voice.activated = "Présence activée pour une durée de {0} minutes";
-config.voice.unactivated = "Présence désactivée";
+config.message = {};
+config.message.activated = "Présence activée pour une durée de {0} minutes";
+config.message.unactivated = "Présence désactivée";
 
 module.exports = config;
