@@ -1,7 +1,7 @@
 {
   "name": "alarm",
   "version": "1.0.0",
-  "description": "The Alarm application provides an alerting system when a strange activity is detected (movement, door state change)",
+  "description": "The alarm application provides an alerting system when a strange activity is detected (movement, door state change ...)",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

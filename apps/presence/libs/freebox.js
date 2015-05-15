@@ -9,7 +9,6 @@
  * @author: ltoinel@free.fr (code based on the guillaumewuip Freebox SDK)
  * https://raw.githubusercontent.com/guillaumewuip/freeboxApi_node/master/freebox.js
  * 
- * @TODO : Industrialize the register feature.
  */
 
 var http         = require('http'),

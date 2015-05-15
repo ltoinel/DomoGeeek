@@ -185,7 +185,7 @@ function checkWifiDevices(phones, callback) {
 						// If a device was active few minutes ago
 						} else if (new Date((device.last_time_reachable * 1000) + (presence.config.lastactivetime * 60 * 1000)) > new Date()) {
 							deviceDetected = true;
-							presence.logger.info("Device detected few minutes ago: " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
+							presence.logger.info("Device detected few minutes ago : " + device.primary_name + " => " + new Date(device.last_time_reachable * 1000));
 						}
 					}
 				});
