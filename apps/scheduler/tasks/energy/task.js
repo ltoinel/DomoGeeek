@@ -18,17 +18,18 @@ var previousConsumption = null;
 /**
  * Subscribe to the meter topic
  */
-global.scheduler.client.on('connect', function(){
+scheduler.client.on('connect', function(){
 	
 	// The client subscribe to the bus
-	global.scheduler.client.subscribe('meter');
+	scheduler.client.subscribe('meter');
+	console.log("Subscribed to meter");
 });
 
 
 /**
  * On a meter message ...
  */
-global.scheduler.client.on('message', function(topic, message, packet) {
+scheduler.client.on('message', function(topic, message, packet) {
 
 	console.log("Receiving a message : " + topic +" => " + message);
 	
@@ -58,7 +59,7 @@ var energy = new CronJob(config.energy.time, function() {
 		message.canal = ["openkarotz"];
 
 		// Publishing a message
-		global.client.publish('multipush', JSON.stringify(message));
+		scheduler.client.publish('multipush', JSON.stringify(message));
 		
 		previousConsumption = currentConsumption;
 		

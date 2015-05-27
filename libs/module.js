@@ -48,10 +48,11 @@ Module.prototype = {
 		
 		// Create an MQTT client
 		this.client = mqtt.connect(this.gconfig.mqtt.uri);
+		console.info("Connecting to the MQTT Server : %s", this.gconfig.mqtt.uri);
 		
 		// MQTT Connection
 		this.client.on('connect', function(){
-			console.log("Connected to the MQTT broker");
+			console.info("Connected to the MQTT broker");
 			if (callback !== undefined){
 				callback();
 			}
@@ -59,12 +60,12 @@ Module.prototype = {
 
 		// MQTT Close connection
 		this.client.on('close', function(){
-			console.log("Disconnected from the MQTT broker");
+			console.warning("Disconnected from the MQTT broker");
 		});
 
 		// MQTT Offline
 		this.client.on('offline', function(){
-			console.log("Going offline ...");
+			console.warning("Going offline ...");
 		});
 
 		// MQTT error

@@ -7,10 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-	    "cron": "~1.0.5",
-	    "suncalc": "~1.6.0",
-	    "time": "^0.11.0",
-	    "openkarotz": "~1.1.5"
+    "cron": "~1.0.5",
+    "openkarotz": "~1.1.5",
+    "request": "^2.55.0",
+    "suncalc": "~1.6.0",
+    "time": "^0.11.0"
   },
   "repository": {
     "type": "git",

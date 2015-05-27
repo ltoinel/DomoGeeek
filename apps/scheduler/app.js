@@ -12,8 +12,8 @@
 // Local require
 var module = require("../../libs/module");
 
-var scheduler = new module( __dirname);
-scheduler.start();
+global.scheduler = new module( __dirname);
+global.scheduler.start();
 
 // Loading the available tasks 
 var tasks = require('./tasks/index');
