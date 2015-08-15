@@ -1,0 +1,48 @@
+[
+    {
+        "type": "tab",
+        "id": "ac46c774.53b938",
+        "label": "Domogeeek"
+    },
+    {
+        "id": "64321910.9bcde8",
+        "type": "http in",
+        "name": "",
+        "url": "/hello",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 129,
+        "y": 99,
+        "z": "ac46c774.53b938",
+        "wires": [
+            [
+                "b23e3dee.4dc1c"
+            ]
+        ]
+    },
+    {
+        "id": "e8e1b813.171e48",
+        "type": "http response",
+        "name": "",
+        "x": 461,
+        "y": 98,
+        "z": "ac46c774.53b938",
+        "wires": []
+    },
+    {
+        "id": "b23e3dee.4dc1c",
+        "type": "template",
+        "name": "",
+        "field": "payload",
+        "format": "handlebars",
+        "template": "Hello !",
+        "x": 301,
+        "y": 99,
+        "z": "ac46c774.53b938",
+        "wires": [
+            [
+                "e8e1b813.171e48"
+            ]
+        ]
+    }
+]

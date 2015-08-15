@@ -1,23 +1,19 @@
 {
-  "name": "domogeek",
-  "version": "0.1.0",
-  "description": "DomoGeeek is a set of small Home automation apps based on MQTT / Z-Wave / Raspberry Pi / NodeJS / MongoDB.",
+  "name": "zwavebus",
+  "version": "1.0.0",
+  "description": "DomoGeeek is an home automation solution based on IBM Node-Red.",
   "main": "app.js",
-  "homepage": "https://github.com/ltoinel/domogeeek",
-  "keywords": [
-    "Home automotion",
-    "Z-Wave",
-    "Raspberry",
-    "MQTT"
-  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "bunyan": "^1.3.4",
-    "mqtt": "^1.0.10",
-    "openkarotz": "^1.1.5"
+	    "node-red": "^0.11.1",
+	    "node-red-node-mongodb": "^0.0.2",
+	    "node-red-scheduler" :" git://github.com/scargill/scheduler.git#master"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ltoinel/domogeeek.git"
+    "url": "https://github.com/ltoinel/domogeeek/tree/master/"
   },
   "author": "Ludovic Toinel <ltoinel@free.fr> (https://github.com/ltoinel)",
   "license": "Apache License"
