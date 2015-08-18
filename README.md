@@ -2,17 +2,17 @@
 
 DomoGeeek is an home automation solution based on Node-RED that runs on a Raspberry Pi.
 
-Preinstalled modules : 
+Preinstalled Node-Red modules for home-automation: 
 * Scheduler : Schedule tasks at fixed time or sun time.
 * MongoDB : MongoDB connector for saving data.
 
-Works perfectly with the ZWave2MQTT module for interaction with Z-Wave devices throw an MQTT bus.
+This project works perfectly with the ZWave2MQTT module for interaction with Z-Wave devices throw an MQTT bus.
 
 ----
 #Tutorial
 
 ## Prerequisites 
-* Install Node v0.12 (http://conoroneill.net/download-compiled-version-of-nodejs-0120-stable-for-raspberry-pi-here)
+* Install Node v0.12 on your Raspberry Pi (http://conoroneill.net/download-compiled-version-of-nodejs-0120-stable-for-raspberry-pi-here)
 
 ## Optional
 * Install MongoDB and start the daemon (http://raspbian-france.fr/installer-mongodb-raspberry-pi/)
@@ -31,4 +31,4 @@ $ npm install
 $ ./start.sh
 ```
 
-Then open your browser on : http://127.0.0.1
+Then open your browser on : http://127.0.0.1 and play with the nodes.

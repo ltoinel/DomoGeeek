@@ -9,7 +9,7 @@
   "dependencies": {
 	    "node-red": "^0.11.1",
 	    "node-red-node-mongodb": "^0.0.2",
-	    "node-red-scheduler" :" git://github.com/scargill/scheduler.git#master"
+	    "node-red-scheduler" : "git://github.com/ltoinel/scheduler.git#master"
   },
   "repository": {
     "type": "git",
