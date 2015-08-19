@@ -1,9 +1,10 @@
 ![DomoGeeek](./assets/logo.jpg "Domogeek")
 
-DomoGeeek is an home automation solution based on Node-RED that runs on a Raspberry Pi.
+DomoGeeek is an OpenSource home automation solution running on a Raspberry Pi and based on Node-RED.
+
 ![Node-Red](./assets/screenshot.jpg "Node-Red")
 
-Preinstalled Node-Red modules for home-automation: 
+Preinstalled Node-Red modules for home-automation : 
 * Scheduler : Schedule tasks at fixed time or sun time.
 * MongoDB : MongoDB connector for saving data.
 
@@ -34,7 +35,7 @@ $ npm install
 $ ./start.sh
 ```
 
-Then open your browser on : http://127.0.0.1 and play with the nodes.
+Then open your browser on : http://127.0.0.1/admin/ and play with the nodes.
 
 ## Deploy 
 
