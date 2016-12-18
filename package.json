@@ -1,20 +1,21 @@
 {
   "name": "zwavebus",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "DomoGeeek is an home automation solution based on IBM Node-Red.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-	    "node-red": "^0.11.1",
-	    "node-red-node-mongodb": "^0.0.2",
-	    "node-red-scheduler" : "git://github.com/ltoinel/scheduler.git#master"
+    "node-red": "^0.15.2",
+    "node-red-node-mongodb": "^0.0.7",
+    "node-red-node-ping": "^0.0.11",
+    "node-red-scheduler" :"git://github.com/scargill/scheduler.git#master"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ltoinel/domogeeek/tree/master/"
   },
   "author": "Ludovic Toinel <ltoinel@free.fr> (https://github.com/ltoinel)",
-  "license": "Apache License"
+  "license": "Apache-2.0"
 }
