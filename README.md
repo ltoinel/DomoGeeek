@@ -7,6 +7,9 @@ DomoGeeek is an OpenSource home automation solution running on a Raspberry Pi an
 Preinstalled Node-Red modules for home-automation : 
 * Scheduler : Schedule tasks at fixed time or sun time.
 * MongoDB : MongoDB connector for saving data.
+* Ping : Check the availability of Internet
+
+The flows in the project can be reuse as example for your needs.
 
 This project works perfectly with the [ZWave2MQTT](https://github.com/ltoinel/ZWave2MQTT) module for interaction with Z-Wave devices throw an MQTT bus.
 
@@ -16,11 +19,30 @@ This project works perfectly with the [ZWave2MQTT](https://github.com/ltoinel/ZW
 #Tutorial
 
 ## Prerequisites 
-* [Install Node v0.12 on your Raspberry Pi](http://conoroneill.net/download-compiled-version-of-nodejs-0120-stable-for-raspberry-pi-here)
+* Install NodeJS 
+
+```sh
+$ sudo apt-get install curl
+$ sudo curl --silent --location https://deb.nodesource.com/setup_0.12 | bash -
+$ sudo apt-get install --yes nodejs
+```
 
 ## Optional
-* [Install MongoDB and start the daemon] (http://raspbian-france.fr/installer-mongodb-raspberry-pi/)
-* [Install Mosquitto and start the daemon] (http://mosquitto.org/2013/01/mosquitto-debian-repository/)
+* Install MongoDB and start the daemon
+
+```sh
+$ sudo apt-get install mongodb-server
+```
+
+* Install Mosquitto and start the daemon
+
+```sh
+wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+sudo apt-key add mosquitto-repo.gpg.key
+sudo wget http://repo.mosquitto.org/debian/mosquitto-jessie.list
+sudo apt-get update
+sudo apt-get install mosquitto
+```
 
 ## Install 
 
